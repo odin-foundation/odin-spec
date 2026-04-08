@@ -1,0 +1,324 @@
+(* ===========================================================================
+   ODIN-L 1.0 — Core Notation Grammar
+   ---------------------------------------------------------------------------
+   Canonical EBNF for the Open Data Interchange Notation Language.
+
+   Notation: ISO 14977 EBNF.
+     { x }   means zero or more repetitions of x
+     [ x ]   means x is optional (zero or one)
+     ( x )   groups
+     a | b   alternation
+     "lit"   terminal literal
+     a , b   concatenation (comma optional in this file for readability)
+
+   Every terminal is enclosed in double quotes. There are no bare repetition
+   operators (no `*`, no `+`). The only metacharacters are `{ } [ ] ( ) | "`.
+
+   This grammar reflects the exact behavior of the Odin parser. Deviations
+   from this grammar are parser bugs, not language extensions.
+   =========================================================================== *)
+
+
+(* --------------------------------------------------------------------------
+   1. DOCUMENT STRUCTURE
+   -------------------------------------------------------------------------- *)
+
+document          = [ bom ] { document_element } ;
+bom               = ? UTF-8 BOM, U+FEFF, stripped if present at offset 0 ? ;
+
+document_element  = blank_line
+                  | comment_line
+                  | header
+                  | assignment
+                  | directive
+                  | document_separator ;
+
+blank_line        = newline ;
+document_separator = "---" newline ;
+
+newline           = "\n" | "\r\n" | "\r" ;
+
+
+(* --------------------------------------------------------------------------
+   2. COMMENTS
+   -------------------------------------------------------------------------- *)
+
+(* Comments begin with ";" and consume the rest of the line. They may appear
+   on their own line or trailing an assignment, header, or tabular row. They
+   may NOT appear inside quoted strings, header braces, or array indices. *)
+
+comment_line      = comment newline ;
+comment           = ";" { char_except_newline } ;
+
+
+(* --------------------------------------------------------------------------
+   3. HEADERS
+   -------------------------------------------------------------------------- *)
+
+header            = "{" header_body "}" [ trailing_comment ] newline ;
+
+header_body       = ""                              (* {} resets context     *)
+                  | [ "." ] header_path [ tabular_clause ] ;
+
+header_path       = meta_path | regular_path ;
+
+meta_path         = "$" [ "." path_segment { ( "." | array_index ) path_segment } ] ;
+
+regular_path      = path_segment { ( "." | array_index ) path_segment } ;
+
+path_segment      = identifier | "&" identifier { "." identifier } ;
+
+(* Tabular clause turns a header into an array-of-records (or primitive
+   array) declaration. Subsequent lines until the next header are data rows. *)
+
+tabular_clause    = ":" [ primitive_marker ] [ column_list ] ;
+primitive_marker  = "~" ;
+column_list       = column_name { "," column_name } [ "," ] ;
+column_name       = "." identifier
+                  | identifier [ "." identifier ] ;
+
+
+(* --------------------------------------------------------------------------
+   4. ARRAY INDICES
+   -------------------------------------------------------------------------- *)
+
+(* An array index is the bracketed segment that follows a path component. *)
+
+array_index       = "[" array_index_body "]" ;
+
+array_index_body  = ""                                    (* tabular sentinel *)
+                  | digits                                (* normal index     *)
+                  | jsonpath_filter                       (* filter expr      *)
+                  | key_list ;                            (* keyed lookup     *)
+
+jsonpath_filter   = "?" "(" { char_except ( ")" ) } ")" ;
+key_list          = identifier { "," identifier } ;
+
+
+(* --------------------------------------------------------------------------
+   5. ASSIGNMENTS
+   -------------------------------------------------------------------------- *)
+
+assignment        = path "=" [ modifiers ] value [ trailing_directives ]
+                    [ trailing_comment ] newline ;
+
+path              = path_start { path_continuation } ;
+path_start        = identifier | "$" | "&" identifier ;
+path_continuation = "." path_element
+                  | array_index
+                  | ".@" identifier ;       (* XML attribute reference *)
+path_element      = identifier | "true" | "false" ;
+
+(* Identifiers permit ASCII letters, digits, underscores, and hyphens. They
+   must begin with a letter or underscore. *)
+
+identifier        = ident_start { ident_cont } ;
+ident_start       = letter | "_" ;
+ident_cont        = letter | digit | "_" | "-" ;
+
+
+(* --------------------------------------------------------------------------
+   6. MODIFIERS
+   -------------------------------------------------------------------------- *)
+
+(* Modifiers prefix the value. Each may appear at most once. Order is not
+   semantically significant; the parser accepts them in any order. *)
+
+modifiers         = { modifier } ;
+modifier          = "!"   (* required / critical                  *)
+                  | "*"   (* confidential — masked downstream     *)
+                  | "-"   (* deprecated                            *) ;
+
+
+(* --------------------------------------------------------------------------
+   7. VALUES
+   -------------------------------------------------------------------------- *)
+
+(* Every value carries its own type via a one- or two-character prefix, with
+   the exception of bare booleans (true / false) and quoted strings. Bare
+   unquoted strings are NOT permitted as values. *)
+
+value             = quoted_string
+                  | multiline_string
+                  | currency
+                  | percent
+                  | integer
+                  | number
+                  | boolean
+                  | null
+                  | reference
+                  | binary
+                  | timestamp
+                  | date
+                  | time
+                  | duration
+                  | extension_value ;
+
+
+(* 7.1 Strings *)
+
+quoted_string     = '"' { string_char | escape_seq } '"' ;
+multiline_string  = '"""' { multiline_char | escape_seq } '"""' ;
+
+string_char       = ? any character except '"', '\', '\n', '\r' ? ;
+multiline_char    = ? any character except the closing '"""' or '\' ? ;
+
+escape_seq        = "\" ( "\" | '"' | "n" | "t" | "r" | "0"
+                        | "u" hex_digit hex_digit hex_digit hex_digit
+                        | "U" hex_digit hex_digit hex_digit hex_digit
+                              hex_digit hex_digit hex_digit hex_digit ) ;
+
+
+(* 7.2 Numeric types *)
+
+number            = "#"  [ "-" ] digits [ "." digits ] [ exponent ] ;
+integer           = "##" [ "-" ] digits ;
+currency          = "#$" [ "-" ] digits [ "." digits ] [ ":" currency_code ] ;
+percent           = "#%" [ "-" ] digits [ "." digits ] ;
+
+exponent          = ( "e" | "E" ) [ "+" | "-" ] digits ;
+currency_code     = letter letter letter ;     (* ISO 4217, parser uppercases *)
+
+
+(* 7.3 Boolean and null *)
+
+boolean           = "?" "true" | "?" "false" | "true" | "false" ;
+null              = "~" ;
+
+
+(* 7.4 References *)
+
+(* References point at another path within the document or its metadata.
+   A leading "." denotes a relative path; "$" denotes the metadata root. *)
+
+reference         = "@" reference_target ;
+reference_target  = relative_ref | absolute_ref | meta_ref ;
+relative_ref      = "." path_element { ( "." | array_index ) path_element } ;
+absolute_ref      = path_element { ( "." | array_index ) path_element } ;
+meta_ref          = "$" "." path_element { "." path_element } ;
+
+
+(* 7.5 Binary *)
+
+binary            = "^" [ algorithm ":" ] base64_content ;
+algorithm         = identifier ;
+base64_content    = { base64_char } [ "=" [ "=" ] ] ;
+base64_char       = letter | digit | "+" | "/" ;
+
+
+(* 7.6 Temporal types *)
+
+(* Dates use ISO 8601. The parser semantically validates month and day
+   ranges; values like 2024-13-01 or 2024-02-30 are rejected at parse
+   time, not just at validation time. *)
+
+date              = digit digit digit digit "-" digit digit "-" digit digit ;
+
+timestamp         = date "T" digit digit ":" digit digit ":" digit digit
+                    [ "." digits ]
+                    [ tz_offset ] ;
+tz_offset         = "Z"
+                  | ( "+" | "-" ) digit digit [ ":" digit digit ] ;
+
+time              = "T" digit [ digit ]
+                    [ ":" digit [ digit ]
+                      [ ":" digit [ digit ] [ "." digits ] ] ] ;
+
+duration          = "P" [ digits "Y" ] [ digits "M" ] [ digits "W" ] [ digits "D" ]
+                    [ "T" [ digits "H" ] [ digits "M" ] [ digits "S" ] ] ;
+
+
+(* 7.7 Extension values *)
+
+(* The "&" prefix marks an implementation-defined extension value. The
+   payload after the prefix is parsed as identifier-dotted namespace plus
+   any of the standard value forms. *)
+
+extension_value   = "&" identifier { "." identifier } [ value ] ;
+
+
+(* --------------------------------------------------------------------------
+   8. TRAILING DIRECTIVES
+   -------------------------------------------------------------------------- *)
+
+(* Directives that follow a value attach metadata such as positional info
+   for fixed-width input, length bounds, or transform flags. *)
+
+trailing_directives = { ":" directive_name [ directive_value ] } ;
+directive_name      = identifier ;
+directive_value     = number | integer | quoted_string | identifier ;
+
+
+(* --------------------------------------------------------------------------
+   9. TOP-LEVEL DIRECTIVES
+   -------------------------------------------------------------------------- *)
+
+directive         = import_directive
+                  | schema_directive
+                  | conditional_directive ;
+
+import_directive  = "@import" whitespace import_path
+                    [ whitespace "as" whitespace identifier ]
+                    [ trailing_comment ] newline ;
+import_path       = quoted_string | unquoted_path ;
+unquoted_path     = { char_except ( whitespace | newline | ";" ) } ;
+
+schema_directive  = "@schema" whitespace url [ trailing_comment ] newline ;
+url               = quoted_string | unquoted_path ;
+
+conditional_directive
+                  = "@if" whitespace condition [ trailing_comment ] newline ;
+condition         = { char_except_newline } ;
+
+
+(* --------------------------------------------------------------------------
+   10. LEXICAL PRIMITIVES
+   -------------------------------------------------------------------------- *)
+
+letter            = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I"
+                  | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R"
+                  | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+                  | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i"
+                  | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r"
+                  | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" ;
+
+digit             = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+digits            = digit { digit } ;
+
+hex_digit         = digit
+                  | "a" | "b" | "c" | "d" | "e" | "f"
+                  | "A" | "B" | "C" | "D" | "E" | "F" ;
+
+whitespace        = " " | "\t" ;
+
+char_except_newline = ? any character except "\n" and "\r" ? ;
+char_except         = ? any character except the listed exclusions ? ;
+
+trailing_comment  = whitespace comment ;
+
+
+(* --------------------------------------------------------------------------
+   11. SEMANTIC CONSTRAINTS
+   --------------------------------------------------------------------------
+   These rules constrain otherwise-valid grammar productions. They are
+   enforced by the parser even though they cannot be expressed in pure
+   context-free EBNF.
+
+   * No path may be assigned more than once within a document.            (P007)
+   * Array indices for the same path must be contiguous starting at 0.    (P016)
+   * Array indices may not exceed MAX_ARRAY_INDEX.                        (P015)
+   * Total path nesting depth may not exceed MAX_NESTING_DEPTH.           (P010)
+   * Quoted strings may not contain unescaped newlines.                   (P004)
+   * Numbers may not have an exponent without digits.                     (P001)
+   * Currency codes are normalized to uppercase.
+   * Bare unquoted strings are forbidden as values; quote them.           (P002)
+   * Comments are not recognized inside header braces; ";" inside "{ ... }"
+     is treated as a literal character.
+   * Relative headers (leading ".") resolve against the most recent
+     ABSOLUTE header, not the most recent header of any kind.
+   * Date and timestamp values are validated for month (01-12) and
+     day-of-month at parse time.
+   * Modifiers ("!", "*", "-") may only precede a value.
+   * The "$" path is reserved for document metadata; assignments under
+     "$.xxx" are stored on the document metadata map, not the assignment map.
+   -------------------------------------------------------------------------- *)
