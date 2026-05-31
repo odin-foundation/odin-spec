@@ -47,7 +47,7 @@ indent = ##2
 omitEmpty = ?true
 
 {$target.namespace}
-ins = http://www.example.org/insurance/xml/
+ins = "http://www.example.org/insurance/xml/"
 ```
 
 | Setting | Type | Description |
@@ -62,8 +62,8 @@ ins = http://www.example.org/insurance/xml/
 
 ```odin
 {$target.namespace}
-ins = http://www.example.org/insurance/
-xsi = http://www.w3.org/2001/XMLSchema-instance
+ins = "http://www.example.org/insurance/"
+xsi = "http://www.w3.org/2001/XMLSchema-instance"
 
 {Policy}
 PolicyNumber = @policy.number :ns ins
