@@ -295,23 +295,16 @@ field = "policy_number"
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.2.0 | 2025-12 | Multi-pass execution |
-| 1.1.0 | 2025-12 | Financial & statistical verbs |
+| 1.1.0 | 2026-05 | Conditional segments & if/elif/else chains; verb-expression conditions; field validation/object/raw/array modifiers; full verb documentation |
 | 1.0.0 | 2024-12 | Initial specification |
-
-### v1.2 Features
-
-- Multi-pass execution with `_pass` directive
-- Accumulator reset behavior per pass
-- All passes emit output (later passes can overwrite)
 
 ### v1.1 Features
 
-- **Mathematical:** log, ln, log10, exp, pow, sqrt
-- **Time Value of Money:** compound, discount, pmt, fv, pv
-- **Statistics:** std, stdSample, variance, varianceSample, median, mode, percentile, quantile
-- **Correlation:** covariance, correlation
-- **Utility:** clamp, interpolate, weightedAvg
+- Conditional segments (`:if` / `_if`) and `:elif` / `:else` chains; a dangling branch is error `T012`
+- Conditions are verb expressions (`%and` / `%or` / `%not` + comparison verbs); legacy quoted-infix retained
+- Field modifiers: `:validate` / `:enum` / `:range` (error `T013`), `:object` / `:raw` / `:array`, comparison `:if` / `:unless`
+- Bare and header-inline `:loop` / `:counter` / `:from`; XML `:cdata`; fixed-width line padding; `${...}` interpolation
+- Prefix-coercion on references (`##@path`); full verb surface documented
 
 ### v1.0 Features
 
@@ -319,8 +312,13 @@ field = "policy_number"
 - Input discriminators for multi-record-type files
 - Copy operations (`@`) and transformation verbs (`%`)
 - Custom verb extensibility (`%&namespace.verb`) with reserved namespaces
+- Multi-pass execution with the `_pass` directive (accumulator reset per pass)
 - **String:** concat, upper, lower, capitalize, titleCase, trim, length, contains, startsWith, endsWith, substring, replace, split, join, mask
 - **Numeric:** formatNumber, round, abs, add, subtract, multiply, divide
+- **Mathematical:** log, ln, log10, exp, pow, sqrt
+- **Time Value of Money:** compound, discount, pmt, fv, pv
+- **Statistics:** std, stdSample, variance, varianceSample, median, mode, percentile, quantile, covariance, correlation
+- **Utility:** clamp, interpolate, weightedAvg
 - **Date/Time:** formatDate, parseDate, addDays, dateDiff, today, now
 - **Lookup:** lookup with column selection, lookupDefault
 - **Aggregation:** accumulate, sum, count, min, max, avg, first, last
