@@ -62,7 +62,7 @@ Notes = @policy.notes :omitEmpty
 | `:omitEmpty` | `:omitEmpty` | Omit if empty string/array |
 | `:raw` | `:raw` | Emit raw JSON (no escaping) |
 | `:array` | `:array` | Force as single-element array |
-| `:object` | `:object {key = @path, ...}` | Inline object construction |
+| `:object` | `":object {key = @path, ...}"` | Inline object construction |
 
 **Type Coercion:**
 
@@ -75,10 +75,10 @@ code = @zip :type string                    ; 78701 → "78701"
 **Inline Object:**
 
 ```odin
-contact = :object {name = @insured.name, phone = @insured.phone, email = @insured.email}
+contact = ":object {name = @insured.name, phone = @insured.phone, email = @insured.email}"
 ; Produces: {"name": "John", "phone": "512-555-1234", "email": "john@example.com"}
 
-location = :object {lat = @geo.latitude, lng = @geo.longitude}
+location = ":object {lat = @geo.latitude, lng = @geo.longitude}"
 ```
 
 **Raw JSON:**
@@ -101,7 +101,7 @@ metadata = @document.json_metadata :raw     ; Emit pre-formatted JSON without es
 | Modifier | Syntax | Description |
 |----------|--------|-------------|
 | `:if` | `:if path` | Include if truthy |
-| `:if` | `:if path = value` | Include if equals |
+| `:if` | `"@path :if other = value"` | Include if equals (quote the mapping) |
 | `:unless` | `:unless path` | Include if falsy |
 | `:default` | `:default value` | Fallback value |
 | `:required` | `:required` | Error if missing |
@@ -121,14 +121,14 @@ legacy_field = @old_field :unless isNewFormat
 |----------|--------|-------------|
 | `:validate` | `:validate "regex"` | Regex validation |
 | `:enum` | `:enum v1,v2,v3` | Enum validation |
-| `:range` | `:range min..max` | Range validation |
+| `:range` | `"@path :range min..max"` | Range validation (quote the mapping) |
 
 **Examples:**
 
 ```odin
 email = @contact.email :validate "^[^@]+@[^@]+$"
 status = @status :enum "A,P,C"
-year = @year :range 1900..2100
+year = "@year :range 1900..2100"
 policy = @policy.number :required
 ```
 

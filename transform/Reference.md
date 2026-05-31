@@ -35,7 +35,7 @@ effectiveDate = @effective
 
 {policy.insured}
 name = %concat @insured.name.first " " @insured.name.last
-address = :object {street = @insured.address.line1, city = @insured.address.city, state = @insured.address.state, zip = @insured.address.zip}
+address = ":object {street = @insured.address.line1, city = @insured.address.city, state = @insured.address.state, zip = @insured.address.zip}"
 
 {policy.vehicles[]}
 :loop vehicles
@@ -43,7 +43,7 @@ vin = @.vin
 year = @.year :type number
 make = @.make
 premium = @.premium :type number
-garaging = :object {city = @.garaging.city, state = @.garaging.state} :omitNull
+garaging = ":object {city = @.garaging.city, state = @.garaging.state} :omitNull"
 ```
 
 **JSON → ODIN:**
