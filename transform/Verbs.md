@@ -2,16 +2,21 @@
 
 <!-- LLM:
 PURPOSE: Transformation verb reference with syntax and examples
-STRING: concat upper lower capitalize titleCase trim substring replace split join padLeft padRight truncate mask
-NUMERIC: formatNumber formatInteger formatCurrency abs round floor ceil multiply divide add subtract mod negate
-DATE: formatDate formatTime formatTimestamp parseDate addDays addMonths addYears dateDiff today now
-LOOKUP: lookup lookupDefault ("TABLE.column" @match1 @match2) — TABLE.column MUST be quoted, variadic arity
-AGGREGATE: accumulate sum count min max avg first last
+STRING: concat upper lower capitalize titleCase trim substring replace split join padLeft padRight truncate mask camelCase snakeCase kebabCase pascalCase slugify reverseString repeat normalizeSpace leftOf rightOf wrap center match extract matches stripAccents clean
+NUMERIC: formatNumber formatInteger formatCurrency abs round floor ceil multiply divide add subtract mod negate sign trunc random minOf maxOf formatPercent isFinite isNaN parseInt safeDivide formatLocaleNumber
+DATE: formatDate formatTime formatTimestamp parseDate parseTimestamp addDays addMonths addYears dateDiff today now addHours addMinutes addSeconds startOfDay endOfDay startOfMonth endOfMonth startOfYear endOfYear dayOfWeek weekOfYear quarter isLeapYear isBefore isAfter isBetween toUnix fromUnix formatLocaleDate daysBetweenDates ageFromDate isValidDate
+LOOKUP: lookup lookupDefault (TABLE.column @match1 @match2) — TABLE.column quoting optional, variadic arity
+AGGREGATE: accumulate set sum count min max avg first last
 CONDITIONAL: coalesce ifElse ifNull ifEmpty switch
-ARRAY: at filter flatten distinct sort sortBy reverse
-COERCE: coerceString coerceNumber coerceInteger coerceBoolean coerceDate tryCoerce
-STATISTICAL: std variance median mode percentile correlation
-FINANCIAL: compound discount pmt fv pv
+LOGIC: and or not xor eq ne lt lte gt gte between isNull isString isNumber isBoolean isArray isObject isDate typeOf cond assert
+OBJECT: keys values entries has get merge
+ARRAY: at filter flatten distinct sort sortBy reverse map indexOf slice every some find findIndex includes concatArrays zip groupBy partition take drop chunk range compact pluck unique cumsum cumprod shift diff pctChange dedupe
+COERCE: coerceString coerceNumber coerceInteger coerceBoolean coerceDate coerceTimestamp tryCoerce toArray toObject
+STATISTICAL: std variance median mode percentile correlation zscore
+FINANCIAL: compound discount pmt fv pv npv irr rate nper depreciation
+ENCODING: base64Encode base64Decode urlEncode urlDecode jsonEncode jsonDecode hexEncode hexDecode sha256 sha1 sha512 md5 crc32
+GENERATION: uuid nanoid sequence resetSequence
+GEO: distance inBoundingBox bearing midpoint toRadians toDegrees
 CUSTOM: %&namespace.verb for extensions
 SEE ALSO: Core.md Modifiers.md Formats.md Reference.md
 -->
@@ -66,6 +71,29 @@ display_name = %upper %concat @first " " @last
 | `split` | `%split @path "delim" index` | Split and take element |
 | `join` | `%join @array "delim"` | Join array elements |
 | `formatPhone` | `%formatPhone @value "countryCode"` | Format phone number |
+| `pad` | `%pad @path len "char"` | Right-pad to length |
+| `reverseString` | `%reverseString @path` | Reverse character order |
+| `repeat` | `%repeat @path count` | Repeat string N times |
+| `normalizeSpace` | `%normalizeSpace @path` | Collapse and trim whitespace |
+| `leftOf` | `%leftOf @path "delim"` | Text before first delimiter |
+| `rightOf` | `%rightOf @path "delim"` | Text after first delimiter |
+| `wrap` | `%wrap @path width` | Word-wrap at width |
+| `center` | `%center @path width ["char"]` | Center-pad to width |
+| `match` | `%match @path "regex"` | Boolean: regex matches |
+| `matches` | `%matches @path "regex"` | Boolean: regex matches (alias of `match`) |
+| `extract` | `%extract @path "regex" [group]` | Extract regex capture group (default 0) |
+| `stripAccents` | `%stripAccents @path` | Remove diacritical marks |
+| `clean` | `%clean @path` | Strip control chars, normalize whitespace |
+
+### Case Conversion
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `camelCase` | `%camelCase @path` | Convert to camelCase |
+| `pascalCase` | `%pascalCase @path` | Convert to PascalCase |
+| `snakeCase` | `%snakeCase @path` | Convert to snake_case |
+| `kebabCase` | `%kebabCase @path` | Convert to kebab-case |
+| `slugify` | `%slugify @path` | URL-safe slug (lowercase, hyphenated) |
 
 **Examples:**
 
@@ -113,6 +141,17 @@ phone_list = %join @phones ", "                      ; ["512...", "713..."] → 
 | `mod` | `%mod @path divisor` | Modulo |
 | `negate` | `%negate @path` | Negate |
 | `convertUnit` | `%convertUnit @value "fromUnit" "toUnit"` | Convert between units |
+| `sign` | `%sign @path` | Sign of number: -1, 0, or 1 |
+| `trunc` | `%trunc @path` | Truncate toward zero |
+| `safeDivide` | `%safeDivide @num @denom @default` | Divide, returning default on zero denominator |
+| `minOf` | `%minOf @a @b ...` | Minimum of arguments |
+| `maxOf` | `%maxOf @a @b ...` | Maximum of arguments |
+| `parseInt` | `%parseInt @path [radix]` | Parse string to integer (radix 2-36, default 10) |
+| `random` | `%random [min] [max] [seed]` | Random number; seed makes it deterministic |
+| `isFinite` | `%isFinite @path` | Boolean: number is finite |
+| `isNaN` | `%isNaN @path` | Boolean: number is NaN |
+| `formatPercent` | `%formatPercent @path [decimals]` | Format as percentage string (default 2 decimals) |
+| `formatLocaleNumber` | `%formatLocaleNumber @path [locale]` | Locale-aware number formatting |
 
 **Examples:**
 
@@ -151,6 +190,11 @@ total = %add @base @surcharges                       ; 500 + 75 → 575
 | `pmt` | `%pmt @principal @rate @periods` | Payment for loan |
 | `fv` | `%fv @payment @rate @periods` | Future value of annuity |
 | `pv` | `%pv @payment @rate @periods` | Present value of annuity |
+| `npv` | `%npv @rate @cashflows` | Net present value of a cash-flow series |
+| `irr` | `%irr @cashflows [guess]` | Internal rate of return |
+| `rate` | `%rate @periods @pmt @pv @fv` | Interest rate per period |
+| `nper` | `%nper @rate @pmt @pv @fv` | Number of periods |
+| `depreciation` | `%depreciation @cost @salvage @life` | Straight-line depreciation per period |
 
 ### Statistics (Array-Based)
 
@@ -166,6 +210,7 @@ total = %add @base @surcharges                       ; 500 + 75 → 575
 | `quantile` | `%quantile @array.field @q` | Quantile (0-1) |
 | `covariance` | `%covariance @array1 @array2` | Covariance |
 | `correlation` | `%correlation @array1 @array2` | Pearson correlation |
+| `zscore` | `%zscore @value @array` | Standard score of value vs. dataset (population std) |
 
 ### Utility Functions
 
@@ -210,8 +255,30 @@ bounded = %clamp @calculated ##500 ##5000            ; Constrain to range
 | `today` | `%today` | Current date |
 | `now` | `%now` | Current timestamp |
 | `businessDays` | `%businessDays @date ##count` | Add N business days |
-| `nextBusinessDay` | `%nextBusinessDay @date` | Next Mon-Fri date |
-| `formatDuration` | `%formatDuration @duration` | Human-readable duration |
+| `nextBusinessDay` | `%nextBusinessDay @date` | The next Mon-Fri date strictly after the input |
+| `formatDuration` | `%formatDuration @duration` | Human-readable duration from an ISO 8601 string or a number of seconds |
+| `addHours` | `%addHours @date hours` | Add hours (returns ISO timestamp) |
+| `addMinutes` | `%addMinutes @date minutes` | Add minutes (returns ISO timestamp) |
+| `addSeconds` | `%addSeconds @date seconds` | Add seconds (returns ISO timestamp) |
+| `startOfDay` | `%startOfDay @date` | Start of day (00:00:00.000) |
+| `endOfDay` | `%endOfDay @date` | End of day (23:59:59.999) |
+| `startOfMonth` | `%startOfMonth @date` | First day of month |
+| `endOfMonth` | `%endOfMonth @date` | Last day of month |
+| `startOfYear` | `%startOfYear @date` | First day of year (Jan 1) |
+| `endOfYear` | `%endOfYear @date` | Last day of year (Dec 31) |
+| `dayOfWeek` | `%dayOfWeek @date` | ISO weekday (1=Mon ... 7=Sun) |
+| `weekOfYear` | `%weekOfYear @date` | ISO week number (1-53) |
+| `quarter` | `%quarter @date` | Calendar quarter (1-4) |
+| `isLeapYear` | `%isLeapYear @date` | Boolean: year is a leap year |
+| `isBefore` | `%isBefore @date1 @date2` | Boolean: date1 before date2 |
+| `isAfter` | `%isAfter @date1 @date2` | Boolean: date1 after date2 |
+| `isBetween` | `%isBetween @date @start @end` | Boolean: date within range (inclusive) |
+| `toUnix` | `%toUnix @date` | Unix timestamp (seconds since epoch) |
+| `fromUnix` | `%fromUnix @timestamp` | Unix timestamp to ISO string |
+| `daysBetweenDates` | `%daysBetweenDates @start @end` | Whole days between two dates |
+| `ageFromDate` | `%ageFromDate @birthDate [@asOfDate]` | Age in complete years |
+| `isValidDate` | `%isValidDate @value "format"` | Boolean: string is a valid date in format |
+| `formatLocaleDate` | `%formatLocaleDate @date [locale]` | Locale-aware date formatting |
 
 **Date Format Patterns:**
 
@@ -255,7 +322,7 @@ process_date = %formatDate %today "YYYYMMDD"
 | `lookup` | `%lookup "TABLE.column" @match1 [@match2]` | Lookup returning column |
 | `lookupDefault` | `%lookupDefault "TABLE.column" @match1 "default"` | With fallback |
 
-**Important:** The `TABLE.column` argument **must be quoted**. Unquoted `TABLE.column` is tokenized as three separate tokens (`TABLE`, `.`, `column`) and produces a parse error.
+**Note:** Quoting the `TABLE.column` argument is **optional** — both `%lookup "TABLE.column" @match` and `%lookup TABLE.column @match` work. The unquoted form is reassembled into a single `TABLE.column` reference during parsing.
 
 **Arity:** `lookup` and `lookupDefault` are **variadic** — they accept a variable number of match arguments (one per key column). This means they cannot be nested inside fixed-arity verbs like `%multiply`. Use an accumulator step instead (see [Core: Verb Nesting Constraints](Core.md#verb-nesting-constraints)).
 
@@ -283,6 +350,7 @@ code = %lookupDefault "BODY_TYPES.code" @.bodyType "99"
 | Verb | Syntax | Description |
 |------|--------|-------------|
 | `accumulate` | `%accumulate name value` | Add to accumulator |
+| `set` | `%set name value` | Set accumulator to a value (replaces current) |
 | `sum` | `%sum @array.field` | Sum field values |
 | `count` | `%count @array` | Count items |
 | `min` | `%min @array.field` | Minimum |
@@ -339,6 +407,72 @@ status_text = %switch @code "A" "Active" "P" "Pending" "Unknown"
 
 ---
 
+## Logic & Comparison
+
+### Boolean Logic
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `and` | `%and @a @b` | Logical AND |
+| `or` | `%or @a @b` | Logical OR |
+| `not` | `%not @value` | Logical negation |
+| `xor` | `%xor @a @b` | Exclusive OR (exactly one truthy) |
+
+### Comparison
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `eq` | `%eq @a @b` | Boolean: equal |
+| `ne` | `%ne @a @b` | Boolean: not equal |
+| `lt` | `%lt @a @b` | Boolean: less than |
+| `lte` | `%lte @a @b` | Boolean: less than or equal |
+| `gt` | `%gt @a @b` | Boolean: greater than |
+| `gte` | `%gte @a @b` | Boolean: greater than or equal |
+| `between` | `%between @value @min @max` | Boolean: numeric range (inclusive) |
+
+### Type Checks
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `isNull` | `%isNull @value` | Boolean: value is null |
+| `isString` | `%isString @value` | Boolean: value is a string |
+| `isNumber` | `%isNumber @value` | Boolean: value is integer/number/currency |
+| `isBoolean` | `%isBoolean @value` | Boolean: value is a boolean |
+| `isArray` | `%isArray @value` | Boolean: value is an array |
+| `isObject` | `%isObject @value` | Boolean: value is an object |
+| `isDate` | `%isDate @value` | Boolean: value is a date/timestamp |
+| `typeOf` | `%typeOf @value` | Type name as a string |
+
+### Conditional & Validation
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `cond` | `%cond @c1 @v1 [@c2 @v2 ...] @default` | First value whose condition is truthy |
+| `assert` | `%assert @condition [message]` | Returns condition if truthy, else null |
+
+**Examples:**
+
+```odin
+in_range = %and %gte @age ##18 %lte @age ##65
+is_valid = %gt @amount ##0
+grade = %cond %gte @score ##90 "A" %gte @score ##80 "B" "F"
+```
+
+---
+
+## Object Operations
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `keys` | `%keys @object` | Array of object keys |
+| `values` | `%values @object` | Array of object values |
+| `entries` | `%entries @object` | Array of `[key, value]` pairs |
+| `has` | `%has @object "key"` | Boolean: object has key (dot paths supported) |
+| `get` | `%get @object "path" [default]` | Safe path access with optional default |
+| `merge` | `%merge @obj1 @obj2` | Shallow merge (obj2 overrides obj1) |
+
+---
+
 ## Type Coercion
 
 | Verb | Syntax | Description |
@@ -348,6 +482,7 @@ status_text = %switch @code "A" "Active" "P" "Pending" "Unknown"
 | `coerceInteger` | `%coerceInteger @path` | Convert to integer |
 | `coerceBoolean` | `%coerceBoolean @path` | Convert to boolean |
 | `coerceDate` | `%coerceDate @path` | Convert to date |
+| `coerceTimestamp` | `%coerceTimestamp @path` | Convert to timestamp |
 | `tryCoerce` | `%tryCoerce @path` | Auto-detect type |
 
 **Examples:**
@@ -378,23 +513,65 @@ value = %tryCoerce @amount                           ; "42" → ##42, "3.14" →
 | `hexEncode` | `%hexEncode @path` | Encode to hexadecimal |
 | `hexDecode` | `%hexDecode @path` | Decode from hexadecimal |
 
+### Hashing & Checksums
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `sha256` | `%sha256 @path` | SHA-256 hash (lowercase hex) |
+| `sha1` | `%sha1 @path` | SHA-1 hash (lowercase hex) |
+| `sha512` | `%sha512 @path` | SHA-512 hash (lowercase hex) |
+| `md5` | `%md5 @path` | MD5 hash (lowercase hex; not for security) |
+| `crc32` | `%crc32 @path` | CRC-32 checksum (8-char hex) |
+
 ---
 
 ## Array Operations
 
 | Verb | Syntax | Description |
 |------|--------|-------------|
-| `at` | `%at @array index` | Get element at index |
+| `at` | `%at @array index` | Get element at index (negative indices supported) |
+| `slice` | `%slice @array start [end]` | Sub-array between indices (negative supported) |
+| `indexOf` | `%indexOf @array value` | Index of value (-1 if absent) |
+| `map` | `%map @array "field"` | Extract one field from every item |
+| `pluck` | `%pluck @array "field"` | Extract field values from objects |
 | `filter` | `%filter @array "field" "op" value` | Filter by field condition |
-| `flatten` | `%flatten @array` | Flatten nested arrays |
-| `distinct` | `%distinct @array` | Unique values only |
-| `sort` | `%sort @array` | Sort ascending |
+| `flatten` | `%flatten @array` | Flatten nested arrays one level |
+| `distinct` | `%distinct @array ["field"]` | Unique values (optionally by field) |
+| `unique` | `%unique @array` | Unique values (alias of `distinct`) |
+| `dedupe` | `%dedupe @array "keyField"` | Remove duplicate objects by key field |
+| `compact` | `%compact @array` | Drop null, undefined, and empty-string items |
+| `sort` | `%sort @array ["field"] ["desc"]` | Sort ascending (optional field/direction) |
 | `sortDesc` | `%sortDesc @array` | Sort descending |
 | `sortBy` | `%sortBy @array "field"` | Sort by field |
 | `reverse` | `%reverse @array` | Reverse order |
+| `take` | `%take @array count` | First N elements |
+| `drop` | `%drop @array count` | Skip first N elements |
+| `chunk` | `%chunk @array size` | Split into fixed-size chunks |
+| `range` | `%range start end [step]` | Generate numeric array (end exclusive) |
+| `includes` | `%includes @array value` | Boolean: array contains value |
+| `every` | `%every @array "field" "op" value` | Boolean: all items match condition |
+| `some` | `%some @array "field" "op" value` | Boolean: any item matches condition |
+| `find` | `%find @array "field" "op" value` | First item matching condition |
+| `findIndex` | `%findIndex @array "field" "op" value` | Index of first matching item (-1 if none) |
+| `partition` | `%partition @array "field" "op" value` | Split into [matching, non-matching] |
+| `groupBy` | `%groupBy @array "field"` | Group into `{key, items}` objects |
+| `concatArrays` | `%concatArrays @arr1 @arr2` | Concatenate two arrays |
+| `zip` | `%zip @arr1 @arr2` | Pair elements into `[a, b]` tuples |
 | `reduce` | `%reduce @array "verb" initialValue` | Fold array to single value using verb |
 | `pivot` | `%pivot @array "keyField" "valueField"` | Array of objects → object keyed by field |
 | `unpivot` | `%unpivot @object "keyName" "valueName"` | Object → array of {key, value} objects |
+
+**Filter operators** (shared by `filter`, `every`, `some`, `find`, `findIndex`, `partition`): `=`, `!=`, `<`, `<=`, `>`, `>=`, `contains`, `startsWith`, `endsWith`.
+
+### Time-Series Array Verbs
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `cumsum` | `%cumsum @array` | Running cumulative sum |
+| `cumprod` | `%cumprod @array` | Running cumulative product |
+| `shift` | `%shift @array [periods] [fillValue]` | Shift elements, filling gaps |
+| `diff` | `%diff @array [periods]` | Difference between elements N apart |
+| `pctChange` | `%pctChange @array [periods]` | Percentage change between elements N apart |
 
 **Examples:**
 
@@ -413,7 +590,9 @@ by_premium = %sortBy @coverages "premium"
 |------|--------|-------------|
 | `uuid` | `%uuid` | Generate random UUID v4 |
 | `uuid` | `%uuid @seed` | Deterministic UUID v5 |
-| `sequence` | `%sequence "name"` | Auto-incrementing |
+| `nanoid` | `%nanoid [size] [@seed]` | URL-safe ID (default 21 chars; seed = deterministic) |
+| `sequence` | `%sequence "name" [start]` | Auto-incrementing named counter |
+| `resetSequence` | `%resetSequence "name" [value]` | Reset a named sequence |
 
 ---
 
@@ -426,6 +605,9 @@ by_premium = %sortBy @coverages "premium"
 | `distance` | `%distance @lat1 @lon1 @lat2 @lon2 [unit]` | Great-circle distance |
 | `inBoundingBox` | `%inBoundingBox @lat @lon @minLat @minLon @maxLat @maxLon` | Point in box |
 | `bearing` | `%bearing @lat1 @lon1 @lat2 @lon2` | Initial bearing |
+| `midpoint` | `%midpoint @lat1 @lon1 @lat2 @lon2` | Great-circle midpoint `{lat, lon}` |
+| `toRadians` | `%toRadians @degrees` | Degrees to radians |
+| `toDegrees` | `%toDegrees @radians` | Radians to degrees |
 
 ### Text Processing
 
