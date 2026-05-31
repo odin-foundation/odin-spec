@@ -55,8 +55,8 @@ ins = http://www.example.org/insurance/xml/
 | `declaration` | Boolean | Include XML declaration |
 | `indent` | Integer | Indentation spaces (0 = minified) |
 | `omitEmpty` | Boolean | Omit empty elements |
+| `emitTypeHints` | Boolean | Emit ODIN type-hint attributes (default `true`); when `false`, omit `odin:type`/`odin:currencyCode`/modifier attributes and the `odin` namespace, producing plain XML |
 | `encoding` | String | Character encoding |
-| `emitTypeHints` | Boolean | Emit ODIN type-hint attributes (`odin:type`, `odin:currencyCode`) and the `odin` namespace; default true. Set false for plain XML. |
 
 **XML Namespaces:**
 

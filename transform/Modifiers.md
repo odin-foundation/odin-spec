@@ -8,7 +8,7 @@ JSON: :type string|number|boolean :omitNull :omitEmpty :raw :array :object {key=
 STRING: :upper :lower :trim :maxLen N
 CONDITIONAL: :if path :if path=value :unless path :default value :required
 VALIDATION: :validate "regex" :enum v1,v2,v3 :range min..max
-SEGMENTS: {segment.NAME[]} with :loop :counter :from :if :literal
+SEGMENTS: {segment.NAME[]} with :loop :counter :from :if :elif :else :literal
 SEE ALSO: Core.md Verbs.md Formats.md Reference.md
 -->
 
@@ -181,8 +181,59 @@ year = @.year
 | `:loop` | `:loop path :as alias` | Iterate with alias |
 | `:counter` | `:counter name` | Loop counter |
 | `:from` | `:from path` | Set context |
-| `:if` | `:if expr` | Conditional segment |
+| `:if` | `:if <verb-expr>` | Conditional segment |
+| `:elif` | `:elif <verb-expr>` | Else-if branch of a chain |
+| `:else` | `:else` | Else branch of a chain |
 | `:literal` | `:literal` | Literal block mode |
+
+### Conditional Segments
+
+A segment can be emitted only when a condition holds. When the condition is
+false the entire section is absent from the output — not null, omitted.
+
+A condition is a **verb expression** evaluated for truthiness, written
+unquoted; quotes are reserved for actual string operands. Use the comparison
+verbs (`%eq`, `%ne`, `%gt`, `%lt`, `%gte`, `%lte`) and the boolean verbs
+(`%and`, `%or`, `%not`) to compose conditions.
+
+Two equivalent forms — header-inline and a body-line directive:
+
+```odin
+; Header-inline
+{HighRisk :if %and @driver.has_dui %lt @driver.age ##25}
+band = "high-risk"
+
+; Body-line directive (identical behavior)
+{HighRisk}
+_if = %and @driver.has_dui %lt @driver.age ##25
+band = "high-risk"
+```
+
+A legacy quoted-infix condition (`_if = "@driver.has_dui = true"`) still parses
+for backward compatibility, but verb expressions are the canonical form.
+
+### Conditional Chains (`:elif` / `:else`)
+
+A run of consecutive segments forms a chain: one `:if`, then any number of
+`:elif` branches, then an optional `:else`. Only the first branch whose
+condition holds is emitted; the rest are skipped. If no condition matches, the
+`:else` branch is emitted. Branches use distinct section names — exactly one of
+them appears in the output.
+
+```odin
+{HighRisk :if %eq @driver.tier "dui"}
+band = "high-risk"
+
+{YoungDriver :elif %lt @driver.age ##25}
+band = "young-driver"
+
+{Standard :else}
+band = "standard"
+```
+
+The chain breaks on any non-chain segment and at pass boundaries; a new `:if`
+starts a fresh chain. An `:elif` or `:else` with no preceding `:if` is an error
+(`T012`).
 
 ### Nested Loops
 
