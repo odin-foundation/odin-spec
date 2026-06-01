@@ -2,6 +2,16 @@
 
 **Declarative Form Definition for Print and Screen Rendering**
 
+<!-- LLM:
+PURPOSE: ODIN Forms — declarative print/screen form layout schema (absolute positioning, PDF + HTML)
+STRUCTURE: {$} metadata, {$.i18n} labels, {$.page} defaults, {$.screen} settings, {page[n]} pages of elements
+ELEMENTS: text field checkbox radio select multiselect date signature barcode img region line rect circle ellipse polygon polyline path
+FIELDS: bind, inline value/checked/selected, options, type/inputType, required, readonly, placeholder, validation
+LAYOUT: x/y/width/height; per-side margins; font; alignment; regions with bind/max/overflow; page templates {@tpl_*}
+RENDER: two-pass (overflow plan then total_pages), ${...} interpolation, @$.i18n.* label refs
+SEE ALSO: ODIN_1_0_Specification.md ODIN_LLM_REFERENCE.md
+-->
+
 ---
 
 ## Overview

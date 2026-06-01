@@ -2,6 +2,18 @@
 
 **Open Data Interchange Notation**
 
+<!-- LLM:
+PURPOSE: Core ODIN format — syntax, value types, modifiers, canonical form, document chaining
+PREFIXES: (none)=string #=number ##=integer #$=currency #%=percent ?=bool ~=null @=ref ^=binary; """..."""=multiline string
+MODIFIERS: !=required -=deprecated *=confidential (any order; conventional !-*)
+SYNTAX: field=value, obj.path, arr[n] (0-based, contiguous), {header} context, {arr[] : cols} tabular, {arr[] : ~} primitive array, ; comment
+TEMPORAL: date 2024-06-15, timestamp ...THH:MM:SSZ, time THH:MM:SS, duration P..Y..M..W..D..T..; components validated (P001)
+CANONICAL: sorted paths, full paths (no headers), no comments/blanks, bare booleans true/false, LF
+CHAINING: --- separates docs; later overlays earlier; field=~ removes the field, field[]=~ clears the array
+ERRORS: P0xx parse errors
+SEE ALSO: schema/Foundations.md transform/Core.md ODIN_LLM_REFERENCE.md
+-->
+
 ---
 
 ## Overview
