@@ -9312,10 +9312,7 @@ x = %notAVerb @.a
 
 **Fix:** Use a registered verb name, or define it as a custom verb (%&namespace.verb).
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
-- The transform fails and an error is reported for the field.
-- The engine currently reports this as code TRANSFORM_ERROR with the message 'Unknown verb: notAVerb'; the stable T001 code is not yet emitted.
+- The transform fails and a T001 error is reported for the field.
 - An unregistered %& custom verb does not raise this — it echoes its first argument as an extension point.
 
 ### T002 — invalid verb arguments
@@ -9353,10 +9350,9 @@ x = %lookup "GHOST.code" @.k
 
 **Fix:** Declare the table (e.g. {$table.GHOST[name, code]} with rows) before the lookup, or correct the table name.
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
 - Requires onMissing = "fail" in the {$target} header; the default policy is silent (returns null, no error).
-- The engine currently reports a missing table through the same path as a missing key, emitting code T004 ('Lookup key '...' not found in table 'GHOST''); a distinct T003 code is not yet emitted.
+- A missing table emits T003, distinct from a missing key (T004): the referenced table was never declared.
+- Setting onMissing = "warn" demotes the same T003 to a warning instead.
 
 ### T004 — lookup key not found
 
@@ -9395,11 +9391,9 @@ x = @.does.not.exist :required
 
 **Fix:** Provide the source path, drop :required, or supply a default with %coalesce / %ifNull.
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
-- Without :required a missing path yields null silently; the :required modifier is what raises the error.
-- The transform fails and an error is reported for the field.
-- The engine currently reports this as code SOURCE_MISSING with the message 'Required field 'x' is missing or null'; the stable T005 code is not yet emitted.
+- A :required field whose source path is absent always fails with T005, regardless of onMissing.
+- Without :required, an absent path honors onMissing: fail raises T005, warn demotes it to a warning, skip (the default) and default keep the silent null.
+- A path that is present but null is not 'missing': a required null surfaces SOURCE_MISSING instead.
 
 ### T006 — invalid output format
 
@@ -9416,10 +9410,8 @@ x = @.a
 
 **Fix:** Set {$target} format to a supported value: odin, json, xml, csv, or fixed-width.
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
-- An unknown target format is not rejected. The engine currently falls back to JSON-serializing the canonical form and reports success with no errors or warnings; the stable T006 code is not yet emitted.
-- Use a supported output format to get predictable results.
+- An unknown target format fails with T006; the engine no longer falls back to JSON-serializing the canonical form.
+- The known formats (odin, json, xml, csv, fixed-width) and any registered custom &ns.fmt formatter still produce output.
 
 ### T007 — invalid modifier for format
 
@@ -9443,7 +9435,7 @@ x = @.a :pos 0 :len 5
 
 An accumulator whose running value exceeds engine limits should fail the transform.
 
-**Trigger:** Accumulating values past the accumulator's numeric capacity.
+**Trigger:** Accumulating a value beyond the integer accumulator's safe numeric capacity.
 
 **Transform**
 
@@ -9457,10 +9449,9 @@ x = %accumulate "total" @.a
 
 **Fix:** Reduce the magnitude of accumulated values or use a wider numeric representation.
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
-- The engine currently enforces no overflow bound on %accumulate; the transform succeeds and the stable T008 code is not yet emitted.
-- Documented for completeness so the catalog covers every defined transform error code.
+- An integer accumulator whose running total exceeds MAX_SAFE_INTEGER in magnitude — where binary64 can no longer represent it exactly — fails with T008.
+- A non-finite result (overflow to infinity) likewise fails with T008.
+- The accumulator retains its last valid value when the overflow is reported.
 
 ### T009 — loop source not array
 
@@ -9478,9 +9469,8 @@ x = @.a
 
 **Fix:** Point :loop at an array path, or wrap the scalar in an array before looping.
 
-> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
-
-- When the loop source is not an array the engine currently skips iteration and emits an empty result; it reports success and the stable T009 code is not yet emitted.
+- A :loop over a present non-array, non-null scalar fails with T009.
+- Only a present scalar is an error: an absent loop source or an empty array yields zero rows with no error.
 - Ensure the :loop path resolves to an array so each element is iterated.
 
 ### T010 — fixed-width position overflow
