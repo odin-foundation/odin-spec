@@ -145,7 +145,8 @@ Validators should warn on format-incompatible modifiers:
 | `:pos`, `:len` | fixed-width | xml, json, csv |
 | `:attr`, `:ns`, `:cdata` | xml | fixed-width, json, csv |
 | `:type`, `:raw` | json | fixed-width, xml, csv |
-| `:header` | csv | fixed-width, xml, json |
+
+Note: CSV header output is controlled by the `header` CSV target setting (see CSV configuration), not by a `:header` field modifier.
 
 ### Error Configuration
 

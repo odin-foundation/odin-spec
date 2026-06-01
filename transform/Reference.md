@@ -3,7 +3,7 @@
 <!-- LLM:
 PURPOSE: Complete examples, EBNF grammar, error handling, and version history
 EXAMPLES: odin->json, json->odin, odin->xml, xml->odin, odin->fixed-width, fixed-width->odin
-ERROR TYPES: SOURCE_MISSING TYPE_MISMATCH VALIDATION_FAILED LOOKUP_FAILED FORMAT_ERROR
+ERROR CODES: T001-T014 (categories: SOURCE_MISSING TYPE_MISMATCH VALIDATION_FAILED LOOKUP_FAILED FORMAT_ERROR)
 PROCESSING: Parse→Validate→Initialize→Process→Finalize
 VERSION: 1.2 (multi-pass), 1.1 (financial verbs), 1.0 (initial)
 SEE ALSO: Core.md Verbs.md Modifiers.md Formats.md
@@ -250,21 +250,32 @@ quoted_string   = '"' , { "\\" , any | unescaped } , '"' ;
 
 ## Error Handling
 
-### Error Types
+### Error Codes
 
-| Error | Description | Behavior |
-|-------|-------------|----------|
-| `SOURCE_MISSING` | Required path not found | Per `onMissing` |
-| `TYPE_MISMATCH` | Incompatible type | Fail |
-| `VALIDATION_FAILED` | Constraint violation | Per `onValidation` |
-| `LOOKUP_FAILED` | Not in table | Use `:default` or fail |
-| `FORMAT_ERROR` | Cannot format value | Fail |
+Transform errors are emitted with a stable `T0xx` code. The categories below group the codes by the conceptual error they describe.
+
+| Code | Category | Description | Behavior |
+|------|----------|-------------|----------|
+| `T001` | FORMAT_ERROR | Unknown verb — the specified verb does not exist | Fail |
+| `T002` | TYPE_MISMATCH | Invalid verb arguments — wrong number or type of arguments | Fail |
+| `T003` | LOOKUP_FAILED | Lookup table not found — referenced table doesn't exist | Use `:default` or fail |
+| `T004` | LOOKUP_FAILED | Lookup key not found — key doesn't exist in table | Use `:default` or fail |
+| `T005` | SOURCE_MISSING | Source path not found — cannot resolve source path | Per `onMissing` |
+| `T006` | FORMAT_ERROR | Invalid output format — unsupported or misconfigured format | Fail |
+| `T007` | FORMAT_ERROR | Invalid modifier for format — modifier not applicable to target format | Per `onModifier` |
+| `T008` | FORMAT_ERROR | Accumulator overflow — accumulator value exceeds limits | Fail |
+| `T009` | TYPE_MISMATCH | Loop source not array — `:loop` target is not an array | Fail |
+| `T010` | FORMAT_ERROR | Position overflow — fixed-width field extends past line width | Per `onOverflow` |
+| `T011` | TYPE_MISMATCH | Incompatible or unknown conversion target | Fail |
+| `T012` | FORMAT_ERROR | Dangling branch — `:elif` / `:else` with no preceding `:if` | Fail |
+| `T013` | VALIDATION_FAILED | Field value failed a `:validate` / `:enum` / `:range` constraint | Per `onValidation` |
+| `T014` | FORMAT_ERROR | Nested `${...}` interpolation inside a literal block | Fail |
 
 ### Error Output
 
 ```odin
 {$error}
-code = "SOURCE_MISSING"
+code = "T005"
 message = "Required path 'policy.number' not found"
 segment = "segment.HDR"
 field = "policy_number"

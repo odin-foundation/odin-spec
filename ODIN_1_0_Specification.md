@@ -228,11 +228,11 @@ null = ~                   ; valid - 'null' is a field name, value is null
 ```
 
 Type detection uses prefixes and patterns, not keywords:
-- `?true` or `?false` with `?` prefix → boolean
+- bare `true`/`false` or `?true`/`?false` → boolean
 - ISO 8601 date pattern (`YYYY-MM-DD`) → date
 - Quoted values → string
 
-**Note:** Parsers may accept bare `true`/`false` without the `?` prefix for compatibility, but the `?` prefix is the canonical form and should always be used when writing ODIN.
+**Note:** Bare `true`/`false` is the canonical form for booleans. The `?true`/`?false` form with the `?` prefix is an accepted explicit boolean form and is normalized to the bare form in canonical output.
 
 ---
 
@@ -740,9 +740,10 @@ array_index     = "[" , integer , "]" ;
 
 (* Values *)
 value           = [ modifiers ] , typed_value ;
-modifiers       = critical , [ deprecated ] , [ redacted ] 
-                | deprecated , [ redacted ]
-                | redacted ;
+(* The three modifiers may appear in any order; at most one of each.
+   The conventional ordering critical, deprecated, redacted is recommended. *)
+modifiers       = modifier , [ modifier ] , [ modifier ] ;
+modifier        = critical | deprecated | redacted ;
 critical        = "!" ;
 redacted        = "*" ;
 deprecated      = "-" ;
@@ -795,9 +796,10 @@ second          = digit , digit ;
 fraction        = digits ;
 
 (* Duration - ISO 8601 *)
-duration        = "P" , [ years ] , [ months ] , [ days ] , [ time_duration ] ;
+duration        = "P" , [ years ] , [ months ] , [ weeks ] , [ days ] , [ time_duration ] ;
 years           = integer , "Y" ;
 months          = integer , "M" ;
+weeks           = integer , "W" ;
 days            = integer , "D" ;
 time_duration   = "T" , [ hours ] , [ minutes ] , [ seconds ] ;
 hours           = integer , "H" ;
@@ -816,11 +818,14 @@ verb_name       = identifier ;
 verb_argument   = reference_value | string_value | number_value | boolean_value | null_value | verb_expression ;
 
 (* Strings *)
-string_value    = quoted_string ;
+string_value    = quoted_string | triple_quoted_string ;
 
 quoted_string   = '"' , { quoted_char } , '"' ;
 quoted_char     = unescaped_quoted | escaped ;
 unescaped_quoted = ? any UTF-8 character except "\" , '"' , newline ? ;
+(* Triple-quoted multiline string: content captured verbatim, including
+   newlines, until the closing '"""'. An unterminated block is error P004. *)
+triple_quoted_string = '"""' , { ? any UTF-8 character ? } , '"""' ;
 escaped         = "\" , escape_code ;
 escape_code     = "\" | '"' | "n" | "t" | "r" | "0" | unicode_short | unicode_long ;
 unicode_short   = "u" , hex , hex , hex , hex ;
@@ -836,6 +841,8 @@ any_char        = ? any UTF-8 character except newline ? ;
 url             = ? valid URL per RFC 3986 ? ;
 expression      = ? expression as defined in ODIN Schema ? ;
 ```
+
+**Note:** The grammar above defines the core ODIN data format. Implementations also accept transform-layer constructs — segment directives such as `:loop` and `:if`, and `$.table` lookup headers — as extensions used by the ODIN Transform layer. These are transform constructs, not core-format data syntax; see the ODIN Transform Specification.
 
 ---
 
@@ -865,7 +872,7 @@ expression      = ? expression as defined in ODIN Schema ? ;
 - `#` accepts any numeric precision—use for general numbers
 - `##` explicitly marks value as integer; decimal values are invalid
 - `#$` marks value as currency with 2 decimal places
-- `#%` marks value as a percentage (stored as 0-1 decimal, where 0.5 = 50%)
+- `#%` marks value as a percentage (stored as 0-1 decimal by convention, where 0.5 = 50%); the 0-1 range is conventional and is not enforced by the parser, so out-of-range values such as `#%1.5` are not an error
 - Exponential notation (`1.2e10`) valid with `#` prefix
 - Negative values: place `-` after prefix (`#-45`, `##-100`, `#$-50.00`)
 
@@ -901,12 +908,12 @@ In data: `rate = #0.0500` just uses the `#` prefix with the value.
 | Date | *(none)* | `YYYY-MM-DD` | `2024-06-15` |
 | Timestamp | *(none)* | ISO 8601 | `2025-12-06T14:30:00Z` |
 | Time | `T` | `THH:MM:SS[.sss]` | `T14:30:00`, `T09:00:00.500` |
-| Duration | `P` | ISO 8601 duration | `P6M`, `P1Y`, `PT30M`, `P1DT12H` |
+| Duration | `P` | ISO 8601 duration | `P6M`, `P1Y`, `P2W`, `PT30M`, `P1DT12H` |
 
 **Temporal Rules:**
 - Date and timestamp are distinguished by presence of `T` and time component
 - Time values always start with `T` prefix
-- Duration values always start with `P` prefix
+- Duration values always start with `P` prefix and may use a weeks component (`W`, e.g. `P2W`)
 - Timestamps should include timezone (`Z` or `±HH:MM`)
 
 ---
@@ -919,7 +926,7 @@ In data: `rate = #0.0500` just uses the `#` prefix with the value.
 | Confidential | `*` | After `!` or `=` | Value contains sensitive data; downstream systems should handle accordingly |
 | Deprecated | `-` | After `=` | Field is obsolete; may be removed in future |
 
-**Modifier Order:** `= [!][-][*][type_prefix]value`
+**Modifier Order:** The three modifiers may appear in any order; parsers accept any permutation. The recommended conventional ordering is `= [!][-][*][type_prefix]value` and should be used when writing ODIN.
 
 ```odin
 field = !"value"         ; critical string
@@ -1240,6 +1247,16 @@ emoji = "\u263A"
 | `\uXXXX` | Unicode code point (4 hex digits) |
 | `\UXXXXXXXX` | Unicode code point (8 hex digits) |
 
+### Triple-Quoted Strings
+
+Triple double-quotes (`"""..."""`) introduce a multiline string. Content is captured verbatim, including newlines, until the closing `"""`; escape sequences are not processed inside a triple-quoted block. An unterminated triple-quoted block is a parse error (`P004`).
+
+```odin
+note = """Line one
+Line two
+Line three"""
+```
+
 ### String Rules
 
 1. **All strings must be quoted** - `field = "value"`
@@ -1325,6 +1342,7 @@ For deterministic output, ODIN documents should be written in canonical form:
 8. **Minimal escaping** - In quoted strings, only escape characters that require it
 9. **Imports before content** - All import directives before document metadata
 10. **Single document** - Canonical form applies per document in a chain
+11. **Bare booleans** - Booleans serialize as bare `true`/`false`; the `?` prefix form is normalized away
 
 Canonical form ensures identical documents produce identical byte sequences.
 

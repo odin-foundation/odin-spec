@@ -120,14 +120,14 @@ legacy_field = @old_field :unless isNewFormat
 | Modifier | Syntax | Description |
 |----------|--------|-------------|
 | `:validate` | `:validate "regex"` | Regex validation |
-| `:enum` | `:enum v1,v2,v3` | Enum validation |
+| `:enum` | `:enum v1,v2,v3` | Enum validation (unquoted values; quoted `:enum "v1,v2,v3"` is also accepted) |
 | `:range` | `"@path :range min..max"` | Range validation (quote the mapping) |
 
 **Examples:**
 
 ```odin
 email = @contact.email :validate "^[^@]+@[^@]+$"
-status = @status :enum "A,P,C"
+status = @status :enum A,P,C
 year = "@year :range 1900..2100"
 policy = @policy.number :required
 ```
