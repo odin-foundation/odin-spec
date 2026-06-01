@@ -5,7 +5,7 @@ PURPOSE: Complete examples, EBNF grammar, error handling, and version history
 EXAMPLES: odin->json, json->odin, odin->xml, xml->odin, odin->fixed-width, fixed-width->odin
 ERROR CODES: T001-T014 (categories: SOURCE_MISSING TYPE_MISMATCH VALIDATION_FAILED LOOKUP_FAILED FORMAT_ERROR)
 PROCESSING: Parse→Validate→Initialize→Process→Finalize
-VERSION: 1.2 (multi-pass), 1.1 (financial verbs), 1.0 (initial)
+VERSION: 1.1.0 (conditional chains, nested loops, literal blocks), 1.0.0 (initial)
 SEE ALSO: Core.md Verbs.md Modifiers.md Formats.md
 -->
 
