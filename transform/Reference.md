@@ -303,6 +303,8 @@ field = "policy_number"
 - Conditional segments (`:if` / `_if`) and `:elif` / `:else` chains; a dangling branch is error `T012`
 - Conditions are verb expressions (`%and` / `%or` / `%not` + comparison verbs); legacy quoted-infix retained
 - Field modifiers: `:validate` / `:enum` / `:range` (error `T013`), `:object` / `:raw` / `:array`, comparison `:if` / `:unless`
+- Nested loops: multiple `:loop path :as alias` lines per segment, iterated as a cross-product
+- Triple-quoted (`"""`) multiline strings and `:literal` segment blocks with `${...}` interpolation; nested interpolation is error `T014`
 - Bare and header-inline `:loop` / `:counter` / `:from`; XML `:cdata`; fixed-width line padding; `${...}` interpolation
 - Prefix-coercion on references (`##@path`); full verb surface documented
 
