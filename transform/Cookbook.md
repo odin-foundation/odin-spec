@@ -8795,6 +8795,163 @@ Patterns that compose the cards above into real transforms.
 
 ODIN is the canonical model between every format. Changing only the direction header and `{$target} format` re-targets the output; the mapping body is unchanged.
 
+### odin->csv — emit CSV rows from an ODIN source
+
+Convert an ODIN array to CSV by setting the target format to csv; a [] section with _loop emits one row per element under a header row.
+
+**Setup:** `direction = "odin->csv"; {$target} format="csv" header="true" delimiter=","`
+
+**Transform**
+
+```odin
+{rows[]}
+_loop = "@products"
+sku = @.sku
+name = @.name
+price = @.price
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{products[] : sku, name, price}
+"SKU-1", "Widget", #$9.99
+"SKU-2", "Gadget", #$19.50
+```
+
+**Out**
+
+```csv
+sku,name,price
+SKU-1,Widget,9.99
+SKU-2,Gadget,19.5
+```
+
+**Notes**
+
+- Only the header changes versus odin->odin: direction = "odin->csv" and {$target} format = "csv".
+- {$target} header = "true" writes a header row from the field names; set header = "false" to omit it.
+- {$target} delimiter overrides the column separator (e.g. "|" for pipe-separated output); it defaults to a comma.
+- The [] section with _loop = "@products" iterates the source array; each mapped field becomes a column, @.field reading the current element.
+- Currency values are emitted as plain decimals (9.99, 19.5) — type prefixes are dropped in the flat CSV form.
+- The reverse path csv->odin uses direction = "csv->odin" with {$source} format = "csv"; the header row supplies field names and values are typed on ingest.
+
+**Avoid**
+
+- `{rows[]} → _from = "@products" → sku = @.sku` — _from alone does not iterate; a [] section needs _loop = "@products" to emit one row per element, otherwise the array collapses to a single broken row
+
+### odin->fixed-width — emit fixed-width records from an ODIN source
+
+Convert an ODIN array to fixed-width text by placing each field at an explicit column with :pos/:len and a pad direction.
+
+**Setup:** `direction = "odin->fixed-width"; {$target} format="fixed-width"`
+
+**Transform**
+
+```odin
+{rows[]}
+_loop = "@employees"
+id = %formatInteger @.id :pos 0 :len 5 :leftPad "0"
+name = @.name :pos 5 :len 10 :rightPad " "
+dept = @.dept :pos 15 :len 3
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{employees[] : id, name, dept}
+##101, "SMITH", "ENG"
+##102, "DOE", "MKT"
+```
+
+**Out**
+
+```fixed-width
+00101SMITH     ENG
+00102DOE       MKT
+```
+
+**Notes**
+
+- Only the header changes versus odin->odin: direction = "odin->fixed-width" and {$target} format = "fixed-width".
+- Each field carries :pos (start column, 0-based) and :len (width); the field is placed at that fixed window in every record.
+- :leftPad "0" pads numbers on the left (right-justified, e.g. id 101 -> 00101); :rightPad " " pads strings on the right (left-justified, e.g. SMITH -> 'SMITH     ').
+- %formatInteger renders the numeric value as digits before padding so it fills the column cleanly.
+- The [] section with _loop emits one fixed-width line per source element; @.field reads the current element.
+- The reverse path fixed-width->odin uses direction = "fixed-width->odin" with {$source} format = "fixed-width"; each field's :pos/:len slices the input columns back into typed values.
+
+### odin->json — emit JSON from an ODIN source
+
+Convert an ODIN document to JSON by setting the target format to json, showing a nested object alongside a :loop array.
+
+**Setup:** `direction = "odin->json"; {$target} format="json" indent="2"`
+
+**Transform**
+
+```odin
+{order}
+id = @order.id
+customer = %upper @order.customer
+
+{lines[]}
+_loop = "@lines"
+sku = @.sku
+qty = @.qty
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{order}
+id = "ORD-7"
+customer = "acme"
+{lines[] : sku, qty}
+"A1", ##2
+"B2", ##5
+```
+
+**Out**
+
+```json
+{
+  "order": {
+    "id": "ORD-7",
+    "customer": "ACME"
+  },
+  "lines": [
+    {
+      "sku": "A1",
+      "qty": 2
+    },
+    {
+      "sku": "B2",
+      "qty": 5
+    }
+  ]
+}
+```
+
+**Notes**
+
+- Only the header changes versus odin->odin: direction = "odin->json" and {$target} format = "json".
+- {$target} indent = "2" pretty-prints with two-space indentation; omit it for compact JSON.
+- A scalar section like {order} reads the source with full paths (@order.id); a section ending in [] with _loop iterates an array and emits a JSON array.
+- Verbs and type coercion still apply on the way out (here %upper uppercases the customer name).
+- The reverse path json->odin uses direction = "json->odin" with {$source} format = "json"; JSON types are inferred into ODIN types on ingest.
+
+**Avoid**
+
+- `{order} → id = @.id` — outside a :loop there is no current element, so @.id resolves to null; use the full source path @order.id in scalar sections
+
 ### odin->xml — emit XML from an ODIN source
 
 Convert an ODIN document to XML by setting the target format to xml. The source stays ODIN; verbs and type coercion still apply on the way out.
@@ -8843,6 +9000,72 @@ total = #$1250.00
 <!-- PLACEHOLDER: odin->json, odin->csv, odin->fixed-width (and reverse xml->odin, json->odin, csv->odin, fixed-width->odin) format-conversion idioms to be added. -->
 
 ### Patterns
+
+### Maintain a running total across loop iterations with an accumulator
+
+Declare a {$accumulator}, add each element's value inside a :loop with %accumulate, then read the final sum back via @$accumulator.*.
+
+**Setup:** `{$accumulator} + %accumulate inside a [] _loop + @$accumulator.* read-back`
+
+**Transform**
+
+```odin
+{$accumulator}
+runningTotal = ##0
+runningTotal._persist = true
+
+{lines[]}
+_loop = "@items"
+name = @.name
+amount = @.amount
+_ = %accumulate runningTotal @.amount
+
+{summary}
+total = "@$accumulator.runningTotal"
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{items[] : name, amount}
+"Widget", #$10.00
+"Gadget", #$25.00
+"Tool", #$5.00
+```
+
+**Out**
+
+```json
+{
+  "lines": [
+    {
+      "name": "Widget",
+      "amount": 10
+    },
+    {
+      "name": "Gadget",
+      "amount": 25
+    },
+    {
+      "name": "Tool",
+      "amount": 5
+    }
+  ],
+  "summary": {
+    "total": 40
+  }
+}
+```
+
+**Notes**
+
+- {$accumulator} declares the variable and its seed; runningTotal._persist = true keeps the value across the whole document so a later section can read it.
+- Inside the loop, _ = %accumulate runningTotal @.amount adds the current element's amount; the _ target discards the verb's own return while the accumulator updates.
+- After the loop, @$accumulator.runningTotal reads the final total (10 + 25 + 5 = 40) into the summary section.
+- The summary section is declared after the loop section so it runs once the accumulation is complete.
 
 ### Classify each element of an array via a lookup table
 
@@ -8893,10 +9116,465 @@ status = %lookup "STATUS.label" @.statusCode
 
 - `number = @policies.number` — inside a loop use @.field for the current element; @policies.number reads the source root, not the element
 
+### Select one of several sections with an :if / :elif / :else chain
+
+Emit exactly one branch from a mutually exclusive chain of sections guarded by verb-expression conditions.
+
+**Setup:** `{A :if <cond>} / {B :elif <cond>} / {C :else}`
+
+**Transform**
+
+```odin
+{Driver}
+name = @driver.name
+
+{HighRisk :if %eq @driver.tier "dui"}
+band = "high-risk"
+
+{YoungDriver :elif %lt @driver.age ##25}
+band = "young-driver"
+
+{Standard :else}
+band = "standard"
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{driver}
+name = "Sam Cruz"
+tier = "standard"
+age = ##40
+```
+
+**Out**
+
+```json
+{
+  "Driver": {
+    "name": "Sam Cruz"
+  },
+  "Standard": {
+    "band": "standard"
+  }
+}
+```
+
+**Notes**
+
+- The :if / :elif / :else sections form one mutually exclusive chain; the engine emits the first section whose condition is true and skips the rest.
+- Conditions are verb expressions: %eq @driver.tier "dui" and %lt @driver.age ##25 evaluate against the source.
+- Here tier is "standard" (not "dui") and age 40 is not < 25, so both guards fail and the :else branch (Standard) is emitted.
+- Unguarded sections like {Driver} always emit; only the :if/:elif/:else chain is conditional.
+- A non-matching branch produces no key at all in the output, not an empty object.
+
+### Emit verbatim lines from a :literal block with ${...} interpolation
+
+Use a :literal section with a triple-quoted body to write fixed text, interpolating fields and verb results via ${...}.
+
+**Setup:** `{Section} :literal + """...""" body with ${...} interpolation`
+
+**Transform**
+
+```odin
+{HDR}
+:literal
+"""
+HDR|${@policy.number}|${%upper @policy.code}
+"""
+
+{DET[]}
+:loop @items
+:literal
+"""
+DET|${@.sku}|${@.qty}
+"""
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{policy}
+number = "P-100"
+code = "abc"
+{items[] : sku, qty}
+"A1", "2"
+"B2", "5"
+```
+
+**Out**
+
+```fixed-width
+HDR|P-100|ABC
+DET|A1|2
+DET|B2|5
+```
+
+**Notes**
+
+- A :literal section emits its triple-quoted body verbatim instead of building structured fields.
+- ${...} interpolates an expression into the line: ${@policy.number} reads a field, ${%upper @policy.code} runs a verb (abc -> ABC).
+- A :literal section can also :loop; here {DET[]} :loop @items repeats the body once per item with @.sku / @.qty bound to the current element.
+- Escape a literal dollar-brace with a backslash (\${...}) to emit ${...} as text rather than interpolating it.
+- Literal blocks suit delimited or templated line formats where exact characters matter, such as fixed-width or EDI-style records.
+
+### Produce a cross-product with two nested :loop directives
+
+Iterate an outer array and, for each element, an inner array, emitting one flattened row per (outer, inner) pair.
+
+**Setup:** `{rows[]} + :loop <outer> :as a + :loop .inner :as b`
+
+**Transform**
+
+```odin
+{rows[]}
+:loop policy.vehicles :as veh
+:loop .coverages :as cov
+vehicle_vin = "@veh.vin"
+coverage_code = "@cov.code"
+coverage_limit = "@cov.limit"
+```
+
+**In**
+
+```odin
+{$}
+odin = "1.0.0"
+{}
+{policy}
+number = "POL-100"
+{policy.vehicles[0]}
+vin = "VIN-A"
+{policy.vehicles[0].coverages[] : code, limit}
+"LIAB", #$100000.00
+"COLL", #$50000.00
+{policy.vehicles[1]}
+vin = "VIN-B"
+{policy.vehicles[1].coverages[] : code, limit}
+"COMP", #$25000.00
+```
+
+**Out**
+
+```json
+{
+  "rows": [
+    {
+      "vehicle_vin": "VIN-A",
+      "coverage_code": "LIAB",
+      "coverage_limit": 100000
+    },
+    {
+      "vehicle_vin": "VIN-A",
+      "coverage_code": "COLL",
+      "coverage_limit": 50000
+    },
+    {
+      "vehicle_vin": "VIN-B",
+      "coverage_code": "COMP",
+      "coverage_limit": 25000
+    }
+  ]
+}
+```
+
+**Notes**
+
+- The first :loop names the outer array (policy.vehicles :as veh); the second :loop is relative (.coverages) to the current outer element and binds :as cov.
+- Each :as alias is read with its own @alias.field — @veh.vin for the outer element, @cov.code / @cov.limit for the inner.
+- The result is the cross-product: VIN-A has two coverages (two rows), VIN-B has one (one row), for three rows total.
+- A relative inner path (.coverages) resolves against the current outer element, so each vehicle contributes only its own coverages.
+
 <!-- PLACEHOLDER: additional pattern idioms to be added. -->
 
 ## Error catalog
 
-A catalog of common transform errors and their fixes.
+Each transform error code, the minimal mistake that triggers it, and the fix.
 
-<!-- PLACEHOLDER: error catalog to be filled later. -->
+### T001 — unknown verb
+
+Calling a verb name that is not a registered built-in (and not a %& custom verb) fails the field.
+
+**Trigger:** %notAVerb is not a known built-in verb.
+
+**Transform**
+
+```odin
+{out}
+x = %notAVerb @.a
+```
+
+**Fix:** Use a registered verb name, or define it as a custom verb (%&namespace.verb).
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- The transform fails and an error is reported for the field.
+- The engine currently reports this as code TRANSFORM_ERROR with the message 'Unknown verb: notAVerb'; the stable T001 code is not yet emitted.
+- An unregistered %& custom verb does not raise this — it echoes its first argument as an extension point.
+
+### T002 — invalid verb arguments
+
+Passing an argument of the wrong type to a verb under strict type checking fails the transform.
+
+**Trigger:** %sqrt receives a string where a number is required, with strictTypes enabled.
+
+**Transform**
+
+```odin
+{out}
+x = %sqrt "notanumber"
+```
+
+**Fix:** Pass a numeric argument (e.g. %sqrt @.value where value is a number), or coerce first with %coerceNumber.
+
+- Requires strictTypes = ?true in the {$} header — without strict mode the wrong-typed argument is coerced instead of rejected.
+- With strict mode the transform throws a type error carrying the T002 code on the thrown error; the message reads 'Type error in %sqrt: Arg 1: expected number, got string'.
+- Because the thrown message text does not contain the literal string T002, the catalog documents this case rather than asserting on the message; the stable T002 code is present on the error object but not in its message.
+- Supplying the wrong NUMBER of arguments is caught earlier at parse time with a distinct message, not as a coded T002.
+
+### T003 — lookup table not found
+
+Referencing a $table that was never declared makes the lookup unresolvable.
+
+**Trigger:** GHOST is not a declared {$table.GHOST[...]} table.
+
+**Transform**
+
+```odin
+{out}
+x = %lookup "GHOST.code" @.k
+```
+
+**Fix:** Declare the table (e.g. {$table.GHOST[name, code]} with rows) before the lookup, or correct the table name.
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- Requires onMissing = "fail" in the {$target} header; the default policy is silent (returns null, no error).
+- The engine currently reports a missing table through the same path as a missing key, emitting code T004 ('Lookup key '...' not found in table 'GHOST''); a distinct T003 code is not yet emitted.
+
+### T004 — lookup key not found
+
+A %lookup whose match value has no matching row in the table fails when onMissing is fail.
+
+**Trigger:** 'nope' is not present in the STATUS table's name column.
+
+**Transform**
+
+```odin
+{$table.STATUS[name, code]}
+"active", "A"
+
+{out}
+x = %lookup "STATUS.code" @.k
+```
+
+**Fix:** Add the missing row to the table, use %lookupDefault to supply a fallback, or set onMissing = "warn".
+
+- Requires onMissing = "fail" in the {$target} header; the default policy is silent (returns null, no error).
+- Reported as a T004 error: 'Lookup key 'nope' not found in table 'STATUS''.
+- Setting onMissing = "warn" demotes the same T004 to a warning instead.
+
+### T005 — source path not found
+
+A field marked :required whose source path resolves to nothing fails the transform.
+
+**Trigger:** The path does.not.exist is absent from the source and the field is :required.
+
+**Transform**
+
+```odin
+{out}
+x = @.does.not.exist :required
+```
+
+**Fix:** Provide the source path, drop :required, or supply a default with %coalesce / %ifNull.
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- Without :required a missing path yields null silently; the :required modifier is what raises the error.
+- The transform fails and an error is reported for the field.
+- The engine currently reports this as code SOURCE_MISSING with the message 'Required field 'x' is missing or null'; the stable T005 code is not yet emitted.
+
+### T006 — invalid output format
+
+Declaring a target format the engine does not recognize should fail the transform.
+
+**Trigger:** format = "notaformat" in {$target} is not a registered output formatter.
+
+**Transform**
+
+```odin
+{out}
+x = @.a
+```
+
+**Fix:** Set {$target} format to a supported value: odin, json, xml, csv, or fixed-width.
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- An unknown target format is not rejected. The engine currently falls back to JSON-serializing the canonical form and reports success with no errors or warnings; the stable T006 code is not yet emitted.
+- Use a supported output format to get predictable results.
+
+### T007 — invalid modifier for format
+
+Applying a format-specific modifier (e.g. fixed-width :pos / :len) to a target that does not support it.
+
+**Trigger:** :pos and :len are fixed-width positioning modifiers but the target format is json.
+
+**Transform**
+
+```odin
+{out}
+x = @.a :pos 0 :len 5
+```
+
+**Fix:** Drop the fixed-width modifiers for JSON output, or switch the target format to fixed-width.
+
+- Reported as a T007 warning, one per incompatible modifier: 'Modifier ':pos' is not applicable to format 'json' and will be ignored'.
+- The transform still succeeds; the offending modifiers are dropped from the output.
+
+### T008 — accumulator overflow
+
+An accumulator whose running value exceeds engine limits should fail the transform.
+
+**Trigger:** Accumulating values past the accumulator's numeric capacity.
+
+**Transform**
+
+```odin
+{$accumulator}
+total = ##0
+
+{out}
+x = %accumulate "total" @.a
+```
+
+**Fix:** Reduce the magnitude of accumulated values or use a wider numeric representation.
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- The engine currently enforces no overflow bound on %accumulate; the transform succeeds and the stable T008 code is not yet emitted.
+- Documented for completeness so the catalog covers every defined transform error code.
+
+### T009 — loop source not array
+
+A :loop whose source path resolves to a scalar instead of an array should fail.
+
+**Trigger:** notArr resolves to the string "scalar", not an array, under :loop.
+
+**Transform**
+
+```odin
+{out[]}
+:loop notArr
+x = @.a
+```
+
+**Fix:** Point :loop at an array path, or wrap the scalar in an array before looping.
+
+> **Note:** documented in the spec but the engine does not yet emit this stable code; see the notes below.
+
+- When the loop source is not an array the engine currently skips iteration and emits an empty result; it reports success and the stable T009 code is not yet emitted.
+- Ensure the :loop path resolves to an array so each element is iterated.
+
+### T010 — fixed-width position overflow
+
+A fixed-width field whose :pos + :len extends past the declared lineWidth overflows the line.
+
+**Trigger:** :pos 78 plus :len 10 = 88 exceeds the lineWidth of 80.
+
+**Transform**
+
+```odin
+{segment.HDR}
+rec = @.a :pos 78 :len 10
+```
+
+**Fix:** Lower :pos or :len so :pos + :len <= lineWidth, or widen lineWidth.
+
+- Requires a fixed-width target with lineWidth set in {$target}.
+- Reported as a T010 warning: 'Field at position 78 with length 10 exceeds line width 80'.
+- The transform still succeeds; behavior is governed by the onOverflow policy, which warns by default.
+
+### T011 — incompatible or unknown conversion target
+
+Passing an unrecognized unit to a conversion verb fails the field.
+
+**Trigger:** %distance is given the unit "parsecs", which is not a supported distance unit.
+
+**Transform**
+
+```odin
+{out}
+x = %distance ##0 ##0 ##1 ##1 "parsecs"
+```
+
+**Fix:** Use a supported unit: "km", "mi", or "miles".
+
+- Reported as a T011 error: 'Incompatible conversion in 'distance': unknown unit 'parsecs' (expected 'km', 'mi', or 'miles')'.
+- %dateDiff with an unknown unit (e.g. "fortnights") raises the same T011.
+
+### T012 — dangling :elif / :else
+
+An :elif or :else conditional segment with no preceding :if segment is a dangling branch.
+
+**Trigger:** The {out} segment carries :else but no :if segment precedes it.
+
+**Transform**
+
+```odin
+{out}
+:else
+x = @.a
+```
+
+**Fix:** Add a preceding :if segment to open the conditional chain, or remove the :else.
+
+- Reported as a T012 error: ''else' segment has no preceding 'if''.
+- A dangling :elif raises the same T012 ('elif' segment has no preceding 'if').
+
+### T013 — field validation failure
+
+A field value that violates an :enum / :validate / :range constraint fails validation.
+
+**Trigger:** The value "blue" is not in the allowed :enum set red,green.
+
+**Transform**
+
+```odin
+{out}
+x = @.a :enum "red,green"
+```
+
+**Fix:** Supply a value within the constraint, widen the :enum/:range, or set onValidation = "warn"/"skip".
+
+- Reported as a T013 error under the default onValidation = fail policy: 'Validation failed for 'x': value 'blue' is not one of [red, green]'.
+- :range uses the dotted form (e.g. :range 1..10) and :validate takes a regex; all three raise T013 the same way.
+- onValidation = "warn" demotes the T013 to a warning; "skip" drops the field silently.
+
+### T014 — nested interpolation
+
+A ${...} interpolation whose expression itself contains another ${ inside a :literal block is rejected.
+
+**Trigger:** The literal-block interpolation ${@a.${@b}} nests a second ${ inside the first.
+
+**Transform**
+
+```odin
+{X}
+:literal
+"""
+${@a.${@b}}
+"""
+```
+
+**Fix:** Flatten the expression so each ${...} stands alone; compute the inner value in a prior field if needed.
+
+- Only :literal segment blocks (triple-quoted body) enforce the no-nesting rule.
+- Reported as a T014 error: 'Nested interpolation is not allowed: ${@a.${@b}'.
