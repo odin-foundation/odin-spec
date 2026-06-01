@@ -76,8 +76,7 @@ An ODIN Forms document has these sections:
 2. **Localization** (`$.i18n`) — Multi-language labels (optional)
 3. **Page defaults** (`$.page`) — Default page dimensions and margins
 4. **Screen settings** (`$.screen`) — Screen rendering options (optional)
-5. **Odincode** (`$.odincode`) — Self-digitizing barcode settings (optional)
-6. **Pages** (`page[n]`) — Array of page definitions with elements
+5. **Pages** (`page[n]`) — Array of page definitions with elements
 
 ```odin
 {$}
@@ -100,10 +99,6 @@ unit = "inch"
 
 {$.screen}
 scale = #1.0
-
-{$.odincode}
-enabled = ?true
-zone = "bottom-center"
 
 {page[0]}
 {.text.title}
@@ -143,53 +138,6 @@ Optional settings for screen/web rendering:
 | Property | Type | Description |
 |----------|------|-------------|
 | `$.screen.scale` | number | Default zoom factor (1.0 = 100%) |
-
-### Odincode
-
-The Odincode enables self-digitizing forms. When enabled, the renderer generates a PDF417 barcode containing the page's filled field data as raw ODIN text. See **ODIN Barcode 1.0** specification for payload format.
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `$.odincode.enabled` | boolean | Enable Odincode generation |
-| `$.odincode.zone` | enum | Placement zone: `top-center` or `bottom-center` |
-
-### Placement Zones
-
-Odincode placement is restricted to two zones for reliable scanning and consistent form layout. The 1.5" height accommodates dual PDF417 barcodes (Macro mode) for larger payloads.
-
-```
-+--------------------------------------------------+
-|                   0.25" margin                    |
-+--------------------------------------------------+
-|     +----- TOP-CENTER ODINCODE ZONE -----+       |
-|     |     (up to 8" wide × 1.5" tall)    |       |
-|     +------------------------------------+       |
-|                                                  |
-|                  FORM CONTENT                    |
-|                                                  |
-|     +------------------------------------+       |
-|     |    BOTTOM-CENTER ODINCODE ZONE     |       |
-|     |     (up to 8" wide × 1.5" tall)    |       |
-+--------------------------------------------------+
-|                   0.25" margin                    |
-+--------------------------------------------------+
-```
-
-| Zone | Position | Description |
-|------|----------|-------------|
-| `top-center` | Top edge, horizontally centered | 0.25" from top edge |
-| `bottom-center` | Bottom edge, horizontally centered | 0.25" from bottom edge |
-
-### Zone Specifications
-
-| Specification | Value |
-|---------------|-------|
-| Edge margin | 0.25" from page edge |
-| Max height | 1.5" |
-| Max width | Page width − 0.5" (e.g., 8.0" on 8.5" paper) |
-| Anchoring | Barcode anchored to the 0.25" exclusion zone |
-
-Renderers must reserve the Odincode zone — form elements should not overlap. The barcode width varies based on data payload, expanding up to the maximum allowed width. For large payloads exceeding single-barcode capacity, dual barcodes may be rendered side-by-side within this zone.
 
 ---
 
@@ -1751,7 +1699,6 @@ Adobe's XFA (XML Forms Architecture) solved similar problems before deprecation.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.1 | 2025-12 | Increased Odincode zone height to 1.5" to accommodate Macro PDF417 dual barcodes |
 | 1.0.0 | 2025-12 | Initial specification: geometric elements, content elements, field types, regions, page templates, overflow handling, render-time variables |
 
 ---
