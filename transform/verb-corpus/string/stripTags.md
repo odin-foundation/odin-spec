@@ -10,20 +10,23 @@ Remove angle-bracket tags from a string, leaving the text content.
 
 ```odin
 {out}
-out = %stripTags @.raw
+stripped = %stripTags @.raw
+noTags = %stripTags @.plain
 ```
 
 **In**
 
 ```odin
 raw = "<p>Hello <b>world</b></p>"
+plain = "no tags here"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "Hello world"
+stripped = "Hello world"
+noTags = "no tags here"
 ```
 
 **Notes**

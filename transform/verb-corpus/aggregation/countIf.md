@@ -11,6 +11,7 @@ Count the array items whose field satisfies an operator/value condition.
 ```odin
 {out}
 paid = %countIf @.orders "status" "=" "paid"
+noMatch = %countIf @.orders "status" "=" "void"
 ```
 
 **In**
@@ -27,6 +28,7 @@ paid = %countIf @.orders "status" "=" "paid"
 ```odin
 {out}
 paid = ##2
+noMatch = ##0
 ```
 
 **Notes**

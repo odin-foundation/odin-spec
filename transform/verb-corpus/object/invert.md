@@ -10,7 +10,8 @@ Return an object with keys and values swapped.
 
 ```odin
 {out}
-inv = %invert @.m
+swapped = %invert @.m
+dupLastWins = %invert @.dup
 ```
 
 **In**
@@ -19,13 +20,18 @@ inv = %invert @.m
 {m}
 a = "x"
 b = "y"
+
+{dup}
+a = "same"
+b = "same"
 ```
 
 **Out**
 
 ```odin
 {out}
-{.inv}
+dupLastWins.same = "b"
+{.swapped}
 x = "a"
 y = "b"
 ```

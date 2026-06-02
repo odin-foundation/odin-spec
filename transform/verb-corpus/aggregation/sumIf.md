@@ -11,6 +11,7 @@ Sum a field over the array items that satisfy a condition; the sum field default
 ```odin
 {out}
 paidTotal = %sumIf @.orders "status" "=" "paid" "amount"
+noMatch = %sumIf @.orders "status" "=" "void" "amount"
 ```
 
 **In**
@@ -27,6 +28,7 @@ paidTotal = %sumIf @.orders "status" "=" "paid" "amount"
 ```odin
 {out}
 paidTotal = ##400
+noMatch = ##0
 ```
 
 **Notes**

@@ -10,20 +10,23 @@ Escape the five HTML special characters & < > " and the apostrophe as entities.
 
 ```odin
 {out}
-out = %escapeHtml @.raw
+escaped = %escapeHtml @.raw
+empty = %escapeHtml @.blank
 ```
 
 **In**
 
 ```odin
 raw = "<p>1 & 2</p>"
+blank = ""
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "&lt;p&gt;1 &amp; 2&lt;/p&gt;"
+escaped = "&lt;p&gt;1 &amp; 2&lt;/p&gt;"
+empty = ""
 ```
 
 **Notes**

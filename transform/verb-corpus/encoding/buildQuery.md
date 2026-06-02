@@ -11,6 +11,7 @@ Serialize an object into a query string with keys sorted; null values are skippe
 ```odin
 {out}
 qs = %buildQuery @.params
+skipsNull = %buildQuery @.withNull
 ```
 
 **In**
@@ -19,6 +20,10 @@ qs = %buildQuery @.params
 {params}
 z = ##1
 a = ##2
+
+{withNull}
+a = ##1
+b = ~
 ```
 
 **Out**
@@ -26,6 +31,7 @@ a = ##2
 ```odin
 {out}
 qs = "a=2&z=1"
+skipsNull = "a=1"
 ```
 
 **Notes**

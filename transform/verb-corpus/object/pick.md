@@ -10,12 +10,16 @@ Return a copy of an object containing only the named keys.
 
 ```odin
 {out}
-p = %pick @.rec "name" "role"
+kept = %pick @.rec "name" "role"
+absentKey = %pick @.rec "name" "zzz"
+nonObject = %pick @.notObj "name"
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {rec}
 name = "Ada"
 role = "admin"
@@ -26,7 +30,9 @@ active = ?true
 
 ```odin
 {out}
-{.p}
+absentKey.name = "Ada"
+nonObject = ~
+{.kept}
 name = "Ada"
 role = "admin"
 ```

@@ -10,7 +10,8 @@ Compute the least common multiple of two integers.
 
 ```odin
 {out}
-l = %lcm @.a @.b
+normal = %lcm @.a @.b
+withZero = %lcm @.zero @.a
 ```
 
 **In**
@@ -18,13 +19,15 @@ l = %lcm @.a @.b
 ```odin
 a = ##4
 b = ##6
+zero = ##0
 ```
 
 **Out**
 
 ```odin
 {out}
-l = ##12
+normal = ##12
+withZero = ##0
 ```
 
 **Notes**

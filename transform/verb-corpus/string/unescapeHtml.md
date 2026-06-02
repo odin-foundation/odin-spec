@@ -10,20 +10,23 @@ Decode named and numeric HTML entities back to their characters.
 
 ```odin
 {out}
-out = %unescapeHtml @.raw
+decoded = %unescapeHtml @.raw
+numeric = %unescapeHtml @.refs
 ```
 
 **In**
 
 ```odin
 raw = "&lt;p&gt;1 &amp; 2&lt;/p&gt;"
+refs = "&#65;&#x42;"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "<p>1 & 2</p>"
+decoded = "<p>1 & 2</p>"
+numeric = "AB"
 ```
 
 **Notes**

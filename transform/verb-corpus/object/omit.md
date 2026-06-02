@@ -10,12 +10,16 @@ Return a copy of an object with the named keys removed.
 
 ```odin
 {out}
-o = %omit @.rec "active"
+dropped = %omit @.rec "active"
+absentKey = %omit @.rec "zzz"
+nonObject = %omit @.notObj "name"
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {rec}
 name = "Ada"
 role = "admin"
@@ -26,9 +30,14 @@ active = ?true
 
 ```odin
 {out}
-{.o}
+nonObject = ~
+{.dropped}
 name = "Ada"
 role = "admin"
+{.absentKey}
+name = "Ada"
+role = "admin"
+active = ?true
 ```
 
 **Notes**

@@ -19,6 +19,7 @@ byId = %keyBy @.users "id"
 {users[] : id, name}
 "u1", "Ada"
 "u2", "Bo"
+"u1", "Ada2"
 ```
 
 **Out**
@@ -28,7 +29,7 @@ byId = %keyBy @.users "id"
 {.byId}
 {out.byId.u1}
 id = "u1"
-name = "Ada"
+name = "Ada2"
 {out.byId.u2}
 id = "u2"
 name = "Bo"

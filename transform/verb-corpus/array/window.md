@@ -10,7 +10,8 @@ Return overlapping consecutive slices of length n from an array.
 
 ```odin
 {out}
-panes = %window @.nums ##2
+pairs = %window @.nums ##2
+singles = %window @.nums ##1
 ```
 
 **In**
@@ -20,17 +21,19 @@ panes = %window @.nums ##2
 ##1
 ##2
 ##3
-##4
 ```
 
 **Out**
 
 ```odin
 {out}
-{.panes[] : [0], [1]}
+{.pairs[] : [0], [1]}
 ##1, ##2
 ##2, ##3
-##3, ##4
+{.singles[] : [0]}
+##1
+##2
+##3
 ```
 
 **Notes**

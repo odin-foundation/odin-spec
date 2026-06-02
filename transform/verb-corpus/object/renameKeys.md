@@ -10,7 +10,7 @@ Rename object keys according to an old-to-new mapping object.
 
 ```odin
 {out}
-r = %renameKeys @.rec @.mapping
+renamed = %renameKeys @.rec @.mapping
 ```
 
 **In**
@@ -18,20 +18,19 @@ r = %renameKeys @.rec @.mapping
 ```odin
 {rec}
 fn = "Ada"
-ln = "Lovelace"
+keep = "as-is"
 
 {mapping}
 fn = "firstName"
-ln = "lastName"
 ```
 
 **Out**
 
 ```odin
 {out}
-{.r}
+{.renamed}
 firstName = "Ada"
-lastName = "Lovelace"
+keep = "as-is"
 ```
 
 **Notes**

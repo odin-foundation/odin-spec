@@ -10,13 +10,13 @@ Substitute {key} placeholders in a template string with values from an object.
 
 ```odin
 {out}
-msg = %template @.tpl @.data
+filled = %template "Hi {name}, you are {age}" @.data
+missingKey = %template "a{missing}b" @.data
 ```
 
 **In**
 
 ```odin
-tpl = "Hi {name}, you are {age}"
 {data}
 name = "Ada"
 age = ##36
@@ -26,7 +26,8 @@ age = ##36
 
 ```odin
 {out}
-msg = "Hi Ada, you are 36"
+filled = "Hi Ada, you are 36"
+missingKey = "ab"
 ```
 
 **Notes**

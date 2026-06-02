@@ -11,6 +11,7 @@ Average a field over the array items that satisfy a condition; the average field
 ```odin
 {out}
 paidAvg = %avgIf @.orders "status" "=" "paid" "amount"
+noMatch = %avgIf @.orders "status" "=" "void" "amount"
 ```
 
 **In**
@@ -27,6 +28,7 @@ paidAvg = %avgIf @.orders "status" "=" "paid" "amount"
 ```odin
 {out}
 paidAvg = ##200
+noMatch = ~
 ```
 
 **Notes**

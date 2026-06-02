@@ -25,7 +25,6 @@ id = "o1"
 {orders[1]}
 id = "o2"
 {.tags[] : ~}
-"green"
 ```
 
 **Out**
@@ -35,7 +34,7 @@ id = "o2"
 {.rows[] : id, tags}
 "o1", "red"
 "o1", "blue"
-"o2", "green"
+"o2",
 ```
 
 **Notes**

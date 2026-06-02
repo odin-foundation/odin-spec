@@ -10,7 +10,7 @@ Merge a defaults object under a base object, filling only keys the base lacks.
 
 ```odin
 {out}
-d = %defaults @.rec @.fallback
+merged = %defaults @.rec @.fallback
 ```
 
 **In**
@@ -28,7 +28,7 @@ role = "guest"
 
 ```odin
 {out}
-{.d}
+{.merged}
 name = "Ada"
 role = "guest"
 ```

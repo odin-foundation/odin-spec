@@ -10,7 +10,7 @@ Return a copy of an object with null, empty-string, empty-array, and empty-objec
 
 ```odin
 {out}
-c = %compactObject @.rec
+cleaned = %compactObject @.rec
 ```
 
 **In**
@@ -20,12 +20,18 @@ c = %compactObject @.rec
 name = "Ada"
 middle = ~
 nickname = ""
+zero = ##0
+flag = ?false
 ```
 
 **Out**
 
 ```odin
-out.c.name = "Ada"
+{out}
+{.cleaned}
+name = "Ada"
+zero = ##0
+flag = ?false
 ```
 
 **Notes**

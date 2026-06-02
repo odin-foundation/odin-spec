@@ -10,22 +10,28 @@ Hash a value by its canonical (sorted-key) JSON form, yielding an order-independ
 
 ```odin
 {out}
-h = %canonicalHash @.doc
+h1 = %canonicalHash @.a
+h2 = %canonicalHash @.b
 ```
 
 **In**
 
 ```odin
-{doc}
+{a}
 b = ##2
 a = ##1
+
+{b}
+a = ##1
+b = ##2
 ```
 
 **Out**
 
 ```odin
 {out}
-h = "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+h1 = "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+h2 = "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
 ```
 
 **Notes**

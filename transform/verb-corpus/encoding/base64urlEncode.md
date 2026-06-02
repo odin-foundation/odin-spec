@@ -11,6 +11,7 @@ Encode a UTF-8 string as URL-safe Base64 (- and _ instead of + and /, no = paddi
 ```odin
 {out}
 encoded = %base64urlEncode @.content
+roundTrip = %base64urlDecode %base64urlEncode @.content
 ```
 
 **In**
@@ -24,6 +25,7 @@ content = "hello world?>>"
 ```odin
 {out}
 encoded = "aGVsbG8gd29ybGQ_Pj4"
+roundTrip = "hello world?>>"
 ```
 
 **Notes**

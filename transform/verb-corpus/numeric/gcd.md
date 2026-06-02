@@ -10,7 +10,9 @@ Compute the greatest common divisor of two integers.
 
 ```odin
 {out}
-g = %gcd @.a @.b
+normal = %gcd @.a @.b
+withZero = %gcd @.zero @.a
+negative = %gcd @.neg @.b
 ```
 
 **In**
@@ -18,13 +20,17 @@ g = %gcd @.a @.b
 ```odin
 a = ##12
 b = ##18
+zero = ##0
+neg = ##-12
 ```
 
 **Out**
 
 ```odin
 {out}
-g = ##6
+normal = ##6
+withZero = ##12
+negative = ##6
 ```
 
 **Notes**

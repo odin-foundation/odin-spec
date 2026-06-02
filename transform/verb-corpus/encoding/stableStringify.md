@@ -10,7 +10,7 @@ Serialize a value to JSON with object keys sorted recursively, for a stable repr
 
 ```odin
 {out}
-s = %stableStringify @.doc
+canonical = %stableStringify @.doc
 ```
 
 **In**
@@ -19,13 +19,16 @@ s = %stableStringify @.doc
 {doc}
 b = ##2
 a = ##1
+{doc.nested}
+y = ##2
+x = ##1
 ```
 
 **Out**
 
 ```odin
 {out}
-s = "{\"a\":1,\"b\":2}"
+canonical = "{\"a\":1,\"b\":2,\"nested\":{\"x\":1,\"y\":2}}"
 ```
 
 **Notes**

@@ -10,7 +10,7 @@ Escape & < > " and the apostrophe as XML entities, using &apos; for the apostrop
 
 ```odin
 {out}
-out = %escapeXml @.raw
+escaped = %escapeXml @.raw
 ```
 
 **In**
@@ -23,7 +23,7 @@ raw = "x = 'a' & b"
 
 ```odin
 {out}
-out = "x = &apos;a&apos; &amp; b"
+escaped = "x = &apos;a&apos; &amp; b"
 ```
 
 **Notes**

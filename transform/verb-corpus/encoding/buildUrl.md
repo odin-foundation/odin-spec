@@ -11,6 +11,7 @@ Assemble a URL from an object of scheme, host, port, path, query, and fragment.
 ```odin
 {out}
 url = %buildUrl @.parts
+noScheme = %buildUrl @.bad
 ```
 
 **In**
@@ -26,6 +27,9 @@ z = ##1
 a = ##2
 {parts}
 fragment = "frag"
+
+{bad}
+host = "example.com"
 ```
 
 **Out**
@@ -33,6 +37,7 @@ fragment = "frag"
 ```odin
 {out}
 url = "https://example.com:8080/a/b?a=2&z=1#frag"
+noScheme = ~
 ```
 
 **Notes**

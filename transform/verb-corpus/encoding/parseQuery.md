@@ -10,20 +10,23 @@ Parse a query string into an object; a leading ? is tolerated.
 
 ```odin
 {out}
-q = %parseQuery @.qs
+parsed = %parseQuery @.qs
+leadingQ = %parseQuery @.q2
 ```
 
 **In**
 
 ```odin
 qs = "z=1&a=2"
+q2 = "?a=2"
 ```
 
 **Out**
 
 ```odin
 {out}
-{.q}
+leadingQ.a = "2"
+{.parsed}
 a = "2"
 z = "1"
 ```
