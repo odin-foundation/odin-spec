@@ -29,12 +29,16 @@ line three"""                ; verbatim across newlines, no escape processing
 ```
 
 ### Modifiers (inline metadata)
+Modifiers annotate a field; they DO NOT change the stored value. The value is kept verbatim and
+the modifier travels with it as a signal to downstream consumers (validators, loggers, UIs, APIs, AI).
 ```odin
-name = !"John"                ; ! = required
-ssn = *"123-45-6789"          ; * = confidential
-old_field = -"deprecated"     ; - = deprecated
-email = !*"a@b.com"           ; can combine: required + confidential
+name = !"John"                ; ! = required: schema reports an error if the field is missing
+ssn = *"123-45-6789"          ; * = confidential: value stored as-is; marks it sensitive for downstream
+old_field = -"deprecated"     ; - = deprecated: field is being phased out; value unchanged
+email = !*"a@b.com"           ; combine in fixed order: ! then - then *
 ```
+`*` does NOT mask, encrypt, or remove the value — it only labels it. Actual masking/redaction happens
+only when a transform sets `enforceConfidential = "redact" | "mask"` (redact -> `~`, mask -> asterisks/null).
 
 ### Nested Paths
 ```odin
@@ -440,7 +444,7 @@ Examples: `YYYY-MM-DD` `MMDDYYYY` `MM/DD/YYYY` `YYYY-MM-DDTHH:mm:ssZ`
 
 ### SECURITY
 ```
-:confidential                 ; mark for redaction/masking
+:confidential                 ; label value sensitive (signal only; does not change the value)
 ```
 
 ## SEGMENT DIRECTIVES
@@ -701,7 +705,7 @@ premium = !#$
 ### Schema Symbol Summary
 ```
 ! = required field
-* = confidential (redact in logs)
+* = confidential (signal only; value kept verbatim, redact via enforceConfidential)
 - = deprecated
 ~ = nullable prefix
 ? = boolean type
