@@ -11,12 +11,16 @@ Strip accents and combining marks, leaving base ASCII letters.
 ```odin
 {out}
 out = %stripAccents @.name
+many = %stripAccents @.full
+plain = %stripAccents @.ascii
 ```
 
 **In**
 
 ```odin
 name = "café"
+full = "José García"
+ascii = "Honda"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ name = "café"
 ```odin
 {out}
 out = "cafe"
+many = "Jose Garcia"
+plain = "Honda"
 ```
 
 **Notes**

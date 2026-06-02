@@ -11,6 +11,8 @@ Return the slice of a string starting at an index for a given length.
 ```odin
 {out}
 out = %substring @.name ##1 ##3
+fromStart = %substring @.name ##0 ##2
+overLen = %substring @.name ##2 ##99
 ```
 
 **In**
@@ -24,6 +26,8 @@ name = "Honda"
 ```odin
 {out}
 out = "ond"
+fromStart = "Ho"
+overLen = "nda"
 ```
 
 **Notes**

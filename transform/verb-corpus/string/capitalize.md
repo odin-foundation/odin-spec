@@ -11,12 +11,18 @@ Uppercase the first character and lowercase the rest.
 ```odin
 {out}
 out = %capitalize @.word
+mixed = %capitalize @.mixed
+empty = %capitalize @.empty
+single = %capitalize @.single
 ```
 
 **In**
 
 ```odin
 word = "hONDA"
+mixed = "hELLO wORLD"
+empty = ""
+single = "x"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ word = "hONDA"
 ```odin
 {out}
 out = "Honda"
+mixed = "Hello world"
+empty = ""
+single = "X"
 ```
 
 **Notes**

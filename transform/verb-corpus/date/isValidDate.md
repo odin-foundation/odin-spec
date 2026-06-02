@@ -10,20 +10,29 @@ Validate that a string matches a date format and names a real calendar date.
 
 ```odin
 {out}
-b = %isValidDate @.raw "YYYY-MM-DD"
+valid = %isValidDate @.raw "YYYY-MM-DD"
+badMonth = %isValidDate @.badMonth "YYYY-MM-DD"
+feb29Common = %isValidDate @.feb29 "YYYY-MM-DD"
+slash = %isValidDate @.slash "MM/DD/YYYY"
 ```
 
 **In**
 
 ```odin
 raw = "2024-02-29"
+badMonth = "2024-13-01"
+feb29 = "2023-02-29"
+slash = "12/31/2024"
 ```
 
 **Out**
 
 ```odin
 {out}
-b = ?true
+valid = ?true
+badMonth = ?false
+feb29Common = ?false
+slash = ?true
 ```
 
 **Notes**

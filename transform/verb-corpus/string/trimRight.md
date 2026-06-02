@@ -11,12 +11,16 @@ Remove whitespace from the end of a string only.
 ```odin
 {out}
 out = %trimRight @.raw
+trailingOnly = %trimRight @.back
+noTrail = %trimRight @.clean
 ```
 
 **In**
 
 ```odin
 raw = "  hello  "
+back = "abc   "
+clean = "  abc"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "  hello  "
 ```odin
 {out}
 out = "  hello"
+trailingOnly = "abc"
+noTrail = "  abc"
 ```
 
 **Notes**

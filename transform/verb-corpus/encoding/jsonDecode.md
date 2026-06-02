@@ -11,18 +11,24 @@ Parse a JSON object or array string into a structured ODIN value.
 ```odin
 {out}
 d = %jsonDecode @.j
+text = %jsonDecode @.t
+bad = %jsonDecode @.x
 ```
 
 **In**
 
 ```odin
 j = "{\"name\":\"John\",\"age\":42}"
+t = "line1\\nline2"
+x = "bad\\xescape"
 ```
 
 **Out**
 
 ```odin
 {out}
+text = "line1\nline2"
+bad = ~
 {.d}
 name = "John"
 age = ##42

@@ -11,12 +11,15 @@ Format the clock portion of a timestamp using a display pattern.
 ```odin
 {out}
 t = %formatTime @.ts "HH:mm:ss"
+short = %formatTime @.ts "HH:mm"
+midnight = %formatTime @.mid "HH:mm:ss"
 ```
 
 **In**
 
 ```odin
 ts = 2024-06-15T14:30:45Z
+mid = 2024-06-15T00:00:00Z
 ```
 
 **Out**
@@ -24,6 +27,8 @@ ts = 2024-06-15T14:30:45Z
 ```odin
 {out}
 t = "14:30:45"
+short = "14:30"
+midnight = "00:00:00"
 ```
 
 **Notes**

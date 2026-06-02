@@ -11,6 +11,8 @@ Split a string on a delimiter and return the element at a given index.
 ```odin
 {out}
 out = %split @.csv "," ##1
+last = %split @.csv "," ##-1
+oob = %split @.csv "," ##9
 ```
 
 **In**
@@ -24,6 +26,8 @@ csv = "a,b,c"
 ```odin
 {out}
 out = "b"
+last = "c"
+oob = ~
 ```
 
 **Notes**

@@ -11,6 +11,7 @@ Expand an array-valued field, emitting one row per element with that field repla
 ```odin
 {out}
 rows = %explode @.orders "tags"
+missingField = %explode @.plain "tags"
 ```
 
 **In**
@@ -25,6 +26,12 @@ id = "o1"
 {orders[1]}
 id = "o2"
 {.tags[] : ~}
+
+{plain[0]}
+id = "p1"
+
+{plain[1]}
+id = "p2"
 ```
 
 **Out**
@@ -34,7 +41,10 @@ id = "o2"
 {.rows[] : id, tags}
 "o1", "red"
 "o1", "blue"
-"o2",
+"o2", 
+{.missingField[] : id}
+"p1"
+"p2"
 ```
 
 **Notes**

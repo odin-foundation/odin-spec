@@ -11,6 +11,7 @@ Return true when an array contains a value.
 ```odin
 {out}
 hasCA = %includes @.states "CA"
+absent = %includes @.states "FL"
 ```
 
 **In**
@@ -27,6 +28,7 @@ hasCA = %includes @.states "CA"
 ```odin
 {out}
 hasCA = ?true
+absent = ?false
 ```
 
 **Notes**

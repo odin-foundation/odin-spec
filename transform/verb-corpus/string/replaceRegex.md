@@ -10,7 +10,9 @@ Replace every match of a regular expression with a replacement string.
 
 ```odin
 {out}
-out = %replaceRegex @.text "[0-9]+" "#"
+hit = %replaceRegex @.text "[0-9]+" "#"
+miss = %replaceRegex @.text "[xyz]+" "#"
+bad = %replaceRegex @.text "([" "#"
 ```
 
 **In**
@@ -23,7 +25,9 @@ text = "a1b22c333"
 
 ```odin
 {out}
-out = "a#b#c#"
+hit = "a#b#c#"
+miss = "a1b22c333"
+bad = ~
 ```
 
 **Notes**

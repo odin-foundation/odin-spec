@@ -11,12 +11,14 @@ Return true when a value is of boolean type.
 ```odin
 {out}
 isBool = %isBoolean @.active
+notBool = %isBoolean @.label
 ```
 
 **In**
 
 ```odin
 active = ?true
+label = "true"
 ```
 
 **Out**
@@ -24,6 +26,7 @@ active = ?true
 ```odin
 {out}
 isBool = ?true
+notBool = ?false
 ```
 
 **Notes**

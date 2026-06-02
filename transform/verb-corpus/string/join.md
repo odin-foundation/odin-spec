@@ -11,6 +11,9 @@ Concatenate the elements of an array into a single string separated by a delimit
 ```odin
 {out}
 out = %join @.tags ", "
+pipe = %join @.tags "|"
+single = %join @.one ", "
+nums = %join @.nums "-"
 ```
 
 **In**
@@ -19,6 +22,9 @@ out = %join @.tags ", "
 tags[0] = "a"
 tags[1] = "b"
 tags[2] = "c"
+one[0] = "solo"
+nums[0] = ##1
+nums[1] = ##2
 ```
 
 **Out**
@@ -26,6 +32,9 @@ tags[2] = "c"
 ```odin
 {out}
 out = "a, b, c"
+pipe = "a|b|c"
+single = "solo"
+nums = "1-2"
 ```
 
 **Notes**

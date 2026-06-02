@@ -11,12 +11,16 @@ Test whether a numeric value is finite (not Infinity or NaN).
 ```odin
 {out}
 v = %isFinite @.a
+integer = %isFinite @.i
+nonNumeric = %isFinite @.s
 ```
 
 **In**
 
 ```odin
 a = #3.5
+i = ##42
+s = "hello"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #3.5
 ```odin
 {out}
 v = ?true
+integer = ?true
+nonNumeric = ?false
 ```
 
 **Notes**

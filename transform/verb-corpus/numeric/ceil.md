@@ -11,12 +11,18 @@ Round a number up toward positive infinity, returning an integer.
 ```odin
 {out}
 v = %ceil @.a
+negative = %ceil @.neg
+already = %ceil @.whole
+ofNull = %ceil @.nul
 ```
 
 **In**
 
 ```odin
 a = #3.2
+neg = #-3.7
+whole = ##5
+nul = ~
 ```
 
 **Out**
@@ -24,6 +30,9 @@ a = #3.2
 ```odin
 {out}
 v = ##4
+negative = ##-3
+already = ##5
+ofNull = ##0
 ```
 
 **Notes**

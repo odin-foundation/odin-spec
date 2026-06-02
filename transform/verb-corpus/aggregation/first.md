@@ -11,6 +11,8 @@ Return the first element of an array reference, preserving its type.
 ```odin
 {out}
 f = %first @.names
+numeric = %first @.amounts
+single = %first @.one
 ```
 
 **In**
@@ -19,6 +21,14 @@ f = %first @.names
 {names[] : ~}
 "alice"
 "bob"
+
+{amounts[] : ~}
+##10
+##20
+##30
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -26,6 +36,8 @@ f = %first @.names
 ```odin
 {out}
 f = "alice"
+numeric = ##10
+single = ##42
 ```
 
 **Notes**

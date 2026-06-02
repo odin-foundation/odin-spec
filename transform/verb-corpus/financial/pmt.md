@@ -11,6 +11,8 @@ Compute the constant per-period payment that amortizes a principal over n period
 ```odin
 {out}
 r = %pmt @.principal @.rate @.periods
+zeroRate = %pmt @.principal @.zero @.periods
+zeroPeriods = %pmt @.principal @.rate @.noPeriods
 ```
 
 **In**
@@ -19,6 +21,8 @@ r = %pmt @.principal @.rate @.periods
 principal = #200000
 rate = #0.005
 periods = ##360
+zero = #0
+noPeriods = ##0
 ```
 
 **Out**
@@ -26,6 +30,8 @@ periods = ##360
 ```odin
 {out}
 r = #1199.1010503055138
+zeroRate = #555.5555555555555
+zeroPeriods = ~
 ```
 
 **Notes**

@@ -11,6 +11,8 @@ Multiply two numbers.
 ```odin
 {out}
 v = %multiply @.a @.b
+fractional = %multiply @.c @.d
+negatives = %multiply @.e @.f
 ```
 
 **In**
@@ -18,6 +20,10 @@ v = %multiply @.a @.b
 ```odin
 a = #6
 b = #7
+c = #2.5
+d = #4
+e = #-3
+f = #-5
 ```
 
 **Out**
@@ -25,6 +31,8 @@ b = #7
 ```odin
 {out}
 v = ##42
+fractional = ##10
+negatives = ##15
 ```
 
 **Notes**

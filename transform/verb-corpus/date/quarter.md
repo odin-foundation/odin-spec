@@ -10,20 +10,26 @@ Return the calendar quarter (1-4) that a date falls in.
 
 ```odin
 {out}
-n = %quarter @.date
+q2 = %quarter @.date
+q1 = %quarter @.jan
+q4 = %quarter @.dec
 ```
 
 **In**
 
 ```odin
 date = 2024-06-15
+jan = 2024-01-15
+dec = 2024-12-31
 ```
 
 **Out**
 
 ```odin
 {out}
-n = ##2
+q2 = ##2
+q1 = ##1
+q4 = ##4
 ```
 
 **Notes**

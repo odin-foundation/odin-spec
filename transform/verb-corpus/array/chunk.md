@@ -11,11 +11,15 @@ Break an array into sub-arrays of a given size.
 ```odin
 {out}
 pages = %chunk @.items ##2
+zeroSize = %chunk @.items ##0
+nonArray = %chunk @.notArr ##2
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {items[] : ~}
 ##1
 ##2
@@ -31,7 +35,9 @@ pages = %chunk @.items ##2
 {.pages[] : [0], [1]}
 ##1, ##2
 ##3, ##4
-##5,
+##5, 
+zeroSize = ~
+nonArray = ~
 ```
 
 **Notes**

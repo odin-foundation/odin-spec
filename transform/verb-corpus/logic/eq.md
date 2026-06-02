@@ -11,12 +11,16 @@ Return true when two values are equal, as a boolean usable as a condition.
 ```odin
 {out}
 same = %eq @.status "active"
+differ = %eq @.other "active"
+crossType = %eq @.code "200"
 ```
 
 **In**
 
 ```odin
 status = "active"
+other = "closed"
+code = ##200
 ```
 
 **Out**
@@ -24,6 +28,8 @@ status = "active"
 ```odin
 {out}
 same = ?true
+differ = ?false
+crossType = ?true
 ```
 
 **Notes**

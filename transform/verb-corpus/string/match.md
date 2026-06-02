@@ -10,20 +10,25 @@ Return true when a string matches a regular expression.
 
 ```odin
 {out}
-out = %match @.code "^[A-Z]{3}$"
+hit = %match @.code "^[A-Z]{3}$"
+miss = %match @.lower "^[A-Z]{3}$"
+bad = %match @.code "(["
 ```
 
 **In**
 
 ```odin
 code = "ABC"
+lower = "abc"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = ?true
+hit = ?true
+miss = ?false
+bad = ~
 ```
 
 **Notes**

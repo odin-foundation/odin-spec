@@ -11,11 +11,14 @@ Return an object as an array of [key, value] pairs.
 ```odin
 {out}
 e = %entries @.obj
+nonObject = %entries @.notObj
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {obj}
 name = "Ada"
 role = "admin"
@@ -30,6 +33,7 @@ active = ?true
 "name", "Ada"
 "role", "admin"
 "active", ?true
+nonObject = ~
 ```
 
 **Notes**

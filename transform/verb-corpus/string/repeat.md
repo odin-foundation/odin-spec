@@ -10,7 +10,9 @@ Concatenate a string with itself a given number of times.
 
 ```odin
 {out}
-out = %repeat @.ab ##3
+thrice = %repeat @.ab ##3
+zero = %repeat @.ab ##0
+negative = %repeat @.ab ##-1
 ```
 
 **In**
@@ -23,7 +25,9 @@ ab = "ab"
 
 ```odin
 {out}
-out = "ababab"
+thrice = "ababab"
+zero = ""
+negative = ~
 ```
 
 **Notes**

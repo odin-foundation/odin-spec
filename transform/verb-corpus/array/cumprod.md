@@ -11,15 +11,24 @@ Return the cumulative product at each position.
 ```odin
 {out}
 growth = %cumprod @.factors
+withZero = %cumprod @.withZero
+nonArray = %cumprod @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {factors[] : ~}
 #2
 #3
 #4
+
+{withZero[] : ~}
+#2
+#0
+#5
 ```
 
 **Out**
@@ -30,6 +39,11 @@ growth = %cumprod @.factors
 ##2
 ##6
 ##24
+{.withZero[] : ~}
+##2
+##0
+##0
+nonArray = ~
 ```
 
 **Notes**

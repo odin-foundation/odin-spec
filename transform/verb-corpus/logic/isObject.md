@@ -10,12 +10,17 @@ Return true when a value is a nested object.
 
 ```odin
 {out}
+plain = %isObject @.name
+nullVal = %isObject @.missing
 isObj = %isObject @.address
 ```
 
 **In**
 
 ```odin
+name = "Ada"
+missing = ~
+
 {address}
 city = "Reno"
 ```
@@ -24,6 +29,8 @@ city = "Reno"
 
 ```odin
 {out}
+plain = ?false
+nullVal = ?false
 isObj = ?true
 ```
 

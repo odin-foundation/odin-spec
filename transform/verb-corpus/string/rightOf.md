@@ -11,12 +11,16 @@ Return the portion of a string after the first occurrence of a delimiter.
 ```odin
 {out}
 out = %rightOf @.path "."
+noMatch = %rightOf @.plain "."
+firstOnly = %rightOf @.dotted "."
 ```
 
 **In**
 
 ```odin
 path = "a.b.c"
+plain = "abc"
+dotted = "x.y.z"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ path = "a.b.c"
 ```odin
 {out}
 out = "b.c"
+noMatch = ""
+firstOnly = "y.z"
 ```
 
 **Notes**

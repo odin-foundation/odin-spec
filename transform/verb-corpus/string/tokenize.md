@@ -11,12 +11,16 @@ Split text into an array of tokens, on whitespace by default.
 ```odin
 {out}
 out = %tokenize @.text
+comma = %tokenize @.csv ","
+spaced = %tokenize @.padded
 ```
 
 **In**
 
 ```odin
 text = "the quick fox"
+csv = "a, b ,c"
+padded = "  one   two  "
 ```
 
 **Out**
@@ -27,6 +31,13 @@ text = "the quick fox"
 "the"
 "quick"
 "fox"
+{.comma[] : ~}
+"a"
+"b"
+"c"
+{.spaced[] : ~}
+"one"
+"two"
 ```
 
 **Notes**

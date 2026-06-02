@@ -10,13 +10,19 @@ Take the natural logarithm (base e) of a value.
 
 ```odin
 {out}
-r = %ln @.x
+r = %ln @.e
+one = %ln @.one
+zero = %ln @.zero
+negative = %ln @.neg
 ```
 
 **In**
 
 ```odin
-x = #2.718281828459045
+e = #2.718281828459045
+one = #1
+zero = #0
+neg = #-2
 ```
 
 **Out**
@@ -24,6 +30,9 @@ x = #2.718281828459045
 ```odin
 {out}
 r = ##1
+one = ##0
+zero = ~
+negative = ~
 ```
 
 **Notes**

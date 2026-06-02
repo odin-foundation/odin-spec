@@ -11,12 +11,15 @@ Format a number using locale-specific grouping and decimal separators.
 ```odin
 {out}
 v = %formatLocaleNumber @.a "en-US"
+millions = %formatLocaleNumber @.b "en-US"
+german = %formatLocaleNumber @.a "de-DE"
 ```
 
 **In**
 
 ```odin
 a = #1234.56
+b = ##1000000
 ```
 
 **Out**
@@ -24,6 +27,8 @@ a = #1234.56
 ```odin
 {out}
 v = "1,234.56"
+millions = "1,000,000"
+german = "1.234,56"
 ```
 
 **Notes**

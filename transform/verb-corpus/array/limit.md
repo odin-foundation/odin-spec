@@ -11,6 +11,7 @@ Return the first count items (alias of %take).
 ```odin
 {out}
 top2 = %limit @.results ##2
+over = %limit @.results ##10
 ```
 
 **In**
@@ -29,6 +30,10 @@ top2 = %limit @.results ##2
 {.top2[] : ~}
 "a"
 "b"
+{.over[] : ~}
+"a"
+"b"
+"c"
 ```
 
 **Notes**

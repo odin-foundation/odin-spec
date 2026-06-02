@@ -11,6 +11,9 @@ Return true when the string ends with the given suffix.
 ```odin
 {out}
 out = %endsWith @.name "da"
+no = %endsWith @.name "Ho"
+caseDiff = %endsWith @.name "DA"
+full = %endsWith @.name "Honda"
 ```
 
 **In**
@@ -24,6 +27,9 @@ name = "Honda"
 ```odin
 {out}
 out = ?true
+no = ?false
+caseDiff = ?false
+full = ?true
 ```
 
 **Notes**

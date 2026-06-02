@@ -11,12 +11,16 @@ Pad both sides of a string to center it within a target width.
 ```odin
 {out}
 out = %center @.hi ##6 "-"
+odd = %center @.hi ##7 "-"
+wide = %center @.long ##3 "-"
+spacePad = %center @.hi ##6 " "
 ```
 
 **In**
 
 ```odin
 hi = "hi"
+long = "already wide"
 ```
 
 **Out**
@@ -24,6 +28,9 @@ hi = "hi"
 ```odin
 {out}
 out = "--hi--"
+odd = "--hi---"
+wide = "already wide"
+spacePad = "  hi  "
 ```
 
 **Notes**

@@ -11,12 +11,18 @@ Return true when a value falls within [min, max] inclusive.
 ```odin
 {out}
 inRange = %between @.age ##18 ##65
+below = %between @.child ##18 ##65
+atLower = %between @.edge ##18 ##65
+atUpper = %between @.top ##18 ##65
 ```
 
 **In**
 
 ```odin
 age = ##42
+child = ##10
+edge = ##18
+top = ##65
 ```
 
 **Out**
@@ -24,6 +30,9 @@ age = ##42
 ```odin
 {out}
 inRange = ?true
+below = ?false
+atLower = ?true
+atUpper = ?true
 ```
 
 **Notes**

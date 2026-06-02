@@ -11,12 +11,16 @@ Return the portion of a string before the first occurrence of a delimiter.
 ```odin
 {out}
 out = %leftOf @.path "."
+noDelim = %leftOf @.path "/"
+leading = %leftOf @.lead "."
+multi = %leftOf @.path "b"
 ```
 
 **In**
 
 ```odin
 path = "a.b.c"
+lead = ".hidden"
 ```
 
 **Out**
@@ -24,6 +28,9 @@ path = "a.b.c"
 ```odin
 {out}
 out = "a"
+noDelim = "a.b.c"
+leading = ""
+multi = "a."
 ```
 
 **Notes**

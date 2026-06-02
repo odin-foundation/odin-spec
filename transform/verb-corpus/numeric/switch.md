@@ -11,12 +11,16 @@ Map an input to a result by matching value/result pairs, with a trailing default
 ```odin
 {out}
 v = %switch @.a "1" "one" "2" "two" "other"
+firstCase = %switch @.b "1" "one" "2" "two" "other"
+fallback = %switch @.c "1" "one" "2" "two" "other"
 ```
 
 **In**
 
 ```odin
 a = "2"
+b = "1"
+c = "9"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = "2"
 ```odin
 {out}
 v = "two"
+firstCase = "one"
+fallback = "other"
 ```
 
 **Notes**

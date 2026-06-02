@@ -11,12 +11,16 @@ Force a value to a quoted string regardless of its source type.
 ```odin
 {out}
 s = %coerceString @.raw
+fromBool = %coerceString @.flag
+fromFloat = %coerceString @.pi
 ```
 
 **In**
 
 ```odin
 raw = ##42
+flag = ?true
+pi = #3.14
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = ##42
 ```odin
 {out}
 s = "42"
+fromBool = "true"
+fromFloat = "3.14"
 ```
 
 **Notes**

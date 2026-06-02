@@ -11,12 +11,18 @@ Re-case a delimited or mixed-case string into camelCase.
 ```odin
 {out}
 out = %camelCase @.name
+snake = %camelCase @.snake
+spaced = %camelCase @.spaced
+allCaps = %camelCase @.allCaps
 ```
 
 **In**
 
 ```odin
 name = "hello-world"
+snake = "first_name_field"
+spaced = "Two Words"
+allCaps = "HTTP"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ name = "hello-world"
 ```odin
 {out}
 out = "helloWorld"
+snake = "firstNameField"
+spaced = "twoWords"
+allCaps = "http"
 ```
 
 **Notes**

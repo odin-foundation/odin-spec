@@ -11,6 +11,9 @@ Reduce an array reference to its minimum numeric element.
 ```odin
 {out}
 lo = %min @.amounts
+negatives = %min @.deltas
+fractional = %min @.prices
+single = %min @.one
 ```
 
 **In**
@@ -20,6 +23,19 @@ lo = %min @.amounts
 ##10
 ##20
 ##5
+
+{deltas[] : ~}
+##-10
+##-3
+##-40
+
+{prices[] : ~}
+#1.5
+#2.75
+#0.5
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -27,6 +43,9 @@ lo = %min @.amounts
 ```odin
 {out}
 lo = ##5
+negatives = ##-40
+fractional = #0.5
+single = ##42
 ```
 
 **Notes**

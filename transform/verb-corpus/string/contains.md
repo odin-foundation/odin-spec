@@ -11,6 +11,9 @@ Return true when the string contains the given substring.
 ```odin
 {out}
 out = %contains @.name "ond"
+missing = %contains @.name "xyz"
+caseDiff = %contains @.name "HON"
+empty = %contains @.name ""
 ```
 
 **In**
@@ -24,6 +27,9 @@ name = "Honda"
 ```odin
 {out}
 out = ?true
+missing = ?false
+caseDiff = ?false
+empty = ?true
 ```
 
 **Notes**

@@ -11,6 +11,9 @@ Divide the first number by the second.
 ```odin
 {out}
 v = %divide @.a @.b
+byZero = %divide @.a @.zero
+exact = %divide @.ten @.two
+negative = %divide @.negTen @.two
 ```
 
 **In**
@@ -18,6 +21,10 @@ v = %divide @.a @.b
 ```odin
 a = #7
 b = #2
+zero = #0
+ten = ##10
+two = ##2
+negTen = ##-10
 ```
 
 **Out**
@@ -25,6 +32,9 @@ b = #2
 ```odin
 {out}
 v = #3.5
+byZero = ~
+exact = #5
+negative = #-5
 ```
 
 **Notes**

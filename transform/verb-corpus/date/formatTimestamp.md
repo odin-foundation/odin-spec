@@ -11,6 +11,8 @@ Format both date and time portions of a timestamp using a display pattern.
 ```odin
 {out}
 t = %formatTimestamp @.ts "YYYY-MM-DD HH:mm:ss"
+dateOnly = %formatTimestamp @.ts "YYYY-MM-DD"
+timeOnly = %formatTimestamp @.ts "HH:mm:ss"
 ```
 
 **In**
@@ -24,6 +26,8 @@ ts = 2024-06-15T14:30:45Z
 ```odin
 {out}
 t = "2024-06-15 14:30:45"
+dateOnly = "2024-06-15"
+timeOnly = "14:30:45"
 ```
 
 **Notes**

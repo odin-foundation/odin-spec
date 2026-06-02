@@ -11,12 +11,16 @@ Format a number as an integer string by flooring it.
 ```odin
 {out}
 v = %formatInteger @.a
+negative = %formatInteger @.neg
+already = %formatInteger @.whole
 ```
 
 **In**
 
 ```odin
 a = #42.9
+neg = #-2.1
+whole = ##1000
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #42.9
 ```odin
 {out}
 v = "42"
+negative = "-3"
+already = "1000"
 ```
 
 **Notes**

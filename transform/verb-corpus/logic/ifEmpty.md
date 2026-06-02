@@ -11,12 +11,16 @@ Return a fallback value when the input is an empty string, otherwise the input.
 ```odin
 {out}
 label = %ifEmpty @.label "untitled"
+kept = %ifEmpty @.title "untitled"
+whitespaceKept = %ifEmpty @.spaces "untitled"
 ```
 
 **In**
 
 ```odin
 label = ""
+title = "Report"
+spaces = "  "
 ```
 
 **Out**
@@ -24,6 +28,8 @@ label = ""
 ```odin
 {out}
 label = "untitled"
+kept = "Report"
+whitespaceKept = "  "
 ```
 
 **Notes**

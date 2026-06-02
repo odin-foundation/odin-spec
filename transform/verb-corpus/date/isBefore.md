@@ -10,7 +10,9 @@ Test whether the first date precedes the second.
 
 ```odin
 {out}
-b = %isBefore @.a @.b
+before = %isBefore @.a @.b
+equal = %isBefore @.b @.b
+after = %isBefore @.b @.a
 ```
 
 **In**
@@ -24,7 +26,9 @@ b = 2024-06-15
 
 ```odin
 {out}
-b = ?true
+before = ?true
+equal = ?false
+after = ?false
 ```
 
 **Notes**

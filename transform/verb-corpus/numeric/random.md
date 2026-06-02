@@ -11,6 +11,8 @@ Generate a deterministic random integer within an inclusive range using a string
 ```odin
 {out}
 v = %random ##1 ##10 "seed123"
+other = %random ##1 ##10 "different"
+inverted = %random ##10 ##1 "seed123"
 ```
 
 **In**
@@ -24,6 +26,8 @@ x = #0
 ```odin
 {out}
 v = ##2
+other = ##5
+inverted = ~
 ```
 
 **Notes**

@@ -11,12 +11,16 @@ Drop later records that repeat a key-field value, keeping the first.
 ```odin
 {out}
 uniq = %dedupe @.records "id"
+noMatch = %dedupe @.distinctRecs "id"
+nonArray = %dedupe @.notArr "id"
 ```
 
 **In**
 
 ```odin
+notArr = "x"
 records = "[{\"id\": \"r1\", \"name\": \"first\"}, {\"id\": \"r1\", \"name\": \"dup\"}, {\"id\": \"r2\", \"name\": \"second\"}]"
+distinctRecs = "[{\"id\": \"a\", \"name\": \"one\"}, {\"id\": \"b\", \"name\": \"two\"}]"
 ```
 
 **Out**
@@ -26,6 +30,10 @@ records = "[{\"id\": \"r1\", \"name\": \"first\"}, {\"id\": \"r1\", \"name\": \"
 {.uniq[] : id, name}
 "r1", "first"
 "r2", "second"
+{.noMatch[] : id, name}
+"a", "one"
+"b", "two"
+nonArray = ~
 ```
 
 **Notes**

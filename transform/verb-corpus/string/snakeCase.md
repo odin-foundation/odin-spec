@@ -11,12 +11,16 @@ Re-case a delimited or mixed-case string into snake_case.
 ```odin
 {out}
 out = %snakeCase @.name
+pascal = %snakeCase @.pascal
+kebab = %snakeCase @.kebab
 ```
 
 **In**
 
 ```odin
 name = "helloWorld"
+pascal = "HelloWorld"
+kebab = "hello-world-foo"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ name = "helloWorld"
 ```odin
 {out}
 out = "hello_world"
+pascal = "hello_world"
+kebab = "hello_world_foo"
 ```
 
 **Notes**

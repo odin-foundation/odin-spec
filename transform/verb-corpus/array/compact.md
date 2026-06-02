@@ -11,15 +11,24 @@ Remove null and empty-string elements from an array.
 ```odin
 {out}
 clean = %compact @.values
+keepsFalsy = %compact @.falsy
+nonArray = %compact @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {values[] : ~}
 ##1
 ~
 ##2
+
+{falsy[] : ~}
+##0
+?false
+~
 ```
 
 **Out**
@@ -29,6 +38,10 @@ clean = %compact @.values
 {.clean[] : ~}
 ##1
 ##2
+{.keepsFalsy[] : ~}
+##0
+?false
+nonArray = ~
 ```
 
 **Notes**

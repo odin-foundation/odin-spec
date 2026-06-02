@@ -11,6 +11,7 @@ Discount a stream of equal payments to today: PMT × (1 − (1+r)^-n) / r.
 ```odin
 {out}
 r = %pv @.payment @.rate @.periods
+zeroRate = %pv @.payment @.zero @.periods
 ```
 
 **In**
@@ -19,6 +20,7 @@ r = %pv @.payment @.rate @.periods
 payment = #1000
 rate = #0.005
 periods = ##120
+zero = #0
 ```
 
 **Out**
@@ -26,6 +28,7 @@ periods = ##120
 ```odin
 {out}
 r = #90073.45332716724
+zeroRate = ##120000
 ```
 
 **Notes**

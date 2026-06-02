@@ -11,12 +11,16 @@ Round a number to a fixed number of decimal places.
 ```odin
 {out}
 amount = %round @.amount ##2
+whole = %round @.b ##0
+negative = %round @.c ##1
 ```
 
 **In**
 
 ```odin
 amount = #123.456789
+b = #2.71828
+c = #-1.45
 ```
 
 **Out**
@@ -24,6 +28,8 @@ amount = #123.456789
 ```odin
 {out}
 amount = #123.46
+whole = ##3
+negative = #-1.4
 ```
 
 **Notes**

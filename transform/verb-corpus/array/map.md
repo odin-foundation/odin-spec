@@ -11,14 +11,15 @@ Project a single field out of every object into a flat array.
 ```odin
 {out}
 types = %map @.coverages "type"
+missing = %map @.coverages "premium"
 ```
 
 **In**
 
 ```odin
-{coverages[] : type, premium}
-"liability", ##100
-"collision", ##300
+{coverages[] : type}
+"liability"
+"collision"
 ```
 
 **Out**
@@ -28,6 +29,9 @@ types = %map @.coverages "type"
 {.types[] : ~}
 "liability"
 "collision"
+{.missing[] : ~}
+~
+~
 ```
 
 **Notes**

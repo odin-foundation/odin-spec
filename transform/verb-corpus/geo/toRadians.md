@@ -11,12 +11,16 @@ Convert an angle in degrees to radians.
 ```odin
 {out}
 rad = %toRadians @.deg
+zero = %toRadians @.zero
+fullTurn = %toRadians @.full
 ```
 
 **In**
 
 ```odin
 deg = #180
+zero = #0
+full = #360
 ```
 
 **Out**
@@ -24,6 +28,8 @@ deg = #180
 ```odin
 {out}
 rad = #3.141592653589793
+zero = #0
+fullTurn = #6.283185307179586
 ```
 
 **Notes**

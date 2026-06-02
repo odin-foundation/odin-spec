@@ -11,6 +11,7 @@ Return the position of a value in an array, or -1 if absent.
 ```odin
 {out}
 pos = %indexOf @.nums ##20
+absent = %indexOf @.nums ##99
 ```
 
 **In**
@@ -24,6 +25,7 @@ nums = "[10, 20, 30]"
 ```odin
 {out}
 pos = ##1
+absent = ##-1
 ```
 
 **Notes**

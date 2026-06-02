@@ -11,11 +11,14 @@ Return the own enumerable property names of an object as an array.
 ```odin
 {out}
 k = %keys @.obj
+nonObject = %keys @.notObj
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {obj}
 name = "Ada"
 role = "admin"
@@ -30,6 +33,7 @@ active = ?true
 "name"
 "role"
 "active"
+nonObject = ~
 ```
 
 **Notes**

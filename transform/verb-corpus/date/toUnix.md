@@ -10,20 +10,23 @@ Convert a timestamp to whole seconds since the Unix epoch.
 
 ```odin
 {out}
-n = %toUnix @.ts
+ts = %toUnix @.ts
+epoch = %toUnix @.epoch
 ```
 
 **In**
 
 ```odin
 ts = 2024-06-15T10:30:00Z
+epoch = 1970-01-01T00:00:00Z
 ```
 
 **Out**
 
 ```odin
 {out}
-n = ##1718447400
+ts = ##1718447400
+epoch = ##0
 ```
 
 **Notes**

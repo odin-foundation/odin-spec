@@ -11,12 +11,15 @@ Estimate y at x along the line through (x1, y1) and (x2, y2).
 ```odin
 {out}
 r = %interpolate @.x @.x1 @.y1 @.x2 @.y2
+flatX = %interpolate @.x @.x1 @.y1 @.x1 @.y2
+extrapolate = %interpolate @.beyond @.x1 @.y1 @.x2 @.y2
 ```
 
 **In**
 
 ```odin
 x = #5
+beyond = #20
 x1 = #0
 y1 = #100
 x2 = #10
@@ -28,6 +31,8 @@ y2 = #200
 ```odin
 {out}
 r = ##150
+flatX = ##100
+extrapolate = ##300
 ```
 
 **Notes**

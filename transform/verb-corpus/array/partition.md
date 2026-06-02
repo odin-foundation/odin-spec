@@ -11,23 +11,27 @@ Divide an array into [matching, non-matching] by a field condition.
 ```odin
 {out}
 split = %partition @.coverages "status" "=" "active"
+byAmount = %partition @.coverages "premium" "<" "150"
 ```
 
 **In**
 
 ```odin
-{coverages[] : type, status}
-"liability", "active"
-"collision", "cancelled"
+{coverages[] : type, status, premium}
+"liability", "active", ##200
+"collision", "cancelled", ##100
 ```
 
 **Out**
 
 ```odin
 {out}
-{.split[] : [0].type, .status}
-"liability", "active"
-"collision", "cancelled"
+{.split[] : [0].type, .status, .premium}
+"liability", "active", ##200
+"collision", "cancelled", ##100
+{.byAmount[] : [0].type, .status, .premium}
+"collision", "cancelled", ##100
+"liability", "active", ##200
 ```
 
 **Notes**

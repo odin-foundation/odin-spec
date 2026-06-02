@@ -11,12 +11,16 @@ Return true only when both conditions are truthy.
 ```odin
 {out}
 both = %and %gte @.age ##18 %lt @.age ##65
+failLow = %and %gte @.young ##18 %lt @.young ##65
+failHigh = %and %gte @.old ##18 %lt @.old ##65
 ```
 
 **In**
 
 ```odin
 age = ##30
+young = ##16
+old = ##70
 ```
 
 **Out**
@@ -24,6 +28,8 @@ age = ##30
 ```odin
 {out}
 both = ?true
+failLow = ?false
+failHigh = ?false
 ```
 
 **Notes**

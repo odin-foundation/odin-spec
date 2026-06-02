@@ -11,12 +11,16 @@ Return true when the first value is greater than or equal to the second.
 ```odin
 {out}
 ok = %gte @.score ##60
+below = %gte @.low ##60
+above = %gte @.high ##60
 ```
 
 **In**
 
 ```odin
 score = ##60
+low = ##59
+high = ##90
 ```
 
 **Out**
@@ -24,6 +28,8 @@ score = ##60
 ```odin
 {out}
 ok = ?true
+below = ?false
+above = ?true
 ```
 
 **Notes**

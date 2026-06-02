@@ -10,20 +10,29 @@ Report whether the year of a date is a leap year.
 
 ```odin
 {out}
-b = %isLeapYear @.date
+leap = %isLeapYear @.leap
+common = %isLeapYear @.common
+century = %isLeapYear @.century
+century400 = %isLeapYear @.century400
 ```
 
 **In**
 
 ```odin
-date = 2024-06-15
+leap = 2024-06-15
+common = 2023-06-15
+century = 1900-01-01
+century400 = 2000-01-01
 ```
 
 **Out**
 
 ```odin
 {out}
-b = ?true
+leap = ?true
+common = ?false
+century = ?false
+century400 = ?true
 ```
 
 **Notes**

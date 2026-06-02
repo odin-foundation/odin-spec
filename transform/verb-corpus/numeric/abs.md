@@ -11,12 +11,18 @@ Return the absolute value of a number.
 ```odin
 {out}
 v = %abs @.a
+wholeNeg = %abs @.b
+fromString = %abs @.c
+ofNull = %abs @.d
 ```
 
 **In**
 
 ```odin
 a = #-7.25
+b = ##-8
+c = "-12.5"
+d = ~
 ```
 
 **Out**
@@ -24,6 +30,9 @@ a = #-7.25
 ```odin
 {out}
 v = #7.25
+wholeNeg = ##8
+fromString = #12.5
+ofNull = ##0
 ```
 
 **Notes**

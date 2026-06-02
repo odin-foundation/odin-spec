@@ -11,11 +11,14 @@ Return true when a value is an array.
 ```odin
 {out}
 isList = %isArray @.tags
+notList = %isArray @.name
 ```
 
 **In**
 
 ```odin
+name = "Ada"
+
 {tags[] : ~}
 "a"
 "b"
@@ -26,6 +29,7 @@ isList = %isArray @.tags
 ```odin
 {out}
 isList = ?true
+notList = ?false
 ```
 
 **Notes**

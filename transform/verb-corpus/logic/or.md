@@ -11,6 +11,7 @@ Return true when either condition is truthy.
 ```odin
 {out}
 either = %or %eq @.role "admin" %eq @.role "owner"
+neither = %or %eq @.role "admin" %eq @.role "editor"
 ```
 
 **In**
@@ -24,6 +25,7 @@ role = "owner"
 ```odin
 {out}
 either = ?true
+neither = ?false
 ```
 
 **Notes**

@@ -11,6 +11,8 @@ Substitute a value for null/missing array elements.
 ```odin
 {out}
 filled = %fillMissing @.values ##0
+forward = %fillMissing @.gaps ##0 "forward"
+noNulls = %fillMissing @.full ##0
 ```
 
 **In**
@@ -20,6 +22,16 @@ filled = %fillMissing @.values ##0
 ##1
 ~
 ##3
+
+{gaps[] : ~}
+##1
+~
+~
+##4
+
+{full[] : ~}
+##5
+##6
 ```
 
 **Out**
@@ -30,6 +42,14 @@ filled = %fillMissing @.values ##0
 ##1
 ##0
 ##3
+{.forward[] : ~}
+##1
+##1
+##1
+##4
+{.noNulls[] : ~}
+##5
+##6
 ```
 
 **Notes**

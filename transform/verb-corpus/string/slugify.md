@@ -11,12 +11,16 @@ Lowercase a string, strip punctuation, and join words with hyphens.
 ```odin
 {out}
 out = %slugify @.title
+punct = %slugify @.messy
+underscore = %slugify @.snake
 ```
 
 **In**
 
 ```odin
 title = "Hello World!"
+messy = "  --Café & Tea--  "
+snake = "hello_world_foo"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ title = "Hello World!"
 ```odin
 {out}
 out = "hello-world"
+punct = "caf-tea"
+underscore = "hello-world-foo"
 ```
 
 **Notes**

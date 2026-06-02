@@ -11,12 +11,18 @@ Strip non-digits and format a phone number for a given country code.
 ```odin
 {out}
 out = %formatPhone @.phone "US"
+eleven = %formatPhone @.phone11 "US"
+wrongCount = %formatPhone @.short "US"
+dirty = %formatPhone @.dirty "US"
 ```
 
 **In**
 
 ```odin
 phone = "2125551234"
+phone11 = "12125551234"
+short = "12345"
+dirty = "(212) 555-1234"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ phone = "2125551234"
 ```odin
 {out}
 out = "(212) 555-1234"
+eleven = "(212) 555-1234"
+wrongCount = "12345"
+dirty = "(212) 555-1234"
 ```
 
 **Notes**

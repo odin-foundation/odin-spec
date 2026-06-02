@@ -11,6 +11,8 @@ Test whether the first date follows the second.
 ```odin
 {out}
 b = %isAfter @.a @.b
+before = %isAfter @.b @.a
+equal = %isAfter @.a @.a
 ```
 
 **In**
@@ -25,6 +27,8 @@ b = 2024-01-01
 ```odin
 {out}
 b = ?true
+before = ?false
+equal = ?false
 ```
 
 **Notes**

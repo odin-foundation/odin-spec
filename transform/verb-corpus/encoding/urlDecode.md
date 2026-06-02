@@ -11,12 +11,16 @@ Reverse percent-encoding, turning a URL component back into plain text.
 ```odin
 {out}
 dec = %urlDecode @.q
+plain = %urlDecode @.raw
+bad = %urlDecode @.malformed
 ```
 
 **In**
 
 ```odin
 q = "a%20b%26c%3Dd"
+raw = "already-plain"
+malformed = "%zz"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ q = "a%20b%26c%3Dd"
 ```odin
 {out}
 dec = "a b&c=d"
+plain = "already-plain"
+bad = ~
 ```
 
 **Notes**

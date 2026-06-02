@@ -11,15 +11,24 @@ Read a value at a key path from an object, falling back to a default when absent
 ```odin
 {out}
 g = %get @.obj "role"
+nested = %get @.obj "addr.city"
+missing = %get @.obj "zzz"
+fallback = %get @.obj "zzz" "n/a"
+nonObject = %get @.notObj "role"
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {obj}
 name = "Ada"
 role = "admin"
 active = ?true
+
+{obj.addr}
+city = "Reno"
 ```
 
 **Out**
@@ -27,6 +36,10 @@ active = ?true
 ```odin
 {out}
 g = "admin"
+nested = "Reno"
+missing = ~
+fallback = "n/a"
+nonObject = ~
 ```
 
 **Notes**

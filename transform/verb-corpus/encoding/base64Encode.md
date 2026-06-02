@@ -11,12 +11,16 @@ Encode a UTF-8 string as Base64 text.
 ```odin
 {out}
 encoded = %base64Encode @.content
+unicode = %base64Encode @.uni
+empty = %base64Encode @.blank
 ```
 
 **In**
 
 ```odin
 content = "Hello, World!"
+uni = "cafe\u0301"
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ content = "Hello, World!"
 ```odin
 {out}
 encoded = "SGVsbG8sIFdvcmxkIQ=="
+unicode = "Y2FmZcyB"
+empty = ""
 ```
 
 **Notes**

@@ -11,6 +11,8 @@ Order an array of records ascending by one named field.
 ```odin
 {out}
 ranked = %sortBy @.coverages "premium"
+byType = %sortBy @.coverages "type"
+single = %sortBy @.solo "premium"
 ```
 
 **In**
@@ -20,6 +22,9 @@ ranked = %sortBy @.coverages "premium"
 "collision", ##300
 "liability", ##100
 "comprehensive", ##200
+
+{solo[] : type, premium}
+"umbrella", ##500
 ```
 
 **Out**
@@ -30,6 +35,12 @@ ranked = %sortBy @.coverages "premium"
 "liability", ##100
 "comprehensive", ##200
 "collision", ##300
+{.byType[] : type, premium}
+"collision", ##300
+"comprehensive", ##200
+"liability", ##100
+{.single[] : type, premium}
+"umbrella", ##500
 ```
 
 **Notes**

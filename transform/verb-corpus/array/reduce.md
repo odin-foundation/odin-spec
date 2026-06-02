@@ -11,6 +11,8 @@ Combine all elements into one value using a named verb and a seed.
 ```odin
 {out}
 total = %reduce @.prices "add" ##0
+product = %reduce @.factors "multiply" ##1
+seeded = %reduce @.prices "add" ##100
 ```
 
 **In**
@@ -20,6 +22,11 @@ total = %reduce @.prices "add" ##0
 ##10
 ##20
 ##30
+
+{factors[] : ~}
+##2
+##3
+##4
 ```
 
 **Out**
@@ -27,6 +34,8 @@ total = %reduce @.prices "add" ##0
 ```odin
 {out}
 total = ##60
+product = ##24
+seeded = ##160
 ```
 
 **Notes**

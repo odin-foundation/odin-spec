@@ -11,6 +11,8 @@ Return the last element of an array reference, preserving its type.
 ```odin
 {out}
 l = %last @.names
+numeric = %last @.amounts
+single = %last @.one
 ```
 
 **In**
@@ -19,6 +21,14 @@ l = %last @.names
 {names[] : ~}
 "alice"
 "bob"
+
+{amounts[] : ~}
+##10
+##20
+##30
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -26,6 +36,8 @@ l = %last @.names
 ```odin
 {out}
 l = "bob"
+numeric = ##30
+single = ##42
 ```
 
 **Notes**

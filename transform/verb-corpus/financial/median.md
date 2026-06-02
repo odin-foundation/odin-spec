@@ -11,6 +11,8 @@ Return the median of a numeric array, averaging the two middle values when the c
 ```odin
 {out}
 r = %median @.prices
+even = %median @.evenSet
+single = %median @.one
 ```
 
 **In**
@@ -22,6 +24,15 @@ r = %median @.prices
 #20.25
 #22.75
 #18.0
+
+{evenSet[] : ~}
+##10
+##20
+##30
+##40
+
+{one[] : ~}
+##99
 ```
 
 **Out**
@@ -29,6 +40,8 @@ r = %median @.prices
 ```odin
 {out}
 r = #20.25
+even = ##25
+single = ##99
 ```
 
 **Notes**

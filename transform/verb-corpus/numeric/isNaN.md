@@ -11,12 +11,16 @@ Test whether a numeric value is NaN.
 ```odin
 {out}
 v = %isNaN @.a
+zero = %isNaN @.z
+nonNumeric = %isNaN @.s
 ```
 
 **In**
 
 ```odin
 a = #3.5
+z = ##0
+s = "hello"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #3.5
 ```odin
 {out}
 v = ?false
+zero = ?false
+nonNumeric = ?false
 ```
 
 **Notes**

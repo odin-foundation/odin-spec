@@ -11,12 +11,16 @@ Return the 4-character Soundex code for a word.
 ```odin
 {out}
 out = %soundex @.name
+similar = %soundex @.rupert
+short = %soundex @.lee
 ```
 
 **In**
 
 ```odin
 name = "Robert"
+rupert = "Rupert"
+lee = "Lee"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ name = "Robert"
 ```odin
 {out}
 out = "R163"
+similar = "R163"
+short = "L000"
 ```
 
 **Notes**

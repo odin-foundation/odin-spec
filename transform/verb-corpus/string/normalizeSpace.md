@@ -10,20 +10,26 @@ Collapse runs of whitespace to single spaces and trim the ends.
 
 ```odin
 {out}
-out = %normalizeSpace @.raw
+collapsed = %normalizeSpace @.raw
+tabs = %normalizeSpace @.tabs
+clean = %normalizeSpace @.clean
 ```
 
 **In**
 
 ```odin
 raw = "  a   b  "
+tabs = "a\tb\nc"
+clean = "already clean"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "a b"
+collapsed = "a b"
+tabs = "a b c"
+clean = "already clean"
 ```
 
 **Notes**

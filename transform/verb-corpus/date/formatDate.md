@@ -11,12 +11,16 @@ Format an ISO date string using a display pattern.
 ```odin
 {out}
 date = %formatDate @.date "MM/DD/YYYY"
+iso = %formatDate @.date "YYYY-MM-DD"
+compact = %formatDate @.date "MMDDYYYY"
+bad = %formatDate @.notDate "MM/DD/YYYY"
 ```
 
 **In**
 
 ```odin
 date = "2024-06-15"
+notDate = "nope"
 ```
 
 **Out**
@@ -24,6 +28,9 @@ date = "2024-06-15"
 ```odin
 {out}
 date = "06/15/2024"
+iso = "2024-06-15"
+compact = "06152024"
+bad = ~
 ```
 
 **Notes**

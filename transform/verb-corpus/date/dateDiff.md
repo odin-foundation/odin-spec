@@ -11,6 +11,9 @@ Measure the gap from the first date to the second in days, months, or years.
 ```odin
 {out}
 d = %dateDiff @.a @.b "days"
+months = %dateDiff @.a @.b "months"
+years = %dateDiff @.c @.d "years"
+reverse = %dateDiff @.b @.a "days"
 ```
 
 **In**
@@ -18,6 +21,8 @@ d = %dateDiff @.a @.b "days"
 ```odin
 a = 2024-01-01
 b = 2024-03-01
+c = 2020-01-01
+d = 2024-01-01
 ```
 
 **Out**
@@ -25,6 +30,9 @@ b = 2024-03-01
 ```odin
 {out}
 d = ##60
+months = ##2
+years = ##4
+reverse = ##-60
 ```
 
 **Notes**

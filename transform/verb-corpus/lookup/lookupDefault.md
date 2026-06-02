@@ -16,12 +16,16 @@ Translate a value via a declared lookup table, returning a default when no row m
 
 {out}
 vehicleCode = %lookupDefault "BODY_TYPES.code" @.vehicleType "??"
+matchedCode = %lookupDefault "BODY_TYPES.code" @.matchedType "??"
+coupeCode = %lookupDefault "BODY_TYPES.code" @.coupeType "??"
 ```
 
 **In**
 
 ```odin
 vehicleType = "wagon"
+matchedType = "sedan"
+coupeType = "coupe"
 ```
 
 **Out**
@@ -29,6 +33,8 @@ vehicleType = "wagon"
 ```odin
 {out}
 vehicleCode = "??"
+matchedCode = "SD"
+coupeCode = "CP"
 ```
 
 **Notes**

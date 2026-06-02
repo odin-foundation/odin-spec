@@ -11,6 +11,7 @@ Return the distinct elements present in both arrays.
 ```odin
 {out}
 both = %intersection @.a @.b
+withOne = %intersection @.a @.c
 ```
 
 **In**
@@ -26,6 +27,10 @@ both = %intersection @.a @.b
 ##2
 ##3
 ##4
+
+{c[] : ~}
+##3
+##5
 ```
 
 **Out**
@@ -34,6 +39,8 @@ both = %intersection @.a @.b
 {out}
 {.both[] : ~}
 ##2
+##3
+{.withOne[] : ~}
 ##3
 ```
 

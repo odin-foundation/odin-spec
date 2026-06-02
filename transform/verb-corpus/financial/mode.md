@@ -11,6 +11,8 @@ Return the most frequently occurring value in a numeric array.
 ```odin
 {out}
 r = %mode @.values
+tie = %mode @.tied
+allDistinct = %mode @.distinct
 ```
 
 **In**
@@ -22,6 +24,17 @@ r = %mode @.values
 ##3
 ##7
 ##3
+
+{tied[] : ~}
+##4
+##4
+##9
+##9
+
+{distinct[] : ~}
+##8
+##2
+##6
 ```
 
 **Out**
@@ -29,6 +42,8 @@ r = %mode @.values
 ```odin
 {out}
 r = ##3
+tie = ##4
+allDistinct = ##8
 ```
 
 **Notes**

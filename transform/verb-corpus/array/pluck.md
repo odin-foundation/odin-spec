@@ -11,6 +11,7 @@ Collect one field value from every object into an array.
 ```odin
 {out}
 ids = %pluck @.users "id"
+missing = %pluck @.users "email"
 ```
 
 **In**
@@ -28,6 +29,9 @@ ids = %pluck @.users "id"
 {.ids[] : ~}
 "u1"
 "u2"
+{.missing[] : ~}
+~
+~
 ```
 
 **Notes**

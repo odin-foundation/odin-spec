@@ -11,11 +11,14 @@ Rename object keys according to an old-to-new mapping object.
 ```odin
 {out}
 renamed = %renameKeys @.rec @.mapping
+nonObject = %renameKeys @.notObj @.mapping
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {rec}
 fn = "Ada"
 keep = "as-is"
@@ -28,6 +31,7 @@ fn = "firstName"
 
 ```odin
 {out}
+nonObject = ~
 {.renamed}
 firstName = "Ada"
 keep = "as-is"

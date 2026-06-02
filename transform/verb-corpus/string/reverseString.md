@@ -10,20 +10,26 @@ Return the string with its characters in reverse order.
 
 ```odin
 {out}
-out = %reverseString @.name
+rev = %reverseString @.name
+palindrome = %reverseString @.pal
+single = %reverseString @.one
 ```
 
 **In**
 
 ```odin
 name = "Honda"
+pal = "racecar"
+one = "x"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "adnoH"
+rev = "adnoH"
+palindrome = "racecar"
+single = "x"
 ```
 
 **Notes**

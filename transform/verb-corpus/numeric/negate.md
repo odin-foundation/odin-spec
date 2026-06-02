@@ -11,12 +11,16 @@ Return the additive inverse of a number.
 ```odin
 {out}
 v = %negate @.a
+ofNegative = %negate @.b
+ofZero = %negate @.c
 ```
 
 **In**
 
 ```odin
 a = #8
+b = #-12
+c = #0
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #8
 ```odin
 {out}
 v = ##-8
+ofNegative = ##12
+ofZero = ##0
 ```
 
 **Notes**

@@ -11,6 +11,7 @@ Bucket an object array into { key, items } groups by a field value.
 ```odin
 {out}
 groups = %groupBy @.orders "status"
+single = %groupBy @.solo "status"
 ```
 
 **In**
@@ -20,6 +21,9 @@ groups = %groupBy @.orders "status"
 "o1", "active"
 "o2", "pending"
 "o3", "active"
+
+{solo[] : id, status}
+"s1", "open"
 ```
 
 **Out**
@@ -35,6 +39,10 @@ key = "active"
 key = "pending"
 {.items[] : id, status}
 "o2", "pending"
+{out.single[0]}
+key = "open"
+{.items[] : id, status}
+"s1", "open"
 ```
 
 **Notes**

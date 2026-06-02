@@ -11,6 +11,8 @@ Subtract the second number from the first.
 ```odin
 {out}
 v = %subtract @.a @.b
+fractional = %subtract @.c @.d
+negativeResult = %subtract @.e @.f
 ```
 
 **In**
@@ -18,6 +20,10 @@ v = %subtract @.a @.b
 ```odin
 a = #10
 b = #3
+c = #5.5
+d = #2
+e = #3
+f = #8
 ```
 
 **Out**
@@ -25,6 +31,8 @@ b = #3
 ```odin
 {out}
 v = ##7
+fractional = #3.5
+negativeResult = ##-5
 ```
 
 **Notes**

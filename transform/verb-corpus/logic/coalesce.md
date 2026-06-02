@@ -11,6 +11,8 @@ Return the first argument that is not null or empty.
 ```odin
 {out}
 displayName = %coalesce @.nickname @.firstName "Guest"
+allNull = %coalesce @.missing @.alsoMissing "Guest"
+firstPresent = %coalesce @.given @.firstName "Guest"
 ```
 
 **In**
@@ -18,6 +20,9 @@ displayName = %coalesce @.nickname @.firstName "Guest"
 ```odin
 nickname = ~
 firstName = "Alice"
+missing = ~
+alsoMissing = ~
+given = "Carol"
 ```
 
 **Out**
@@ -25,6 +30,8 @@ firstName = "Alice"
 ```odin
 {out}
 displayName = "Alice"
+allNull = "Guest"
+firstPresent = "Carol"
 ```
 
 **Notes**

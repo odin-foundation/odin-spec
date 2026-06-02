@@ -11,6 +11,8 @@ Compute the sample variance (n−1 denominator) of a numeric array.
 ```odin
 {out}
 r = %varianceSample @.returns
+pair = %varianceSample @.pair
+single = %varianceSample @.one
 ```
 
 **In**
@@ -22,6 +24,13 @@ r = %varianceSample @.returns
 #-0.01
 #0.03
 #0.01
+
+{pair[] : ~}
+#10
+#20
+
+{one[] : ~}
+#5
 ```
 
 **Out**
@@ -29,9 +38,11 @@ r = %varianceSample @.returns
 ```odin
 {out}
 r = #0.0005000000000000001
+pair = ##50
+single = ~
 ```
 
 **Notes**
 
 - Divides the summed squared deviations by n−1 (Bessel's correction); it is the square of %stdSample.
-- Requires at least two elements; a shorter array yields ~ (null).
+- A two-element array [10, 20] gives 50; a single-element array yields ~ (null).

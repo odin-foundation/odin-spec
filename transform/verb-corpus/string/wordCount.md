@@ -11,12 +11,18 @@ Count the whitespace-separated words in a string.
 ```odin
 {out}
 out = %wordCount @.text
+single = %wordCount @.one
+padded = %wordCount @.spaced
+empty = %wordCount @.blank
 ```
 
 **In**
 
 ```odin
 text = "the quick brown fox"
+one = "hello"
+spaced = "  a   b  "
+blank = ""
 ```
 
 **Out**
@@ -24,6 +30,9 @@ text = "the quick brown fox"
 ```odin
 {out}
 out = ##4
+single = ##1
+padded = ##2
+empty = ##0
 ```
 
 **Notes**

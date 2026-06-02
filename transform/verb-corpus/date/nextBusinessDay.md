@@ -10,20 +10,26 @@ Return the first Monday-Friday date strictly after the input.
 
 ```odin
 {out}
-d = %nextBusinessDay @.start
+friday = %nextBusinessDay @.friday
+saturday = %nextBusinessDay @.saturday
+midweek = %nextBusinessDay @.wednesday
 ```
 
 **In**
 
 ```odin
-start = 2024-01-19
+friday = 2024-01-19
+saturday = 2024-01-20
+wednesday = 2024-01-17
 ```
 
 **Out**
 
 ```odin
 {out}
-d = "2024-01-22"
+friday = "2024-01-22"
+saturday = "2024-01-22"
+midweek = "2024-01-18"
 ```
 
 **Notes**

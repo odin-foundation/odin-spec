@@ -11,12 +11,16 @@ Discard the fractional part of a number, rounding toward zero.
 ```odin
 {out}
 v = %trunc @.a
+positive = %trunc @.b
+whole = %trunc @.c
 ```
 
 **In**
 
 ```odin
 a = #-3.7
+b = #3.9
+c = #5
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #-3.7
 ```odin
 {out}
 v = ##-3
+positive = ##3
+whole = ##5
 ```
 
 **Notes**

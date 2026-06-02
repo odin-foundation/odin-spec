@@ -11,11 +11,14 @@ Return a copy of an object with null, empty-string, empty-array, and empty-objec
 ```odin
 {out}
 cleaned = %compactObject @.rec
+nonObject = %compactObject @.notObj
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {rec}
 name = "Ada"
 middle = ~
@@ -28,6 +31,7 @@ flag = ?false
 
 ```odin
 {out}
+nonObject = ~
 {.cleaned}
 name = "Ada"
 zero = ##0

@@ -11,12 +11,16 @@ Return true when the first value is strictly less than the second.
 ```odin
 {out}
 small = %lt @.amount ##1000
+equal = %lt @.amount @.amount
+bigger = %lt ##1000 @.amount
+lexical = %lt @.alpha "beta"
 ```
 
 **In**
 
 ```odin
 amount = ##250
+alpha = "alpha"
 ```
 
 **Out**
@@ -24,6 +28,9 @@ amount = ##250
 ```odin
 {out}
 small = ?true
+equal = ?false
+bigger = ?false
+lexical = ?true
 ```
 
 **Notes**

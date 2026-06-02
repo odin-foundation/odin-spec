@@ -11,6 +11,8 @@ Return the remainder of dividing the first number by the second.
 ```odin
 {out}
 v = %mod @.a @.b
+negDividend = %mod @.c @.d
+zeroDivisor = %mod @.e @.f
 ```
 
 **In**
@@ -18,6 +20,10 @@ v = %mod @.a @.b
 ```odin
 a = #17
 b = #5
+c = #-17
+d = #5
+e = #10
+f = #0
 ```
 
 **Out**
@@ -25,6 +31,8 @@ b = #5
 ```odin
 {out}
 v = ##2
+negDividend = ##-2
+zeroDivisor = ~
 ```
 
 **Notes**

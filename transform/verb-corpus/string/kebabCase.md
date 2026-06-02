@@ -11,12 +11,18 @@ Re-case a delimited or mixed-case string into kebab-case.
 ```odin
 {out}
 out = %kebabCase @.name
+snake = %kebabCase @.snake
+spaced = %kebabCase @.spaced
+allCaps = %kebabCase @.allCaps
 ```
 
 **In**
 
 ```odin
 name = "helloWorld"
+snake = "first_name"
+spaced = "Two Words"
+allCaps = "HTTPServer"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ name = "helloWorld"
 ```odin
 {out}
 out = "hello-world"
+snake = "first-name"
+spaced = "two-words"
+allCaps = "http-server"
 ```
 
 **Notes**

@@ -11,12 +11,16 @@ Format a number as a string with a fixed number of decimal places.
 ```odin
 {out}
 v = %formatNumber @.a ##3
+rounds = %formatNumber @.a ##2
+zeroDecimals = %formatNumber @.a ##0
+padsZeros = %formatNumber @.b ##4
 ```
 
 **In**
 
 ```odin
 a = #3.14159
+b = #2.5
 ```
 
 **Out**
@@ -24,6 +28,9 @@ a = #3.14159
 ```odin
 {out}
 v = "3.142"
+rounds = "3.14"
+zeroDecimals = "3"
+padsZeros = "2.5000"
 ```
 
 **Notes**

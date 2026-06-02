@@ -11,6 +11,7 @@ Return the array with element order reversed.
 ```odin
 {out}
 rev = %reverse @.items
+single = %reverse @.one
 ```
 
 **In**
@@ -20,6 +21,9 @@ rev = %reverse @.items
 "a"
 "b"
 "c"
+
+{one[] : ~}
+"only"
 ```
 
 **Out**
@@ -30,6 +34,8 @@ rev = %reverse @.items
 "c"
 "b"
 "a"
+{.single[] : ~}
+"only"
 ```
 
 **Notes**

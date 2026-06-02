@@ -10,20 +10,26 @@ Lay a string's characters into a template, inserting literal mask punctuation.
 
 ```odin
 {out}
-out = %mask @.ssn "###-##-####"
+ssn = %mask @.ssn "###-##-####"
+short = %mask @.short "###-##-####"
+phone = %mask @.phone "(###) ###-####"
 ```
 
 **In**
 
 ```odin
 ssn = "123456789"
+short = "12"
+phone = "5551234567"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "123-45-6789"
+ssn = "123-45-6789"
+short = "12"
+phone = "(555) 123-4567"
 ```
 
 **Notes**

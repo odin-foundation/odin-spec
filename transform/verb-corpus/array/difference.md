@@ -11,6 +11,7 @@ Return the distinct elements of the first array that are not in the second.
 ```odin
 {out}
 only = %difference @.a @.b
+noOverlap = %difference @.a @.c
 ```
 
 **In**
@@ -26,13 +27,22 @@ only = %difference @.a @.b
 ##2
 ##3
 ##4
+
+{c[] : ~}
+##9
+##8
 ```
 
 **Out**
 
 ```odin
-{out.only[] : ~}
+{out}
+{.only[] : ~}
 ##1
+{.noOverlap[] : ~}
+##1
+##2
+##3
 ```
 
 **Notes**

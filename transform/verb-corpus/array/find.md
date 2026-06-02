@@ -10,6 +10,7 @@ Return the first record where a field matches, or null.
 
 ```odin
 {out}
+missing = %find @.coverages "status" "=" "void"
 {.first} = %find @.coverages "status" "=" "active"
 ```
 
@@ -25,6 +26,7 @@ Return the first record where a field matches, or null.
 
 ```odin
 {out}
+missing = ~
 {.first}
 type = "collision"
 status = "active"

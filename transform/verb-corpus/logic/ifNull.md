@@ -11,12 +11,16 @@ Return a fallback value when the input is null, otherwise the input.
 ```odin
 {out}
 name = %ifNull @.nickname "Anonymous"
+kept = %ifNull @.realName "Anonymous"
+emptyPasses = %ifNull @.blank "Anonymous"
 ```
 
 **In**
 
 ```odin
 nickname = ~
+realName = "Bob"
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ nickname = ~
 ```odin
 {out}
 name = "Anonymous"
+kept = "Bob"
+emptyPasses = ""
 ```
 
 **Notes**

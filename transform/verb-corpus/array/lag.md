@@ -11,6 +11,8 @@ Shift values forward so each row sees the earlier value.
 ```odin
 {out}
 prev = %lag @.prices
+by2 = %lag @.prices ##2
+withDefault = %lag @.prices ##1 ##0
 ```
 
 **In**
@@ -28,6 +30,14 @@ prev = %lag @.prices
 {out}
 {.prev[] : ~}
 ~
+##10
+##20
+{.by2[] : ~}
+~
+~
+##10
+{.withDefault[] : ~}
+##0
 ##10
 ##20
 ```

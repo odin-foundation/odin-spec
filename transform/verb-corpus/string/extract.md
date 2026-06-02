@@ -11,6 +11,9 @@ Return a capture group from the first regex match in a string.
 ```odin
 {out}
 out = %extract @.text "([0-9]+)" ##1
+whole = %extract @.text "[0-9]+" ##0
+noMatch = %extract @.text "([a-z]{20})" ##1
+badGroup = %extract @.text "([0-9]+)" ##5
 ```
 
 **In**
@@ -24,6 +27,9 @@ text = "order 42 placed"
 ```odin
 {out}
 out = "42"
+whole = "42"
+noMatch = ~
+badGroup = ~
 ```
 
 **Notes**

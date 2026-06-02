@@ -11,12 +11,14 @@ Return the logical negation of a boolean value.
 ```odin
 {out}
 inactive = %not @.active
+active = %not @.disabled
 ```
 
 **In**
 
 ```odin
 active = ?true
+disabled = ?false
 ```
 
 **Out**
@@ -24,6 +26,7 @@ active = ?true
 ```odin
 {out}
 inactive = ?false
+active = ?true
 ```
 
 **Notes**

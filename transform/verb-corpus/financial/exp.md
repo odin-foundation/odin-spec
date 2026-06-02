@@ -10,13 +10,17 @@ Raise Euler's number e to the given power.
 
 ```odin
 {out}
-r = %exp @.x
+r = %exp @.one
+zero = %exp @.zero
+negative = %exp @.neg
 ```
 
 **In**
 
 ```odin
-x = #1
+one = #1
+zero = #0
+neg = #-1
 ```
 
 **Out**
@@ -24,6 +28,8 @@ x = #1
 ```odin
 {out}
 r = #2.718281828459045
+zero = ##1
+negative = #0.36787944117144233
 ```
 
 **Notes**

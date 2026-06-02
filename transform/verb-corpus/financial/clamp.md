@@ -10,13 +10,17 @@ Bound a value between a minimum and a maximum.
 
 ```odin
 {out}
-r = %clamp @.value @.min @.max
+above = %clamp @.high @.min @.max
+below = %clamp @.low @.min @.max
+inRange = %clamp @.mid @.min @.max
 ```
 
 **In**
 
 ```odin
-value = #150
+high = #150
+low = #-20
+mid = #42
 min = #0
 max = #100
 ```
@@ -25,7 +29,9 @@ max = #100
 
 ```odin
 {out}
-r = ##100
+above = ##100
+below = ##0
+inRange = ##42
 ```
 
 **Notes**

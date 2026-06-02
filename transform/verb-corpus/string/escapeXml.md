@@ -11,12 +11,16 @@ Escape & < > " and the apostrophe as XML entities, using &apos; for the apostrop
 ```odin
 {out}
 escaped = %escapeXml @.raw
+angles = %escapeXml @.tag
+plain = %escapeXml @.plain
 ```
 
 **In**
 
 ```odin
 raw = "x = 'a' & b"
+tag = "<a href=\"u\">"
+plain = "no specials"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "x = 'a' & b"
 ```odin
 {out}
 escaped = "x = &apos;a&apos; &amp; b"
+angles = "&lt;a href=&quot;u&quot;&gt;"
+plain = "no specials"
 ```
 
 **Notes**

@@ -11,15 +11,20 @@ Return the difference between each element and the prior one.
 ```odin
 {out}
 changes = %diff @.values
+periods2 = %diff @.values ##2
+nonArray = %diff @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {values[] : ~}
 ##10
 ##15
 ##12
+##18
 ```
 
 **Out**
@@ -30,6 +35,13 @@ changes = %diff @.values
 ~
 ##5
 ##-3
+##6
+{.periods2[] : ~}
+~
+~
+##2
+##3
+nonArray = ~
 ```
 
 **Notes**

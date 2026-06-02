@@ -11,15 +11,24 @@ Return the cumulative sum at each position.
 ```odin
 {out}
 running = %cumsum @.values
+withNeg = %cumsum @.withNeg
+nonArray = %cumsum @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {values[] : ~}
 ##10
 ##20
 ##30
+
+{withNeg[] : ~}
+##5
+##-2
+##-10
 ```
 
 **Out**
@@ -30,6 +39,11 @@ running = %cumsum @.values
 ##10
 ##30
 ##60
+{.withNeg[] : ~}
+##5
+##3
+##-7
+nonArray = ~
 ```
 
 **Notes**

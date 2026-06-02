@@ -10,20 +10,25 @@ Replace every literal occurrence of a substring with a replacement.
 
 ```odin
 {out}
-out = %replace @.name "o" "0"
+hit = %replace @.name "o" "0"
+miss = %replace @.name "z" "0"
+all = %replace @.many "a" "A"
 ```
 
 **In**
 
 ```odin
 name = "Honda"
+many = "banana"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "H0nda"
+hit = "H0nda"
+miss = "Honda"
+all = "bAnAnA"
 ```
 
 **Notes**

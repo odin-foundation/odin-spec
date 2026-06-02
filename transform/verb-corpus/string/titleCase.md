@@ -11,12 +11,16 @@ Lowercase the string, then uppercase the first letter of every whitespace-separa
 ```odin
 {out}
 out = %titleCase @.phrase
+mixed = %titleCase @.shouty
+single = %titleCase @.word
 ```
 
 **In**
 
 ```odin
 phrase = "honda civic type r"
+shouty = "HELLO WORLD"
+word = "honda"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ phrase = "honda civic type r"
 ```odin
 {out}
 out = "Honda Civic Type R"
+mixed = "Hello World"
+single = "Honda"
 ```
 
 **Notes**

@@ -11,6 +11,9 @@ Reduce an array reference to the sum of its numeric elements.
 ```odin
 {out}
 total = %sum @.amounts
+fractional = %sum @.prices
+negatives = %sum @.deltas
+single = %sum @.one
 ```
 
 **In**
@@ -20,6 +23,18 @@ total = %sum @.amounts
 ##10
 ##20
 ##30
+
+{prices[] : ~}
+#1.5
+#2.25
+
+{deltas[] : ~}
+##-10
+##20
+##-40
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -27,6 +42,9 @@ total = %sum @.amounts
 ```odin
 {out}
 total = ##60
+fractional = #3.75
+negatives = ##-30
+single = ##42
 ```
 
 **Notes**

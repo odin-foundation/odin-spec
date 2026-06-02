@@ -11,12 +11,18 @@ Return true when a value is of string type.
 ```odin
 {out}
 isText = %isString @.name
+empty = %isString @.blank
+numeric = %isString @.amount
+nullVal = %isString @.missing
 ```
 
 **In**
 
 ```odin
 name = "Ada"
+blank = ""
+amount = ##5
+missing = ~
 ```
 
 **Out**
@@ -24,6 +30,9 @@ name = "Ada"
 ```odin
 {out}
 isText = ?true
+empty = ?true
+numeric = ?false
+nullVal = ?false
 ```
 
 **Notes**

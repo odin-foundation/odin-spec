@@ -11,12 +11,16 @@ Percent-encode a string so it is safe inside a URL component.
 ```odin
 {out}
 enc = %urlEncode @.q
+unreserved = %urlEncode @.safe
+empty = %urlEncode @.blank
 ```
 
 **In**
 
 ```odin
 q = "a b&c=d"
+safe = "a-b_c.d~e"
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ q = "a b&c=d"
 ```odin
 {out}
 enc = "a%20b%26c%3Dd"
+unreserved = "a-b_c.d~e"
+empty = ""
 ```
 
 **Notes**

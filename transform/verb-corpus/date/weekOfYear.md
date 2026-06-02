@@ -10,20 +10,26 @@ Return the ISO 8601 week number (1-53) for a date.
 
 ```odin
 {out}
-n = %weekOfYear @.date
+mid = %weekOfYear @.date
+first = %weekOfYear @.jan
+yearEnd = %weekOfYear @.dec
 ```
 
 **In**
 
 ```odin
 date = 2024-06-15
+jan = 2024-01-04
+dec = 2024-12-31
 ```
 
 **Out**
 
 ```odin
 {out}
-n = ##24
+mid = ##24
+first = ##1
+yearEnd = ##1
 ```
 
 **Notes**

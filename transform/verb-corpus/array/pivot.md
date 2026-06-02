@@ -11,6 +11,7 @@ Reshape an array of records into one object keyed by a field.
 ```odin
 {out}
 {.lookup} = %pivot @.items "name" "value"
+{.dupKeys} = %pivot @.dups "name" "value"
 ```
 
 **In**
@@ -19,12 +20,17 @@ Reshape an array of records into one object keyed by a field.
 {items[] : name, value}
 "a", ##1
 "b", ##2
+
+{dups[] : name, value}
+"a", ##1
+"a", ##9
 ```
 
 **Out**
 
 ```odin
 {out}
+dupKeys.a = ##9
 {.lookup}
 a = ##1
 b = ##2

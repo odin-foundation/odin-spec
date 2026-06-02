@@ -11,15 +11,23 @@ Return true when an object contains a key, with dot notation for nested paths.
 ```odin
 {out}
 h = %has @.obj "role"
+nested = %has @.obj "addr.city"
+missing = %has @.obj "zzz"
+nonObject = %has @.notObj "role"
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {obj}
 name = "Ada"
 role = "admin"
 active = ?true
+
+{obj.addr}
+city = "Reno"
 ```
 
 **Out**
@@ -27,6 +35,9 @@ active = ?true
 ```odin
 {out}
 h = ?true
+nested = ?true
+missing = ?false
+nonObject = ?false
 ```
 
 **Notes**

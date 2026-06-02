@@ -10,7 +10,9 @@ Return the minimum single-character edits to turn one string into another.
 
 ```odin
 {out}
-out = %levenshtein @.a @.b
+edit = %levenshtein @.a @.b
+same = %levenshtein @.same1 @.same2
+fromEmpty = %levenshtein @.empty @.word
 ```
 
 **In**
@@ -18,13 +20,19 @@ out = %levenshtein @.a @.b
 ```odin
 a = "kitten"
 b = "sitting"
+same1 = "abc"
+same2 = "abc"
+empty = ""
+word = "abc"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = ##3
+edit = ##3
+same = ##0
+fromEmpty = ##3
 ```
 
 **Notes**

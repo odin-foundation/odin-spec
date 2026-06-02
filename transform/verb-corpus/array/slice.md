@@ -11,6 +11,8 @@ Return elements from a start index up to (not including) an end index.
 ```odin
 {out}
 mid = %slice @.items ##1 ##3
+head = %slice @.items ##0 ##2
+negStart = %slice @.items ##-2 ##4
 ```
 
 **In**
@@ -30,6 +32,12 @@ mid = %slice @.items ##1 ##3
 {.mid[] : ~}
 "b"
 "c"
+{.head[] : ~}
+"a"
+"b"
+{.negStart[] : ~}
+"c"
+"d"
 ```
 
 **Notes**

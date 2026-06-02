@@ -10,20 +10,23 @@ Collapse a date to the first day of its calendar year.
 
 ```odin
 {out}
-d = %startOfYear @.date
+mid = %startOfYear @.date
+already = %startOfYear @.first
 ```
 
 **In**
 
 ```odin
 date = 2024-06-15
+first = 2024-01-01
 ```
 
 **Out**
 
 ```odin
 {out}
-d = "2024-01-01"
+mid = "2024-01-01"
+already = "2024-01-01"
 ```
 
 **Notes**

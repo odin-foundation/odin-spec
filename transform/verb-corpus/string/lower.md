@@ -10,20 +10,26 @@ Lowercase every character of a string value.
 
 ```odin
 {out}
-out = %lower @.name
+name = %lower @.name
+mixed = %lower @.mixed
+empty = %lower @.empty
 ```
 
 **In**
 
 ```odin
 name = "HONDA"
+mixed = "Honda CIVIC"
+empty = ""
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "honda"
+name = "honda"
+mixed = "honda civic"
+empty = ""
 ```
 
 **Notes**

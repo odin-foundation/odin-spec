@@ -11,6 +11,9 @@ Take the logarithm of a value, natural by default or in a given base.
 ```odin
 {out}
 r = %log @.x @.b
+natural = %log @.e
+baseOne = %log @.x @.one
+nonPositive = %log @.zero @.b
 ```
 
 **In**
@@ -18,6 +21,9 @@ r = %log @.x @.b
 ```odin
 x = #8
 b = #2
+e = #2.718281828459045
+one = #1
+zero = #0
 ```
 
 **Out**
@@ -25,6 +31,9 @@ b = #2
 ```odin
 {out}
 r = ##3
+natural = ##1
+baseOne = ~
+nonPositive = ~
 ```
 
 **Notes**

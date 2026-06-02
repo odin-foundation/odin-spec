@@ -10,20 +10,23 @@ Collapse a date to the first day of its calendar month.
 
 ```odin
 {out}
-d = %startOfMonth @.date
+mid = %startOfMonth @.date
+already = %startOfMonth @.first
 ```
 
 **In**
 
 ```odin
 date = 2024-06-15
+first = 2024-06-01
 ```
 
 **Out**
 
 ```odin
 {out}
-d = "2024-06-01"
+mid = "2024-06-01"
+already = "2024-06-01"
 ```
 
 **Notes**

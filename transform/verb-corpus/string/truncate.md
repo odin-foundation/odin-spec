@@ -11,6 +11,8 @@ Return at most the first N characters of a string.
 ```odin
 {out}
 out = %truncate @.name ##3
+whole = %truncate @.name ##99
+exact = %truncate @.name ##5
 ```
 
 **In**
@@ -24,6 +26,8 @@ name = "Honda"
 ```odin
 {out}
 out = "Hon"
+whole = "Honda"
+exact = "Honda"
 ```
 
 **Notes**

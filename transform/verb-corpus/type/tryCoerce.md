@@ -11,12 +11,18 @@ Infer the type of a string value (integer, number, boolean, date) and coerce it,
 ```odin
 {out}
 v = %tryCoerce @.raw
+float = %tryCoerce @.float
+flag = %tryCoerce @.flag
+word = %tryCoerce @.word
 ```
 
 **In**
 
 ```odin
 raw = "42"
+float = "3.14"
+flag = "true"
+word = "John"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ raw = "42"
 ```odin
 {out}
 v = ##42
+float = #3.14
+flag = ?true
+word = "John"
 ```
 
 **Notes**

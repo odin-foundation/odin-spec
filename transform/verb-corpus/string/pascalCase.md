@@ -10,20 +10,26 @@ Re-case a delimited or mixed-case string into PascalCase.
 
 ```odin
 {out}
-out = %pascalCase @.name
+hyphen = %pascalCase @.name
+spaced = %pascalCase @.spaced
+snake = %pascalCase @.snake
 ```
 
 **In**
 
 ```odin
 name = "hello-world"
+spaced = "hello world"
+snake = "foo_bar_baz"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "HelloWorld"
+hyphen = "HelloWorld"
+spaced = "HelloWorld"
+snake = "FooBarBaz"
 ```
 
 **Notes**

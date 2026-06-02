@@ -10,20 +10,23 @@ Return true when a string matches a regular expression anywhere.
 
 ```odin
 {out}
-out = %matches @.email "^[\\w.+-]+@[\\w-]+\\.[a-z]{2,}$"
+hit = %matches @.email "^[\\w.+-]+@[\\w-]+\\.[a-z]{2,}$"
+miss = %matches @.bad "^[\\w.+-]+@[\\w-]+\\.[a-z]{2,}$"
 ```
 
 **In**
 
 ```odin
 email = "a@b.com"
+bad = "not-an-email"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = ?true
+hit = ?true
+miss = ?false
 ```
 
 **Notes**

@@ -11,6 +11,7 @@ Order array values from highest to lowest.
 ```odin
 {out}
 sorted = %sortDesc @.scores
+words = %sortDesc @.tags
 ```
 
 **In**
@@ -20,6 +21,11 @@ sorted = %sortDesc @.scores
 ##10
 ##30
 ##20
+
+{tags[] : ~}
+"apple"
+"cherry"
+"banana"
 ```
 
 **Out**
@@ -30,6 +36,10 @@ sorted = %sortDesc @.scores
 ##30
 ##20
 ##10
+{.words[] : ~}
+"cherry"
+"banana"
+"apple"
 ```
 
 **Notes**

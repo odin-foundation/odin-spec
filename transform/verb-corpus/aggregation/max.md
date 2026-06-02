@@ -11,6 +11,9 @@ Reduce an array reference to its maximum numeric element.
 ```odin
 {out}
 hi = %max @.amounts
+negatives = %max @.deltas
+fractional = %max @.prices
+single = %max @.one
 ```
 
 **In**
@@ -20,6 +23,19 @@ hi = %max @.amounts
 ##10
 ##20
 ##5
+
+{deltas[] : ~}
+##-10
+##-3
+##-40
+
+{prices[] : ~}
+#1.5
+#2.75
+#0.5
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -27,6 +43,9 @@ hi = %max @.amounts
 ```odin
 {out}
 hi = ##20
+negatives = ##-3
+fractional = #2.75
+single = ##42
 ```
 
 **Notes**

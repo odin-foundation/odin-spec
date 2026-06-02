@@ -11,6 +11,8 @@ Return true when a lat/lng point falls inside a min/max bounding box.
 ```odin
 {out}
 inside = %inBoundingBox @.lat @.lng #24.5 #-125 #49.5 #-66
+outside = %inBoundingBox @.farLat @.lng #24.5 #-125 #49.5 #-66
+onEdge = %inBoundingBox @.edgeLat @.edgeLng #24.5 #-125 #49.5 #-66
 ```
 
 **In**
@@ -18,6 +20,9 @@ inside = %inBoundingBox @.lat @.lng #24.5 #-125 #49.5 #-66
 ```odin
 lat = #40.7128
 lng = #-74.006
+farLat = #60
+edgeLat = #24.5
+edgeLng = #-125
 ```
 
 **Out**
@@ -25,6 +30,8 @@ lng = #-74.006
 ```odin
 {out}
 inside = ?true
+outside = ?false
+onEdge = ?true
 ```
 
 **Notes**

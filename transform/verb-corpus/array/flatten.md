@@ -11,12 +11,14 @@ Collapse an array of arrays into a single array, one level deep.
 ```odin
 {out}
 all = %flatten @.nested
+flat = %flatten @.alreadyFlat
 ```
 
 **In**
 
 ```odin
 nested = "[[1, 2], [3, 4]]"
+alreadyFlat = "[1, 2, 3]"
 ```
 
 **Out**
@@ -28,6 +30,10 @@ nested = "[[1, 2], [3, 4]]"
 ##2
 ##3
 ##4
+{.flat[] : ~}
+##1
+##2
+##3
 ```
 
 **Notes**

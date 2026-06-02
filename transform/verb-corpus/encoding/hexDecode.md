@@ -11,12 +11,16 @@ Decode a hexadecimal string back into its original text.
 ```odin
 {out}
 d = %hexDecode @.h
+lower = %hexDecode @.low
+odd = %hexDecode @.bad
 ```
 
 **In**
 
 ```odin
 h = "48656C6C6F"
+low = "776f726c64"
+bad = "48656"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ h = "48656C6C6F"
 ```odin
 {out}
 d = "Hello"
+lower = "world"
+odd = ~
 ```
 
 **Notes**

@@ -11,6 +11,8 @@ Return true when exactly one of two conditions is truthy.
 ```odin
 {out}
 exactlyOne = %xor @.hasEmail @.hasPhone
+both = %xor @.hasEmail @.hasFax
+neither = %xor @.hasPhone @.hasSms
 ```
 
 **In**
@@ -18,6 +20,8 @@ exactlyOne = %xor @.hasEmail @.hasPhone
 ```odin
 hasEmail = ?true
 hasPhone = ?false
+hasFax = ?true
+hasSms = ?false
 ```
 
 **Out**
@@ -25,6 +29,8 @@ hasPhone = ?false
 ```odin
 {out}
 exactlyOne = ?true
+both = ?false
+neither = ?false
 ```
 
 **Notes**

@@ -10,13 +10,17 @@ Advance a date to the last day of its calendar year.
 
 ```odin
 {out}
-d = %endOfYear @.date
+d = %endOfYear @.mid
+fromLast = %endOfYear @.last
+bad = %endOfYear @.notDate
 ```
 
 **In**
 
 ```odin
-date = 2024-06-15
+mid = 2024-06-15
+last = 2024-12-31
+notDate = "nope"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ date = 2024-06-15
 ```odin
 {out}
 d = "2024-12-31"
+fromLast = "2024-12-31"
+bad = ~
 ```
 
 **Notes**

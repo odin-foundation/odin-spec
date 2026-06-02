@@ -11,6 +11,7 @@ Order array values ascending (numeric when all numbers, else lexical).
 ```odin
 {out}
 sorted = %sort @.scores
+lexical = %sort @.words
 ```
 
 **In**
@@ -20,6 +21,11 @@ sorted = %sort @.scores
 ##30
 ##10
 ##20
+
+{words[] : ~}
+"banana"
+"apple"
+"cherry"
 ```
 
 **Out**
@@ -30,6 +36,10 @@ sorted = %sort @.scores
 ##10
 ##20
 ##30
+{.lexical[] : ~}
+"apple"
+"banana"
+"cherry"
 ```
 
 **Notes**

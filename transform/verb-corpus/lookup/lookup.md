@@ -16,12 +16,16 @@ Translate a value via a declared lookup table.
 
 {out}
 vehicleCode = %lookup "BODY_TYPES.code" @.vehicleType
+suvCode = %lookup "BODY_TYPES.code" @.suvType
+unknownCode = %lookup "BODY_TYPES.code" @.unknownType
 ```
 
 **In**
 
 ```odin
 vehicleType = "sedan"
+suvType = "suv"
+unknownType = "wagon"
 ```
 
 **Out**
@@ -29,6 +33,8 @@ vehicleType = "sedan"
 ```odin
 {out}
 vehicleCode = "SD"
+suvCode = "SU"
+unknownCode = ~
 ```
 
 **Notes**

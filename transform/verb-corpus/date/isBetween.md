@@ -10,7 +10,9 @@ Test whether a date falls within a start/end range, inclusive of both ends.
 
 ```odin
 {out}
-b = %isBetween @.d @.start @.end
+inside = %isBetween @.d @.start @.end
+atStart = %isBetween @.start @.start @.end
+before = %isBetween @.early @.start @.end
 ```
 
 **In**
@@ -19,13 +21,16 @@ b = %isBetween @.d @.start @.end
 d = 2024-06-15
 start = 2024-01-01
 end = 2024-12-31
+early = 2023-06-15
 ```
 
 **Out**
 
 ```odin
 {out}
-b = ?true
+inside = ?true
+atStart = ?true
+before = ?false
 ```
 
 **Notes**

@@ -11,12 +11,16 @@ Convert a value between two compatible units of the same family.
 ```odin
 {out}
 v = %convertUnit @.a "kg" "lb"
+temp = %convertUnit @.t "C" "F"
+crossFamily = %convertUnit @.a "kg" "km"
+unknownUnit = %convertUnit @.a "kg" "zz"
 ```
 
 **In**
 
 ```odin
 a = #100
+t = #100
 ```
 
 **Out**
@@ -24,6 +28,9 @@ a = #100
 ```odin
 {out}
 v = #220.462442
+temp = ##212
+crossFamily = ~
+unknownUnit = ~
 ```
 
 **Notes**

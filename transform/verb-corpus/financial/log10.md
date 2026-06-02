@@ -10,13 +10,19 @@ Take the base-10 logarithm of a value.
 
 ```odin
 {out}
-r = %log10 @.x
+r = %log10 @.thousand
+one = %log10 @.one
+zero = %log10 @.zero
+negative = %log10 @.neg
 ```
 
 **In**
 
 ```odin
-x = #1000
+thousand = #1000
+one = #1
+zero = #0
+neg = #-5
 ```
 
 **Out**
@@ -24,6 +30,9 @@ x = #1000
 ```odin
 {out}
 r = ##3
+one = ##0
+zero = ~
+negative = ~
 ```
 
 **Notes**

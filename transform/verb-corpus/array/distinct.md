@@ -11,6 +11,7 @@ Drop repeated values from a primitive array, keeping first occurrence.
 ```odin
 {out}
 uniq = %distinct @.tags
+allUnique = %distinct @.codes
 ```
 
 **In**
@@ -20,6 +21,11 @@ uniq = %distinct @.tags
 "auto"
 "home"
 "auto"
+
+{codes[] : ~}
+"a"
+"b"
+"c"
 ```
 
 **Out**
@@ -29,6 +35,10 @@ uniq = %distinct @.tags
 {.uniq[] : ~}
 "auto"
 "home"
+{.allUnique[] : ~}
+"a"
+"b"
+"c"
 ```
 
 **Notes**

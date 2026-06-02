@@ -11,6 +11,8 @@ Return the element count of an array reference as an integer.
 ```odin
 {out}
 n = %count @.amounts
+single = %count @.one
+strings = %count @.names
 ```
 
 **In**
@@ -20,6 +22,13 @@ n = %count @.amounts
 ##10
 ##20
 ##30
+
+{one[] : ~}
+##42
+
+{names[] : ~}
+"a"
+"b"
 ```
 
 **Out**
@@ -27,6 +36,8 @@ n = %count @.amounts
 ```odin
 {out}
 n = ##3
+single = ##1
+strings = ##2
 ```
 
 **Notes**

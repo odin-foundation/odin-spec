@@ -11,19 +11,24 @@ Normalize a scalar (or existing array) into an array so downstream array verbs a
 ```odin
 {out}
 arr = %toArray @.raw
+fromNum = %toArray @.num
 ```
 
 **In**
 
 ```odin
 raw = "single"
+num = ##7
 ```
 
 **Out**
 
 ```odin
-{out.arr[] : ~}
+{out}
+{.arr[] : ~}
 "single"
+{.fromNum[] : ~}
+##7
 ```
 
 **Notes**

@@ -11,6 +11,7 @@ Concatenate array elements into one string with a separator.
 ```odin
 {out}
 tags = %join @.tags ", "
+single = %join @.one ", "
 ```
 
 **In**
@@ -20,6 +21,9 @@ tags = %join @.tags ", "
 "insurance"
 "auto"
 "policy"
+
+{one[] : ~}
+"solo"
 ```
 
 **Out**
@@ -27,6 +31,7 @@ tags = %join @.tags ", "
 ```odin
 {out}
 tags = "insurance, auto, policy"
+single = "solo"
 ```
 
 **Notes**

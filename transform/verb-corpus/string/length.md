@@ -11,12 +11,16 @@ Return the number of characters in a string.
 ```odin
 {out}
 out = %length @.name
+empty = %length @.empty
+spaces = %length @.spaces
 ```
 
 **In**
 
 ```odin
 name = "Honda"
+empty = ""
+spaces = "a b c"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ name = "Honda"
 ```odin
 {out}
 out = ##5
+empty = ##0
+spaces = ##5
 ```
 
 **Notes**

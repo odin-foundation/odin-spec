@@ -11,6 +11,7 @@ Return true when at least one record satisfies a field condition.
 ```odin
 {out}
 hasCancelled = %some @.coverages "status" "=" "cancelled"
+hasPending = %some @.coverages "status" "=" "pending"
 ```
 
 **In**
@@ -26,6 +27,7 @@ hasCancelled = %some @.coverages "status" "=" "cancelled"
 ```odin
 {out}
 hasCancelled = ?true
+hasPending = ?false
 ```
 
 **Notes**

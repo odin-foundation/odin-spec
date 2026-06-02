@@ -11,12 +11,18 @@ Convert a string (or other value) to a typed number, keeping the fractional part
 ```odin
 {out}
 n = %coerceNumber @.raw
+whole = %coerceNumber @.whole
+neg = %coerceNumber @.neg
+bad = %coerceNumber @.bad
 ```
 
 **In**
 
 ```odin
 raw = "3.14"
+whole = "42"
+neg = "-2.5"
+bad = "not-a-number"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ raw = "3.14"
 ```odin
 {out}
 n = #3.14
+whole = ##42
+neg = #-2.5
+bad = ##0
 ```
 
 **Notes**

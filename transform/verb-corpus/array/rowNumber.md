@@ -11,12 +11,14 @@ Tag each element with a 1-based _rowNum field.
 ```odin
 {out}
 numbered = %rowNumber @.names
+records = %rowNumber @.people
 ```
 
 **In**
 
 ```odin
-names = "[\"alice\", \"bob\"]"
+names = "[\"alice\", \"bob\", \"carol\"]"
+people = "[{\"name\": \"ann\"}, {\"name\": \"bo\"}]"
 ```
 
 **Out**
@@ -26,6 +28,10 @@ names = "[\"alice\", \"bob\"]"
 {.numbered[] : _rowNum, value}
 ##1, "alice"
 ##2, "bob"
+##3, "carol"
+{.records[] : _rowNum, name}
+##1, "ann"
+##2, "bo"
 ```
 
 **Notes**

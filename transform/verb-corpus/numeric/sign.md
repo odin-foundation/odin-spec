@@ -11,12 +11,16 @@ Return -1, 0, or 1 according to the sign of a number.
 ```odin
 {out}
 v = %sign @.a
+positive = %sign @.b
+zero = %sign @.c
 ```
 
 **In**
 
 ```odin
 a = #-3.5
+b = #42
+c = #0
 ```
 
 **Out**
@@ -24,6 +28,8 @@ a = #-3.5
 ```odin
 {out}
 v = ##-1
+positive = ##1
+zero = ##0
 ```
 
 **Notes**

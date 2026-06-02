@@ -10,20 +10,23 @@ Read a timestamp from a formatted string and normalize it to ISO date-time.
 
 ```odin
 {out}
-t = %parseTimestamp @.raw "YYYY-MM-DD HH:mm:ss"
+spaced = %parseTimestamp @.raw "YYYY-MM-DD HH:mm:ss"
+compact = %parseTimestamp @.compact "YYYYMMDDHHmmss"
 ```
 
 **In**
 
 ```odin
 raw = "2024-06-15 14:30:45"
+compact = "20240615143045"
 ```
 
 **Out**
 
 ```odin
 {out}
-t = "2024-06-15T14:30:45"
+spaced = "2024-06-15T14:30:45"
+compact = "2024-06-15T14:30:45"
 ```
 
 **Notes**

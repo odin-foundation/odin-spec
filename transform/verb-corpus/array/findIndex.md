@@ -11,6 +11,7 @@ Return the index of the first record matching a condition, or -1.
 ```odin
 {out}
 idx = %findIndex @.coverages "status" "=" "active"
+missing = %findIndex @.coverages "status" "=" "void"
 ```
 
 **In**
@@ -26,6 +27,7 @@ idx = %findIndex @.coverages "status" "=" "active"
 ```odin
 {out}
 idx = ##1
+missing = ##-1
 ```
 
 **Notes**

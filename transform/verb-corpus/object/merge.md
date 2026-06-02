@@ -11,11 +11,14 @@ Combine two objects, with the second object's properties overriding the first.
 ```odin
 {out}
 m = %merge @.a @.b
+nonObject = %merge @.notObj @.b
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {a}
 name = "Ada"
 role = "user"
@@ -31,6 +34,9 @@ active = ?true
 {out}
 {.m}
 name = "Ada"
+role = "admin"
+active = ?true
+{.nonObject}
 role = "admin"
 active = ?true
 ```

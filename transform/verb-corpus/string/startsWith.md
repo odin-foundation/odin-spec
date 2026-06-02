@@ -11,6 +11,8 @@ Return true when the string begins with the given prefix.
 ```odin
 {out}
 out = %startsWith @.name "Hon"
+noMatch = %startsWith @.name "civ"
+empty = %startsWith @.name ""
 ```
 
 **In**
@@ -24,6 +26,8 @@ name = "Honda"
 ```odin
 {out}
 out = ?true
+noMatch = ?false
+empty = ?true
 ```
 
 **Notes**

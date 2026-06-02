@@ -11,6 +11,11 @@ Reset a named counter so a later %sequence on that name restarts.
 ```odin
 {out}
 resetTo = %resetSequence "ctr"
+advanced = %sequence "hits"
+advanced2 = %sequence "hits"
+resetAfterUse = %resetSequence "hits"
+nextAfterReset = %sequence "hits"
+resetUnused = %resetSequence "fresh"
 ```
 
 **In**
@@ -24,6 +29,11 @@ x = "a"
 ```odin
 {out}
 resetTo = ##0
+advanced = ##1
+advanced2 = ##2
+resetAfterUse = ##0
+nextAfterReset = ##1
+resetUnused = ##0
 ```
 
 **Notes**

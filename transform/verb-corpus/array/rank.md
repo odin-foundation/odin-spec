@@ -11,12 +11,14 @@ Tag each element with a _rank field (ties share a rank).
 ```odin
 {out}
 ranked = %rank @.scores
+ascending = %rank @.scores2 "" "asc"
 ```
 
 **In**
 
 ```odin
 scores = "[10, 30, 20]"
+scores2 = "[10, 30, 20]"
 ```
 
 **Out**
@@ -26,6 +28,10 @@ scores = "[10, 30, 20]"
 {.ranked[] : _rank, value}
 ##3, ##10
 ##1, ##30
+##2, ##20
+{.ascending[] : _rank, value}
+##1, ##10
+##3, ##30
 ##2, ##20
 ```
 

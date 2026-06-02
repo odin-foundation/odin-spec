@@ -10,20 +10,26 @@ Read a date from a formatted string and normalize it to YYYY-MM-DD.
 
 ```odin
 {out}
-d = %parseDate @.raw "MM/DD/YYYY"
+slashUs = %parseDate @.raw "MM/DD/YYYY"
+isoSlash = %parseDate @.isoSlash "YYYY/MM/DD"
+dmy = %parseDate @.dmy "DD/MM/YYYY"
 ```
 
 **In**
 
 ```odin
 raw = "06/15/2024"
+isoSlash = "2024/03/15"
+dmy = "20/01/2024"
 ```
 
 **Out**
 
 ```odin
 {out}
-d = "2024-06-15"
+slashUs = "2024-06-15"
+isoSlash = "2024-03-15"
+dmy = "2024-01-20"
 ```
 
 **Notes**

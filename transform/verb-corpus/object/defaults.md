@@ -11,11 +11,14 @@ Merge a defaults object under a base object, filling only keys the base lacks.
 ```odin
 {out}
 merged = %defaults @.rec @.fallback
+nonObject = %defaults @.notObj @.fallback
 ```
 
 **In**
 
 ```odin
+notObj = "x"
+
 {rec}
 name = "Ada"
 
@@ -30,6 +33,9 @@ role = "guest"
 {out}
 {.merged}
 name = "Ada"
+role = "guest"
+{.nonObject}
+name = "Anon"
 role = "guest"
 ```
 

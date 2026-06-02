@@ -11,12 +11,16 @@ Remove whitespace from both ends of a string.
 ```odin
 {out}
 out = %trim @.raw
+interior = %trim @.spaced
+tabs = %trim @.tabbed
 ```
 
 **In**
 
 ```odin
 raw = "  hello  "
+spaced = "  a b c  "
+tabbed = "\thi\t"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "  hello  "
 ```odin
 {out}
 out = "hello"
+interior = "a b c"
+tabs = "hi"
 ```
 
 **Notes**

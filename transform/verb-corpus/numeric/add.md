@@ -11,6 +11,9 @@ Add two numeric values and return the sum.
 ```odin
 {out}
 total = %add @.base @.fee
+withString = %add @.base @.strFee
+withNull = %add @.base @.nul
+mixed = %add @.flt @.fee
 ```
 
 **In**
@@ -18,6 +21,9 @@ total = %add @.base @.fee
 ```odin
 base = ##500
 fee = ##75
+strFee = "25"
+nul = ~
+flt = #1.5
 ```
 
 **Out**
@@ -25,6 +31,9 @@ fee = ##75
 ```odin
 {out}
 total = ##575
+withString = ##525
+withNull = ##500
+mixed = #76.5
 ```
 
 **Notes**

@@ -11,14 +11,22 @@ Return true when every record satisfies a field condition.
 ```odin
 {out}
 allActive = %every @.coverages "status" "=" "active"
+notAll = %every @.mixed "status" "=" "active"
+nonArray = %every @.notArr "status" "=" "active"
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {coverages[] : type, status}
 "liability", "active"
 "collision", "active"
+
+{mixed[] : type, status}
+"liability", "active"
+"collision", "lapsed"
 ```
 
 **Out**
@@ -26,6 +34,8 @@ allActive = %every @.coverages "status" "=" "active"
 ```odin
 {out}
 allActive = ?true
+notAll = ?false
+nonArray = ~
 ```
 
 **Notes**

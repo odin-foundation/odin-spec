@@ -11,6 +11,8 @@ Produce an array of integers from start to end (exclusive).
 ```odin
 {out}
 nums = %range ##1 ##5
+stepped = %range ##0 ##10 ##2
+descending = %range ##5 ##1 ##-1
 ```
 
 **In**
@@ -29,6 +31,17 @@ x = "y"
 ##2
 ##3
 ##4
+{.stepped[] : ~}
+##0
+##2
+##4
+##6
+##8
+{.descending[] : ~}
+##5
+##4
+##3
+##2
 ```
 
 **Notes**

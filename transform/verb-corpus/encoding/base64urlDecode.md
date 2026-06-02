@@ -11,12 +11,16 @@ Decode a URL-safe Base64 string (with or without padding) back to its UTF-8 text
 ```odin
 {out}
 decoded = %base64urlDecode @.encoded
+padded = %base64urlDecode @.std
+empty = %base64urlDecode @.blank
 ```
 
 **In**
 
 ```odin
 encoded = "aGVsbG8gd29ybGQ_Pj4"
+std = "SGVsbG8="
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ encoded = "aGVsbG8gd29ybGQ_Pj4"
 ```odin
 {out}
 decoded = "hello world?>>"
+padded = "Hello"
+empty = ""
 ```
 
 **Notes**

@@ -10,13 +10,19 @@ Advance a date to the final day of its calendar month.
 
 ```odin
 {out}
-d = %endOfMonth @.date
+d = %endOfMonth @.feb
+thirty = %endOfMonth @.apr
+last = %endOfMonth @.dec
+bad = %endOfMonth @.notDate
 ```
 
 **In**
 
 ```odin
-date = 2024-02-15
+feb = 2024-02-15
+apr = 2024-04-10
+dec = 2024-12-01
+notDate = "nope"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ date = 2024-02-15
 ```odin
 {out}
 d = "2024-02-29"
+thirty = "2024-04-30"
+last = "2024-12-31"
+bad = ~
 ```
 
 **Notes**

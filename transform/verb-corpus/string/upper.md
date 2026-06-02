@@ -11,12 +11,16 @@ Uppercase every character of a string value.
 ```odin
 {out}
 upper = %upper @.name
+alreadyUpper = %upper @.code
+mixed = %upper @.label
 ```
 
 **In**
 
 ```odin
 name = "honda"
+code = "ABC"
+label = "Honda-2024!"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ name = "honda"
 ```odin
 {out}
 upper = "HONDA"
+alreadyUpper = "ABC"
+mixed = "HONDA-2024!"
 ```
 
 **Notes**

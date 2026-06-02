@@ -11,12 +11,16 @@ Remove whitespace from the start of a string only.
 ```odin
 {out}
 out = %trimLeft @.raw
+leadingOnly = %trimLeft @.front
+noLead = %trimLeft @.clean
 ```
 
 **In**
 
 ```odin
 raw = "  hello  "
+front = "   abc"
+clean = "abc  "
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "  hello  "
 ```odin
 {out}
 out = "hello  "
+leadingOnly = "abc"
+noLead = "abc  "
 ```
 
 **Notes**

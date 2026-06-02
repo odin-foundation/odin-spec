@@ -11,12 +11,14 @@ Return one of two values depending on a boolean condition.
 ```odin
 {out}
 tier = %ifElse %gt @.amount ##1000 "VIP" "Standard"
+elseBranch = %ifElse %gt @.small ##1000 "VIP" "Standard"
 ```
 
 **In**
 
 ```odin
 amount = ##2500
+small = ##50
 ```
 
 **Out**
@@ -24,6 +26,7 @@ amount = ##2500
 ```odin
 {out}
 tier = "VIP"
+elseBranch = "Standard"
 ```
 
 **Notes**

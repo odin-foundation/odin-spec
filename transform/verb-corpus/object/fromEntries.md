@@ -11,11 +11,14 @@ Build an object from an array of two-element [key, value] pairs.
 ```odin
 {out}
 o = %fromEntries @.pairs
+nonArray = %fromEntries @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {pairs[0][] : ~}
 "name"
 "Ada"
@@ -29,6 +32,7 @@ o = %fromEntries @.pairs
 
 ```odin
 {out}
+nonArray = ~
 {.o}
 name = "Ada"
 role = "admin"

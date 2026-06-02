@@ -11,12 +11,18 @@ Coerce truthy/falsy text or numbers to a typed boolean.
 ```odin
 {out}
 b = %coerceBoolean @.raw
+fromOne = %coerceBoolean @.one
+fromZero = %coerceBoolean @.zero
+fromOther = %coerceBoolean @.other
 ```
 
 **In**
 
 ```odin
 raw = "yes"
+one = ##1
+zero = ##0
+other = "maybe"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ raw = "yes"
 ```odin
 {out}
 b = ?true
+fromOne = ?true
+fromZero = ?false
+fromOther = ?false
 ```
 
 **Notes**

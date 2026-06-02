@@ -11,6 +11,9 @@ Reduce an array reference to the mean of its numeric elements.
 ```odin
 {out}
 mean = %avg @.amounts
+fractional = %avg @.thirds
+negatives = %avg @.deltas
+single = %avg @.one
 ```
 
 **In**
@@ -20,6 +23,19 @@ mean = %avg @.amounts
 ##10
 ##20
 ##30
+
+{thirds[] : ~}
+##1
+##2
+##2
+
+{deltas[] : ~}
+##-10
+##20
+##-40
+
+{one[] : ~}
+##42
 ```
 
 **Out**
@@ -27,6 +43,9 @@ mean = %avg @.amounts
 ```odin
 {out}
 mean = ##20
+fractional = #1.6666666666666667
+negatives = ##-10
+single = ##42
 ```
 
 **Notes**

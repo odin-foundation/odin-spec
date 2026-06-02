@@ -11,6 +11,7 @@ Return true when a value is a date or timestamp type.
 ```odin
 {out}
 isDt = %isDate %coerceDate @.born
+notDate = %isDate @.born
 ```
 
 **In**
@@ -24,6 +25,7 @@ born = "2020-01-15"
 ```odin
 {out}
 isDt = ?true
+notDate = ?false
 ```
 
 **Notes**

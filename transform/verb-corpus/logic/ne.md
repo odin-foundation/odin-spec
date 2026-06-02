@@ -11,12 +11,15 @@ Return true when two values are not equal.
 ```odin
 {out}
 changed = %ne @.status "active"
+same = %ne @.status "closed"
+crossType = %ne @.count ##5
 ```
 
 **In**
 
 ```odin
 status = "closed"
+count = ##5
 ```
 
 **Out**
@@ -24,6 +27,8 @@ status = "closed"
 ```odin
 {out}
 changed = ?true
+same = ?false
+crossType = ?false
 ```
 
 **Notes**

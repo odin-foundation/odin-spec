@@ -11,12 +11,16 @@ Return true when the first value is strictly greater than the second.
 ```odin
 {out}
 big = %gt @.amount ##1000
+equalNotGt = %gt @.edge ##1000
+small = %gt @.little ##1000
 ```
 
 **In**
 
 ```odin
 amount = ##2500
+edge = ##1000
+little = ##50
 ```
 
 **Out**
@@ -24,6 +28,8 @@ amount = ##2500
 ```odin
 {out}
 big = ?true
+equalNotGt = ?false
+small = ?false
 ```
 
 **Notes**

@@ -11,12 +11,17 @@ Format a fractional ratio as a percentage string with a fixed number of decimals
 ```odin
 {out}
 v = %formatPercent @.a ##1
+zeroDecimals = %formatPercent @.a ##0
+whole = %formatPercent @.b ##1
+negative = %formatPercent @.c ##1
 ```
 
 **In**
 
 ```odin
 a = #0.1234
+b = #1
+c = #-0.05
 ```
 
 **Out**
@@ -24,6 +29,9 @@ a = #0.1234
 ```odin
 {out}
 v = "12.3%"
+zeroDecimals = "12%"
+whole = "100.0%"
+negative = "-5.0%"
 ```
 
 **Notes**

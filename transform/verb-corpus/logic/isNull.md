@@ -11,12 +11,16 @@ Return true when a value is null (~).
 ```odin
 {out}
 missing = %isNull @.middleName
+present = %isNull @.name
+emptyStr = %isNull @.blank
 ```
 
 **In**
 
 ```odin
 middleName = ~
+name = "Ada"
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ middleName = ~
 ```odin
 {out}
 missing = ?true
+present = ?false
+emptyStr = ?false
 ```
 
 **Notes**

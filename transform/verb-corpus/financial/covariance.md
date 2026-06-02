@@ -11,6 +11,8 @@ Measure how two numeric series vary together.
 ```odin
 {out}
 r = %covariance @.x @.y
+uneven = %covariance @.x @.shortY
+constant = %covariance @.x @.flat
 ```
 
 **In**
@@ -29,6 +31,18 @@ r = %covariance @.x @.y
 ##5
 ##4
 ##6
+
+{shortY[] : ~}
+##2
+##4
+##5
+
+{flat[] : ~}
+##7
+##7
+##7
+##7
+##7
 ```
 
 **Out**
@@ -36,6 +50,8 @@ r = %covariance @.x @.y
 ```odin
 {out}
 r = #1.6
+uneven = ##1
+constant = ##0
 ```
 
 **Notes**

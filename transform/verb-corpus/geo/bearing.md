@@ -11,6 +11,8 @@ Compute the initial bearing (forward azimuth) in degrees from one point to anoth
 ```odin
 {out}
 heading = %bearing @.lat1 @.lng1 @.lat2 @.lng2
+samePoint = %bearing @.lat1 @.lng1 @.lat1 @.lng1
+outOfRange = %bearing @.lat1 @.lng1 @.badLat @.lng2
 ```
 
 **In**
@@ -20,6 +22,7 @@ lat1 = #40.7128
 lng1 = #-74.006
 lat2 = #34.0522
 lng2 = #-118.2437
+badLat = #91
 ```
 
 **Out**
@@ -27,6 +30,8 @@ lng2 = #-118.2437
 ```odin
 {out}
 heading = #273.6871323393308
+samePoint = #0
+outOfRange = ~
 ```
 
 **Notes**

@@ -11,6 +11,7 @@ Return the fractional change between each element and the prior one.
 ```odin
 {out}
 returns = %pctChange @.prices
+fromZero = %pctChange @.zeroStart
 ```
 
 **In**
@@ -20,6 +21,11 @@ returns = %pctChange @.prices
 ##100
 ##110
 ##99
+
+{zeroStart[] : ~}
+##0
+##5
+##10
 ```
 
 **Out**
@@ -30,6 +36,10 @@ returns = %pctChange @.prices
 ~
 #0.1
 #-0.1
+{.fromZero[] : ~}
+~
+~
+##1
 ```
 
 **Notes**

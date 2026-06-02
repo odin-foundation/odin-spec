@@ -11,12 +11,16 @@ Parse a string (or number/timestamp) into a typed date, dropping any time compon
 ```odin
 {out}
 d = %coerceDate @.raw
+slash = %coerceDate @.slash
+bad = %coerceDate @.bad
 ```
 
 **In**
 
 ```odin
 raw = "2024-06-15"
+slash = "06/15/2024"
+bad = "not-a-date"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "2024-06-15"
 ```odin
 {out}
 d = 2024-06-15
+slash = 2024-06-15
+bad = ~
 ```
 
 **Notes**

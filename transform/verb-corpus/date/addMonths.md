@@ -11,12 +11,17 @@ Add (or subtract) a number of months to a date, returning an ISO date.
 ```odin
 {out}
 d = %addMonths @.start ##2
+febOverflow = %addMonths @.jan31 ##1
+back = %addMonths @.start ##-3
+bad = %addMonths @.notDate ##2
 ```
 
 **In**
 
 ```odin
 start = 2024-01-31
+jan31 = 2024-01-31
+notDate = "nope"
 ```
 
 **Out**
@@ -24,6 +29,9 @@ start = 2024-01-31
 ```odin
 {out}
 d = "2024-03-31"
+febOverflow = "2024-03-02"
+back = "2023-10-31"
+bad = ~
 ```
 
 **Notes**

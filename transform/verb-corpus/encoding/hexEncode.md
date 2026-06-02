@@ -11,12 +11,16 @@ Encode a string as a lowercase hexadecimal byte sequence.
 ```odin
 {out}
 h = %hexEncode @.data
+world = %hexEncode @.other
+empty = %hexEncode @.blank
 ```
 
 **In**
 
 ```odin
 data = "Hello"
+other = "world"
+blank = ""
 ```
 
 **Out**
@@ -24,6 +28,8 @@ data = "Hello"
 ```odin
 {out}
 h = "48656c6c6f"
+world = "776f726c64"
+empty = ""
 ```
 
 **Notes**

@@ -11,6 +11,8 @@ Return the smallest of two or more scalar numeric arguments.
 ```odin
 {out}
 v = %minOf @.a @.b @.c
+negatives = %minOf @.n1 @.n2 @.n3
+pair = %minOf @.p1 @.p2
 ```
 
 **In**
@@ -19,6 +21,11 @@ v = %minOf @.a @.b @.c
 a = #9
 b = #4
 c = #7
+n1 = #-2
+n2 = #-9
+n3 = #5
+p1 = #3
+p2 = #8
 ```
 
 **Out**
@@ -26,6 +33,8 @@ c = #7
 ```odin
 {out}
 v = ##4
+negatives = ##-9
+pair = ##3
 ```
 
 **Notes**

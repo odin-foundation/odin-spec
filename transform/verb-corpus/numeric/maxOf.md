@@ -11,6 +11,9 @@ Return the largest of two or more scalar numeric arguments.
 ```odin
 {out}
 v = %maxOf @.a @.b @.c
+negatives = %maxOf @.na @.nb
+twoEqual = %maxOf @.a @.a
+mixed = %maxOf @.flt @.a
 ```
 
 **In**
@@ -19,6 +22,9 @@ v = %maxOf @.a @.b @.c
 a = #9
 b = #4
 c = #7
+na = #-5
+nb = #-2
+flt = #9.5
 ```
 
 **Out**
@@ -26,6 +32,9 @@ c = #7
 ```odin
 {out}
 v = ##9
+negatives = ##-2
+twoEqual = ##9
+mixed = #9.5
 ```
 
 **Notes**

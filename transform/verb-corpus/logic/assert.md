@@ -11,12 +11,16 @@ Return the condition value when truthy, otherwise null, for inline validation.
 ```odin
 {out}
 valid = %assert %gt @.amount ##0
+failed = %assert %gt @.zero ##0
+passThrough = %assert %eq @.status "active"
 ```
 
 **In**
 
 ```odin
 amount = ##150
+zero = ##0
+status = "active"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ amount = ##150
 ```odin
 {out}
 valid = ?true
+failed = ~
+passThrough = ?true
 ```
 
 **Notes**

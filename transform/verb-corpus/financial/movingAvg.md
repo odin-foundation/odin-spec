@@ -11,6 +11,8 @@ Smooth a numeric series with a simple moving average over a fixed window.
 ```odin
 {out}
 r = %movingAvg @.prices @.w
+windowOne = %movingAvg @.prices @.one
+wideWindow = %movingAvg @.prices @.big
 ```
 
 **In**
@@ -24,6 +26,8 @@ r = %movingAvg @.prices @.w
 ##50
 
 w = ##3
+one = ##1
+big = ##10
 ```
 
 **Out**
@@ -36,6 +40,18 @@ w = ##3
 ##20
 ##30
 ##40
+{.windowOne[] : ~}
+##10
+##20
+##30
+##40
+##50
+{.wideWindow[] : ~}
+##10
+##15
+##20
+##25
+##30
 ```
 
 **Notes**

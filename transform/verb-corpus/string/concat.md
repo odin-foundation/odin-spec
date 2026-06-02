@@ -11,6 +11,8 @@ Concatenate two or more values into a single string.
 ```odin
 {out}
 fullName = %concat @.firstName " " @.lastName
+three = %concat @.firstName "-" @.lastName
+numeric = %concat "id" @.num
 ```
 
 **In**
@@ -18,6 +20,7 @@ fullName = %concat @.firstName " " @.lastName
 ```odin
 firstName = "John"
 lastName = "Smith"
+num = ##42
 ```
 
 **Out**
@@ -25,6 +28,8 @@ lastName = "Smith"
 ```odin
 {out}
 fullName = "John Smith"
+three = "John-Smith"
+numeric = "id42"
 ```
 
 **Notes**

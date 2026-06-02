@@ -11,12 +11,18 @@ Return true when a value is integer, number, or currency.
 ```odin
 {out}
 isNum = %isNumber @.amount
+isFloat = %isNumber @.rate
+numericText = %isNumber @.code
+nullVal = %isNumber @.missing
 ```
 
 **In**
 
 ```odin
 amount = ##42
+rate = #3.14
+code = "42"
+missing = ~
 ```
 
 **Out**
@@ -24,6 +30,9 @@ amount = ##42
 ```odin
 {out}
 isNum = ?true
+isFloat = ?true
+numericText = ?false
+nullVal = ?false
 ```
 
 **Notes**

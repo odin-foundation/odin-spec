@@ -11,12 +11,16 @@ Decode Base64 text back into its original UTF-8 string.
 ```odin
 {out}
 dec = %base64Decode @.b
+urlsafe = %base64Decode @.u
+invalid = %base64Decode @.bad
 ```
 
 **In**
 
 ```odin
 b = "SGVsbG8sIFdvcmxkIQ=="
+u = "aGVsbG8_Pg"
+bad = "Hello!"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ b = "SGVsbG8sIFdvcmxkIQ=="
 ```odin
 {out}
 dec = "Hello, World!"
+urlsafe = "hello?>"
+invalid = ~
 ```
 
 **Notes**

@@ -11,24 +11,31 @@ Filter an array of objects to the rows where a field matches a value.
 ```odin
 {out}
 active = %filter @.coverages "status" "=" "active"
+greater = %filter @.coverages "limit" ">" ##100
+notActive = %filter @.coverages "status" "!=" "active"
 ```
 
 **In**
 
 ```odin
-{coverages[] : type, status}
-"liability", "active"
-"collision", "cancelled"
-"comprehensive", "active"
+{coverages[] : type, status, limit}
+"liability", "active", ##50
+"collision", "cancelled", ##200
+"comprehensive", "active", ##300
 ```
 
 **Out**
 
 ```odin
 {out}
-{.active[] : type, status}
-"liability", "active"
-"comprehensive", "active"
+{.active[] : type, status, limit}
+"liability", "active", ##50
+"comprehensive", "active", ##300
+{.greater[] : type, status, limit}
+"collision", "cancelled", ##200
+"comprehensive", "active", ##300
+{.notActive[] : type, status, limit}
+"collision", "cancelled", ##200
 ```
 
 **Notes**

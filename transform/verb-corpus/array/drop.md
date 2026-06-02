@@ -11,11 +11,16 @@ Return the array with the first count elements removed.
 ```odin
 {out}
 rest = %drop @.items ##2
+dropNone = %drop @.items ##0
+negative = %drop @.items ##-1
+nonArray = %drop @.notArr ##1
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {items[] : ~}
 "a"
 "b"
@@ -30,6 +35,13 @@ rest = %drop @.items ##2
 {.rest[] : ~}
 "c"
 "d"
+{.dropNone[] : ~}
+"a"
+"b"
+"c"
+"d"
+negative = ~
+nonArray = ~
 ```
 
 **Notes**

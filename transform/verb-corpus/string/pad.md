@@ -10,20 +10,26 @@ Pad the end of a string with a fill character until it reaches a target length.
 
 ```odin
 {out}
-out = %pad @.code ##6 "."
+padded = %pad @.code ##6 "."
+already = %pad @.long ##3 "."
+exact = %pad @.exact ##2 "."
 ```
 
 **In**
 
 ```odin
 code = "42"
+long = "abcdef"
+exact = "ab"
 ```
 
 **Out**
 
 ```odin
 {out}
-out = "42...."
+padded = "42...."
+already = "abcdef"
+exact = "ab"
 ```
 
 **Notes**

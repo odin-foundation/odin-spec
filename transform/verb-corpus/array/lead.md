@@ -11,6 +11,8 @@ Shift values backward so each row sees the following value.
 ```odin
 {out}
 next = %lead @.prices
+by2 = %lead @.prices ##2
+withDefault = %lead @.prices ##1 ##0
 ```
 
 **In**
@@ -30,6 +32,14 @@ next = %lead @.prices
 ##20
 ##30
 ~
+{.by2[] : ~}
+##30
+~
+~
+{.withDefault[] : ~}
+##20
+##30
+##0
 ```
 
 **Notes**

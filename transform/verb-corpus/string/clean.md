@@ -11,12 +11,16 @@ Remove control characters, normalize Unicode whitespace to spaces, collapse runs
 ```odin
 {out}
 out = %clean @.raw
+tabs = %clean @.tabs
+clean = %clean @.tidy
 ```
 
 **In**
 
 ```odin
 raw = "  hello   world  "
+tabs = "a\t\tb\nc"
+tidy = "already clean"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ raw = "  hello   world  "
 ```odin
 {out}
 out = "hello world"
+tabs = "a b c"
+clean = "already clean"
 ```
 
 **Notes**

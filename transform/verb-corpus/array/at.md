@@ -11,11 +11,17 @@ Read a single array element by index, supporting negative indices.
 ```odin
 {out}
 last = %at @.items ##-1
+first = %at @.items ##0
+outOfRange = %at @.items ##9
+beyondNeg = %at @.items ##-9
+nonArray = %at @.notArr ##0
 ```
 
 **In**
 
 ```odin
+notArr = "x"
+
 {items[] : ~}
 "a"
 "b"
@@ -27,6 +33,10 @@ last = %at @.items ##-1
 ```odin
 {out}
 last = "c"
+first = "a"
+outOfRange = ~
+beyondNeg = ~
+nonArray = ~
 ```
 
 **Notes**

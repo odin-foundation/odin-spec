@@ -11,6 +11,9 @@ Return the value at a given percentile of a numeric array using linear interpola
 ```odin
 {out}
 r = %percentile @.values @.p
+min = %percentile @.values @.zero
+max = %percentile @.values @.hundred
+outOfRange = %percentile @.values @.over
 ```
 
 **In**
@@ -24,6 +27,9 @@ r = %percentile @.values @.p
 ##50
 
 p = ##90
+zero = ##0
+hundred = ##100
+over = ##150
 ```
 
 **Out**
@@ -31,6 +37,9 @@ p = ##90
 ```odin
 {out}
 r = ##46
+min = ##10
+max = ##50
+outOfRange = ~
 ```
 
 **Notes**

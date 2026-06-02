@@ -11,12 +11,17 @@ Insert newlines at word boundaries so each line fits within a width.
 ```odin
 {out}
 out = %wrap @.text ##10
+short = %wrap @.tiny ##10
+exact = %wrap @.exact ##5
+zero = %wrap @.text ##0
 ```
 
 **In**
 
 ```odin
 text = "the quick brown fox"
+tiny = "short"
+exact = "12345"
 ```
 
 **Out**
@@ -24,6 +29,9 @@ text = "the quick brown fox"
 ```odin
 {out}
 out = "the quick\nbrown fox"
+short = "short"
+exact = "12345"
+zero = ~
 ```
 
 **Notes**

@@ -11,12 +11,18 @@ Parse a string into an integer using an explicit numeric base.
 ```odin
 {out}
 v = %parseInt @.a ##16
+decimal = %parseInt @.b ##10
+binary = %parseInt @.c ##2
+badRadix = %parseInt @.d ##99
 ```
 
 **In**
 
 ```odin
 a = "FF"
+b = "42"
+c = "1010"
+d = "10"
 ```
 
 **Out**
@@ -24,6 +30,9 @@ a = "FF"
 ```odin
 {out}
 v = ##255
+decimal = ##42
+binary = ##10
+badRadix = ~
 ```
 
 **Notes**

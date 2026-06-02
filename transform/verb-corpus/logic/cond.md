@@ -11,12 +11,16 @@ Evaluate condition/value pairs and return the value of the first true condition,
 ```odin
 {out}
 code = %cond %eq @.status "active" "A" %eq @.status "pending" "P" "X"
+firstWins = %cond %eq @.active "active" "A" %eq @.active "pending" "P" "X"
+fallthrough = %cond %eq @.unknown "active" "A" %eq @.unknown "pending" "P" "X"
 ```
 
 **In**
 
 ```odin
 status = "pending"
+active = "active"
+unknown = "closed"
 ```
 
 **Out**
@@ -24,6 +28,8 @@ status = "pending"
 ```odin
 {out}
 code = "P"
+firstWins = "A"
+fallthrough = "X"
 ```
 
 **Notes**

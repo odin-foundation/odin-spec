@@ -11,6 +11,8 @@ Move elements forward (or backward) filling gaps with null.
 ```odin
 {out}
 lagged = %shift @.prices ##1
+backward = %shift @.prices ##-1
+filled = %shift @.prices ##1 ##0
 ```
 
 **In**
@@ -28,6 +30,14 @@ lagged = %shift @.prices ##1
 {out}
 {.lagged[] : ~}
 ~
+##10
+##20
+{.backward[] : ~}
+##20
+##30
+~
+{.filled[] : ~}
+##0
 ##10
 ##20
 ```

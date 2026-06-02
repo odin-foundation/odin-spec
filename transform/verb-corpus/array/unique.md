@@ -11,6 +11,8 @@ Drop repeated values from an array (alias of %distinct).
 ```odin
 {out}
 uniq = %unique @.tags
+allNew = %unique @.distinctTags
+nonAdjacent = %unique @.codes
 ```
 
 **In**
@@ -20,6 +22,18 @@ uniq = %unique @.tags
 "auto"
 "home"
 "auto"
+
+{distinctTags[] : ~}
+"x"
+"y"
+"z"
+
+{codes[] : ~}
+##1
+##2
+##1
+##3
+##2
 ```
 
 **Out**
@@ -29,6 +43,14 @@ uniq = %unique @.tags
 {.uniq[] : ~}
 "auto"
 "home"
+{.allNew[] : ~}
+"x"
+"y"
+"z"
+{.nonAdjacent[] : ~}
+##1
+##2
+##3
 ```
 
 **Notes**

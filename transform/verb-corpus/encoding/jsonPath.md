@@ -11,13 +11,21 @@ Extract a nested value from an object using a JSONPath-style expression.
 ```odin
 {out}
 name = %jsonPath @.data "$.user.name"
+first = %jsonPath @.data "$.items[0]"
+missing = %jsonPath @.data "$.user.email"
 ```
 
 **In**
 
 ```odin
-data.user.name = "Ada"
-data.user.id = ##7
+{data.user}
+name = "Ada"
+id = ##7
+
+{data.items[] : ~}
+"x"
+"y"
+"z"
 ```
 
 **Out**
@@ -25,6 +33,8 @@ data.user.id = ##7
 ```odin
 {out}
 name = "Ada"
+first = "x"
+missing = ~
 ```
 
 **Notes**

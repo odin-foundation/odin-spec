@@ -11,11 +11,13 @@ Fold an array of [key, value] pairs into a single object keyed by the first elem
 ```odin
 {out}
 obj = %toObject @.pairs
+nonArray = %toObject @.notArr
 ```
 
 **In**
 
 ```odin
+notArr = "x"
 pairs[0][0] = "a"
 pairs[0][1] = ##1
 pairs[1][0] = "b"
@@ -26,6 +28,7 @@ pairs[1][1] = ##2
 
 ```odin
 {out}
+nonArray = ~
 {.obj}
 a = ##1
 b = ##2

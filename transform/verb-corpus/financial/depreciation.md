@@ -11,6 +11,8 @@ Compute the constant per-period depreciation: (cost − salvage) / life.
 ```odin
 {out}
 r = %depreciation @.cost @.salvage @.life
+salvageOverCost = %depreciation @.lowCost @.highSalvage @.life
+zeroLife = %depreciation @.cost @.salvage @.zero
 ```
 
 **In**
@@ -19,6 +21,9 @@ r = %depreciation @.cost @.salvage @.life
 cost = #10000
 salvage = #2000
 life = ##5
+lowCost = #2000
+highSalvage = #10000
+zero = ##0
 ```
 
 **Out**
@@ -26,6 +31,8 @@ life = ##5
 ```odin
 {out}
 r = ##1600
+salvageOverCost = ~
+zeroLife = ~
 ```
 
 **Notes**

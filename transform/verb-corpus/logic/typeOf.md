@@ -11,12 +11,18 @@ Return the type name of a value as a string.
 ```odin
 {out}
 kind = %typeOf @.amount
+text = %typeOf @.name
+flag = %typeOf @.active
+nothing = %typeOf @.missing
 ```
 
 **In**
 
 ```odin
 amount = ##42
+name = "Ada"
+active = ?true
+missing = ~
 ```
 
 **Out**
@@ -24,6 +30,9 @@ amount = ##42
 ```odin
 {out}
 kind = "integer"
+text = "string"
+flag = "boolean"
+nothing = "null"
 ```
 
 **Notes**
