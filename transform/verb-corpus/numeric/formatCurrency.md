@@ -37,5 +37,5 @@ rounds = "2.57"
 
 **Notes**
 
-- Always emits two decimals (19.5 → "19.50") and produces a plain string with no currency symbol.
+- Always emits two decimals (19.5 -> "19.50") and produces a plain string with no currency symbol.
 - The output is a string, not the #$ currency value type.

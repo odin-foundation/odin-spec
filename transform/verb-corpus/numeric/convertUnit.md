@@ -37,7 +37,7 @@ unknownUnit = ~
 
 - Supports mass, length, volume, speed, area, data, time, and temperature (C/F/K) families.
 - Results are rounded to at most six decimal places.
-- Incompatible units across families (e.g. kg → km) yield null (~).
+- Incompatible units across families (e.g. kg -> km) yield null (~).
 
 **Avoid**
 

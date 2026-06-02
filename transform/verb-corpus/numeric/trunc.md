@@ -34,5 +34,5 @@ whole = ##5
 
 **Notes**
 
-- Rounds toward zero (-3.7 → -3), unlike %floor which rounds toward negative infinity (-3.7 → -4).
+- Rounds toward zero (-3.7 -> -3), unlike %floor which rounds toward negative infinity (-3.7 -> -4).
 - Always returns an integer (##).

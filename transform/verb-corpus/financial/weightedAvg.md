@@ -49,7 +49,7 @@ mismatch = ##85
 
 **Notes**
 
-- Computes sum(value × weight) / sum(weight); here (90·3 + 80·2 + 70·1) / 6.
+- Computes sum(value x weight) / sum(weight); here (90·3 + 80·2 + 70·1) / 6.
 - First argument is the values array, second is the weights array - order matters.
 - Weights summing to zero make the divisor zero, so the result is ~ (null).
 - Arrays of unequal length are truncated to the shorter one; here values[90,80,70] with weights[1,1] averages only the first two to 85.

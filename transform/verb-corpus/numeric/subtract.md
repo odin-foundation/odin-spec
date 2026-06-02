@@ -37,7 +37,7 @@ negativeResult = ##-5
 
 **Notes**
 
-- Argument order is a − b.
+- Argument order is a - b.
 - A whole-valued result emits as an integer (##); a fractional result emits as a number (#).
 
 **Avoid**

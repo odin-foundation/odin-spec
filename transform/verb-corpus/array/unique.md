@@ -2,7 +2,7 @@
 
 remove duplicate values
 
-**Signature:** `%unique <array> [<string:field>] -> array`
+**Signature:** `%unique <array> -> array`
 
 Drop repeated values from an array (alias of %distinct).
 
@@ -56,3 +56,4 @@ nonAdjacent = %unique @.codes
 **Notes**
 
 - Alias for %distinct; keeps the first occurrence of each value.
+- Field-based dedup is not available through this verb; use %dedupe or %distinct for that.

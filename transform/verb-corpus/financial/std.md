@@ -44,10 +44,6 @@ scalar = ~
 
 **Notes**
 
-- Divides the summed squared deviations by n (population), not n−1.
+- Divides the summed squared deviations by n (population), not n-1.
 - Identical values have zero spread, so the result is 0.
 - Provide the array as a typed array block ({returns[] : ~}); a scalar argument yields ~ (null).
-
-**Avoid**
-
-- `r = %std @.x ; x = #5`: passing a scalar instead of an array yields ~ (null); %std needs a numeric array

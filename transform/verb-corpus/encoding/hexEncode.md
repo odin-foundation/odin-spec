@@ -35,4 +35,4 @@ empty = ""
 **Notes**
 
 - Each byte is rendered as two lowercase hex digits.
-- Characters above U+007F are encoded as their UTF-8 byte sequence.
+- Only ASCII input (<= U+007F) is supported; non-ASCII byte handling is not yet stable.

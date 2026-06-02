@@ -2,7 +2,7 @@
 
 sort a primitive array ascending
 
-**Signature:** `%sort <array> [<string:field>] [<string:direction>] -> array`
+**Signature:** `%sort <array> -> array`
 
 Order array values ascending (numeric when all numbers, else lexical).
 
@@ -45,4 +45,4 @@ lexical = %sort @.words
 **Notes**
 
 - Numeric arrays sort numerically; mixed/string arrays sort lexically.
-- Optional second/third args sort an object array by field and direction ("asc"/"desc").
+- Sorts primitive values only; use %sortDesc for descending order and %sortBy to sort an object array by a field.

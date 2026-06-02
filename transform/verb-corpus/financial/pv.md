@@ -4,7 +4,7 @@ present value of an annuity
 
 **Signature:** `%pv <number:payment> <number:rate> <number:periods> -> number`
 
-Discount a stream of equal payments to today: PMT × (1 − (1+r)^-n) / r.
+Discount a stream of equal payments to today: PMT x (1 - (1+r)^-n) / r.
 
 **Transform**
 
@@ -35,4 +35,4 @@ zeroRate = ##120000
 
 - Receiving 1000 per period at 0.5% per period for 120 periods is worth about 90073.45 today.
 - First argument is the periodic payment; use %discount for a single future amount.
-- A zero rate falls back to payment × periods.
+- A zero rate falls back to payment x periods.

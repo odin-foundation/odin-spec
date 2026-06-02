@@ -39,7 +39,7 @@ negative = #-5
 
 **Notes**
 
-- Argument order is a ÷ b.
+- Argument order is a / b.
 - Division always yields a number type (#), reflecting the possibility of a decimal result.
 - A zero divisor yields null (~) rather than an error; use %safeDivide to supply a fallback.
 

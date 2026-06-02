@@ -4,7 +4,7 @@ straight-line depreciation per period
 
 **Signature:** `%depreciation <number:cost> <number:salvage> <number:life> -> number`
 
-Compute the constant per-period depreciation: (cost − salvage) / life.
+Compute the constant per-period depreciation: (cost - salvage) / life.
 
 **Transform**
 

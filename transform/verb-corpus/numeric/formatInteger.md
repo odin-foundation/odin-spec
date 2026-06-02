@@ -34,5 +34,5 @@ already = "1000"
 
 **Notes**
 
-- Flooring discards the fraction (42.9 → 42), it does not round.
+- Flooring discards the fraction (42.9 -> 42), it does not round.
 - The result is a string, not a number type.

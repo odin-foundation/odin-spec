@@ -38,4 +38,3 @@ fromEmpty = ##3
 **Notes**
 
 - Two required string arguments. Counts insertions, deletions, and substitutions. Returns an integer (## prefix).
-- Inputs longer than an internal length limit return null.

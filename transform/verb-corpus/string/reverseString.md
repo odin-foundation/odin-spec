@@ -34,4 +34,4 @@ single = "x"
 
 **Notes**
 
-- Single argument. Reversal is Unicode-aware (code points, not UTF-16 units).
+- Single argument. Reverses the character order.

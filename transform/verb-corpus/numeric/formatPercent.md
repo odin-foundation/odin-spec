@@ -36,7 +36,7 @@ negative = "-5.0%"
 
 **Notes**
 
-- Multiplies by 100 and appends a percent sign (0.1234 → "12.3%").
+- Multiplies by 100 and appends a percent sign (0.1234 -> "12.3%").
 - The result is a string.
 
 **Avoid**

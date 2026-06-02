@@ -41,4 +41,4 @@ nonArray = ~
 **Notes**
 
 - Field, operator, and value are three separate quoted arguments.
-- An empty array returns ?true (vacuous truth).
+- A non-array or empty input routes through the non-array path and yields ~ (null).

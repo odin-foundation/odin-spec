@@ -4,7 +4,7 @@ sample variance
 
 **Signature:** `%varianceSample <array:values> -> number`
 
-Compute the sample variance (n−1 denominator) of a numeric array.
+Compute the sample variance (n-1 denominator) of a numeric array.
 
 **Transform**
 
@@ -44,5 +44,5 @@ single = ~
 
 **Notes**
 
-- Divides the summed squared deviations by n−1 (Bessel's correction); it is the square of %stdSample.
+- Divides the summed squared deviations by n-1 (Bessel's correction); it is the square of %stdSample.
 - A two-element array [10, 20] gives 50; a single-element array yields ~ (null).

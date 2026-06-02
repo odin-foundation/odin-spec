@@ -37,4 +37,4 @@ overLen = "nda"
 
 **Avoid**
 
-- `out = %substring @.name ##3 ##1`: second arg is start and third is length, not start/end; ##3 ##1 starts at index 3 for length 1 → "d", not "ond"
+- `out = %substring @.name ##3 ##1`: second arg is start and third is length, not start/end; ##3 ##1 starts at index 3 for length 1 -> "d", not "ond"

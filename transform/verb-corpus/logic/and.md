@@ -34,7 +34,7 @@ failHigh = ?false
 
 **Notes**
 
-- Each operand is itself a verb-expression that yields a boolean (%gte …, %lt …).
+- Each operand is itself a verb-expression that yields a boolean (%gte ..., %lt ...).
 - Exactly two operands; nest %and inside %and for three or more conditions.
 
 **Avoid**

@@ -35,3 +35,4 @@ underscore = "hello-world-foo"
 **Notes**
 
 - Non-word characters are removed, spaces and underscores become hyphens, repeated hyphens collapse, and leading/trailing hyphens are trimmed.
+- Accented or non-ASCII letters are removed rather than transliterated; chain %stripAccents before %slugify to fold them to ASCII first.

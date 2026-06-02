@@ -4,7 +4,7 @@ sample standard deviation
 
 **Signature:** `%stdSample <array:values> -> number`
 
-Compute the sample standard deviation (n−1 denominator) of a numeric array.
+Compute the sample standard deviation (n-1 denominator) of a numeric array.
 
 **Transform**
 
@@ -44,5 +44,5 @@ single = ~
 
 **Notes**
 
-- Divides the summed squared deviations by n−1 (Bessel's correction), so it exceeds %std on the same data.
+- Divides the summed squared deviations by n-1 (Bessel's correction), so it exceeds %std on the same data.
 - A two-element array [10, 20] gives sqrt(50) = ~7.071; a single-element array yields ~ (null).

@@ -4,7 +4,7 @@ future value of a lump sum
 
 **Signature:** `%compound <number:principal> <number:rate> <number:periods> -> number`
 
-Grow a principal at a per-period rate over n periods: P × (1 + r)^n.
+Grow a principal at a per-period rate over n periods: P x (1 + r)^n.
 
 **Transform**
 
@@ -37,4 +37,4 @@ r = #16288.946267774423
 **Avoid**
 
 - `r = %compound @.principal @.rate @.years ; rate = #5`: a rate given as 5 (meaning 500%) instead of 0.05 returns ~604661760000 - express the rate as a fraction
-- `r = %compound @.principal @.years @.rate`: rate and periods are swapped; the engine computes 10000 × (1+10)^0.05 = ~11273.78, not the intended growth
+- `r = %compound @.principal @.years @.rate`: rate and periods are swapped; the engine computes 10000 x (1+10)^0.05 = ~11273.78, not the intended growth

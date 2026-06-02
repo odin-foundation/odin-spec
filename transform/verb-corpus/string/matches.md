@@ -4,7 +4,7 @@ regex test (alias of %match)
 
 **Signature:** `%matches <string> <pattern:string> -> boolean`
 
-Return true when a string matches a regular expression anywhere.
+Return true when a string matches a regular expression.
 
 **Transform**
 
@@ -31,5 +31,5 @@ miss = ?false
 
 **Notes**
 
-- Behaves like %match. Two required arguments: the string and the regex pattern.
+- An exact alias of %match with identical, unanchored behavior. Two required arguments: the string and the regex pattern.
 - Backslashes in the pattern are escaped within the ODIN string literal (\\w for \w). Returns a boolean (? prefix).

@@ -38,3 +38,4 @@ bad = ~
 
 - Month arithmetic uses calendar-month stepping, not a fixed day count.
 - A negative count moves the date backward.
+- Overflow is not clamped: a day absent from the target month rolls forward (Jan 31 + 1 month is Mar 2, not Feb 29). Every SDK must reproduce this rollover.

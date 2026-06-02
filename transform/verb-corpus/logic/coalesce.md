@@ -4,7 +4,7 @@ first non-null value
 
 **Signature:** `%coalesce <value> [<value>...] -> value`
 
-Return the first argument that is not null or empty.
+Return the first argument that is not null.
 
 **Transform**
 
@@ -38,6 +38,7 @@ firstPresent = "Carol"
 
 - Arguments are tried left-to-right; the first non-null wins (here nickname is ~, so firstName is used).
 - End with a quoted literal default so the result is never null.
+- Only null (~) is skipped; empty strings are kept (use %ifEmpty to treat an empty string as missing).
 
 **Avoid**
 

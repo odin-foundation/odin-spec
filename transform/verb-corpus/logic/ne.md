@@ -12,7 +12,7 @@ Return true when two values are not equal.
 {out}
 changed = %ne @.status "active"
 same = %ne @.status "closed"
-crossType = %ne @.count ##5
+crossType = %ne @.count "5"
 ```
 
 **In**
