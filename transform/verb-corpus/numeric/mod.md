@@ -1,0 +1,37 @@
+# %mod
+
+remainder of division
+
+**Signature:** `%mod <number:a> <number:b> -> number`
+
+Return the remainder of dividing the first number by the second.
+
+**Transform**
+
+```odin
+{out}
+v = %mod @.a @.b
+```
+
+**In**
+
+```odin
+a = #17
+b = #5
+```
+
+**Out**
+
+```odin
+{out}
+v = ##2
+```
+
+**Notes**
+
+- Argument order is a mod b.
+- A zero divisor yields null (~) rather than an error.
+
+**Avoid**
+
+- `v = %mod @.a`: two operands are required; one operand raises a verb-arity error
