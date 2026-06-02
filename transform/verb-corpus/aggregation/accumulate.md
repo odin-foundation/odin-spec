@@ -10,16 +10,20 @@ Add a value to a named accumulator on each loop pass, building a running total.
 
 ```odin
 {$accumulator}
-runningTotal = ##0
-runningTotal._persist = true
+total = ##0
+total._persist = true
+count = ##0
+count._persist = true
 
 {lines[]}
 _loop = "@items"
 amount = @.amount
-_ = %accumulate runningTotal @.amount
+_ = %accumulate total @.amount
+_count = %accumulate count ##1
 
 {summary}
-total = "@$accumulator.runningTotal"
+total = "@$accumulator.total"
+count = "@$accumulator.count"
 ```
 
 **In**
@@ -35,18 +39,20 @@ total = "@$accumulator.runningTotal"
 **Out**
 
 ```odin
-summary.total = ##60
 {lines[] : amount}
 ##10
 ##20
 ##30
+{summary}
+total = ##60
+count = ##3
 ```
 
 **Notes**
 
 - The accumulator must be declared in {$accumulator} with _persist = true so it survives across loop records; the first argument names it.
 - Each loop pass adds the second argument to the current value; read the result back with @$accumulator.<name>.
-- The verb runs as a side effect, conventionally sunk into a throwaway field (_); its return value is the new running total.
+- Each call runs as a side effect sunk into a _-prefixed field (not emitted); several such fields can coexist in one pass, so this updates total and count together.
 
 **Avoid**
 

@@ -10,36 +10,42 @@ Replace a named accumulator's current value on each loop pass, ending with the l
 
 ```odin
 {$accumulator}
-lastSeen = ##0
-lastSeen._persist = true
+lastVal = ##0
+lastVal._persist = true
+lastLabel = ""
+lastLabel._persist = true
 
 {lines[]}
 _loop = "@items"
 val = @.v
-_ = %set lastSeen @.v
+_ = %set lastVal @.v
+_label = %set lastLabel @.label
 
 {summary}
-final = "@$accumulator.lastSeen"
+finalVal = "@$accumulator.lastVal"
+finalLabel = "@$accumulator.lastLabel"
 ```
 
 **In**
 
 ```odin
 {}
-{items[] : v}
-##10
-##20
-##30
+{items[] : v, label}
+##10, "a"
+##20, "b"
+##30, "c"
 ```
 
 **Out**
 
 ```odin
-summary.final = ##30
 {lines[] : val}
 ##10
 ##20
 ##30
+{summary}
+finalVal = ##30
+finalLabel = "c"
 ```
 
 **Notes**
@@ -47,6 +53,7 @@ summary.final = ##30
 - Unlike %accumulate, %set replaces rather than adds; after a loop the accumulator holds the last record's value.
 - Supports any value type (string or number), not just numerics.
 - The accumulator must be declared in {$accumulator} with _persist = true; the first argument names it.
+- Sink the call into a _-prefixed field (not emitted); multiple such fields run in one pass, here advancing both lastVal and lastLabel.
 
 **Avoid**
 
