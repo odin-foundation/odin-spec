@@ -230,6 +230,8 @@ color = :/^#[0-9A-Fa-f]{6}$/ #000000
 
 Field validation constraints.
 
+> **Status:** parsed and carried on the form model, but not yet enforced against submitted values — a future build item (see [Implementation Status](#implementation-status)).
+
 ```odin
 {@validation}
 required = ?
@@ -1321,6 +1323,8 @@ color = "#666666"
 
 ## Output Binding
 
+> **Status:** specified; emission of the submitted ODIN document is a future build item (see [Implementation Status](#implementation-status)). The SDKs parse `bind` declarations and bind values into rendered HTML, but do not yet generate the submission output document or enforce field validation during submission.
+
 When a form is submitted, the renderer walks all `field.*` elements (including those in regions), validates their values, and emits an ODIN document.
 
 Given the form above with user input (5 vehicles, generating 2 pages), output would be:
@@ -1602,6 +1606,24 @@ For direct browser printing:
 - Use `@page` rules for dimensions
 - All elements absolutely positioned
 - Fields rendered as form controls or print-flattened
+
+---
+
+## Implementation Status
+
+ODIN Forms 1.0 is implemented across all SDKs at the **parse and render** conformance level, verified by the shared forms golden suite.
+
+**Implemented (all SDKs):**
+
+- Parsing of every geometric element, content element, field type, region, and page template, plus render-time variables and i18n label resolution.
+- Rendering to accessible HTML: geometric elements, content, field controls, single-region overflow, render-time interpolation, and binding values into the rendered controls.
+- Form and print CSS generation, and layout-unit conversion.
+
+**Specified but deferred to a future build** (not yet enforced by the SDKs):
+
+- **Output binding emission** ([Output Binding](#output-binding)) — producing the submitted-form ODIN document from field values.
+- **Field-validation enforcement** ([@validation](#validation)) — `required`, `pattern`, `minLength`/`maxLength`, and `min`/`max` are parsed but not enforced against submitted values.
+- The layout features listed under [Future Considerations](#future-considerations): multiple overflow regions per page, cross-page validation, nested regions, conditional template selection, and additional render variables.
 
 ---
 
