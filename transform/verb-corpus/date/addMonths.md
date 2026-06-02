@@ -11,7 +11,7 @@ Add (or subtract) a number of months to a date, returning an ISO date.
 ```odin
 {out}
 d = %addMonths @.start ##2
-febOverflow = %addMonths @.jan31 ##1
+febClamp = %addMonths @.jan31 ##1
 back = %addMonths @.start ##-3
 bad = %addMonths @.notDate ##2
 ```
@@ -29,7 +29,7 @@ notDate = "nope"
 ```odin
 {out}
 d = "2024-03-31"
-febOverflow = "2024-03-02"
+febClamp = "2024-02-29"
 back = "2023-10-31"
 bad = ~
 ```
@@ -38,4 +38,4 @@ bad = ~
 
 - Month arithmetic uses calendar-month stepping, not a fixed day count.
 - A negative count moves the date backward.
-- Overflow is not clamped: a day absent from the target month rolls forward (Jan 31 + 1 month is Mar 2, not Feb 29). Every SDK must reproduce this rollover.
+- A day absent from the target month is clamped to that month's last day (Jan 31 + 1 month is Feb 29 in a leap year, Feb 28 otherwise), not rolled forward.

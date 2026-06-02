@@ -10,24 +10,26 @@ Add (or subtract) a number of years to a date, returning an ISO date.
 
 ```odin
 {out}
-d = %addYears @.start ##1
+d = %addYears @.start ##2
+febClamp = %addYears @.leap ##1
 ```
 
 **In**
 
 ```odin
-start = 2024-02-29
+start = 2022-06-15
+leap = 2024-02-29
 ```
 
 **Out**
 
 ```odin
 {out}
-d = "2025-03-01"
+d = "2024-06-15"
+febClamp = "2025-02-28"
 ```
 
 **Notes**
 
-- A leap-day input rolls forward to March 1 in a non-leap target year.
 - A negative count moves the date backward.
-- Output uses the TS Date format (millis/Z or JS year-rollover); verified in TS only.
+- Feb 29 is clamped to Feb 28 when the target year is not a leap year, not rolled into March.
