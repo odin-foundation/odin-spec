@@ -2,19 +2,20 @@
 
 <!-- LLM:
 PURPOSE: Transformation verb reference with syntax and examples
-STRING: concat upper lower capitalize titleCase trim substring replace split join padLeft padRight truncate mask camelCase snakeCase kebabCase pascalCase slugify reverseString repeat normalizeSpace leftOf rightOf wrap center match extract matches stripAccents clean
-NUMERIC: formatNumber formatInteger formatCurrency abs round floor ceil multiply divide add subtract mod negate sign trunc random minOf maxOf formatPercent isFinite isNaN parseInt safeDivide formatLocaleNumber
+STRING: concat upper lower capitalize titleCase trim substring replace split join padLeft padRight truncate mask camelCase snakeCase kebabCase pascalCase slugify reverseString repeat normalizeSpace leftOf rightOf wrap center match extract matches stripAccents clean escapeHtml unescapeHtml escapeXml stripTags template
+NUMERIC: formatNumber formatInteger formatCurrency abs round floor ceil multiply divide add subtract mod negate sign trunc random minOf maxOf formatPercent isFinite isNaN parseInt safeDivide formatLocaleNumber gcd lcm factorial
+EXPR: %expr "formula" [@bindings] - infix arithmetic macro compiled to a verb tree at parse time (+ - * / % ^, unary -, functions abs floor ceil trunc round sqrt pow min max); variables resolve under the bindings object
 DATE: formatDate formatTime formatTimestamp parseDate parseTimestamp addDays addMonths addYears dateDiff today now addHours addMinutes addSeconds startOfDay endOfDay startOfMonth endOfMonth startOfYear endOfYear dayOfWeek weekOfYear quarter isLeapYear isBefore isAfter isBetween toUnix fromUnix formatLocaleDate daysBetweenDates ageFromDate isValidDate
 LOOKUP: lookup lookupDefault (TABLE.column @match1 @match2) — TABLE.column quoting optional, variadic arity
-AGGREGATE: accumulate set sum count min max avg first last
+AGGREGATE: accumulate set sum count min max avg first last countIf sumIf avgIf
 CONDITIONAL: coalesce ifElse ifNull ifEmpty switch
 LOGIC: and or not xor eq ne lt lte gt gte between isNull isString isNumber isBoolean isArray isObject isDate typeOf cond assert
-OBJECT: keys values entries has get merge
-ARRAY: at filter flatten distinct sort sortBy reverse map indexOf slice every some find findIndex includes concatArrays zip groupBy partition take drop chunk range compact pluck unique cumsum cumprod shift diff pctChange dedupe
+OBJECT: keys values entries has get merge pick omit fromEntries invert defaults renameKeys compactObject
+ARRAY: at filter flatten distinct sort sortBy reverse map indexOf slice every some find findIndex includes concatArrays zip groupBy partition take drop chunk range compact pluck unique cumsum cumprod shift diff pctChange dedupe intersection union difference symmetricDifference countBy keyBy explode window
 COERCE: coerceString coerceNumber coerceInteger coerceBoolean coerceDate coerceTimestamp tryCoerce toArray toObject
 STATISTICAL: std variance median mode percentile correlation zscore
-FINANCIAL: compound discount pmt fv pv npv irr rate nper depreciation
-ENCODING: base64Encode base64Decode urlEncode urlDecode jsonEncode jsonDecode hexEncode hexDecode sha256 sha1 sha512 md5 crc32
+FINANCIAL: compound discount pmt fv pv npv irr rate nper depreciation xnpv xirr
+ENCODING: base64Encode base64Decode urlEncode urlDecode jsonEncode jsonDecode hexEncode hexDecode sha256 sha1 sha512 md5 crc32 base64urlEncode base64urlDecode hmac parseUrl buildUrl parseQuery buildQuery stableStringify canonicalHash
 GENERATION: uuid nanoid sequence resetSequence
 GEO: distance inBoundingBox bearing midpoint toRadians toDegrees
 CUSTOM: %&namespace.verb for extensions
@@ -84,6 +85,11 @@ display_name = %upper %concat @first " " @last
 | `extract` | `%extract @path "regex" [group]` | Extract regex capture group (default 0) |
 | `stripAccents` | `%stripAccents @path` | Remove diacritical marks |
 | `clean` | `%clean @path` | Strip control chars, normalize whitespace |
+| `escapeHtml` | `%escapeHtml @path` | Escape `&<>"'` as HTML entities |
+| `unescapeHtml` | `%unescapeHtml @path` | Decode HTML entities (named, numeric, hex) |
+| `escapeXml` | `%escapeXml @path` | Escape `&<>"'` as XML entities (apostrophe as `&apos;`) |
+| `stripTags` | `%stripTags @path` | Remove HTML/XML tags, keep text |
+| `template` | `%template "Hi {name}" @data` | Substitute `{key}` placeholders from an object |
 
 ### Case Conversion
 
@@ -152,6 +158,9 @@ phone_list = %join @phones ", "                      ; ["512...", "713..."] → 
 | `isNaN` | `%isNaN @path` | Boolean: number is NaN |
 | `formatPercent` | `%formatPercent @path [decimals]` | Format as percentage string (default 2 decimals) |
 | `formatLocaleNumber` | `%formatLocaleNumber @path [locale]` | Locale-aware number formatting |
+| `gcd` | `%gcd @a @b` | Greatest common divisor of two integers |
+| `lcm` | `%lcm @a @b` | Least common multiple of two integers |
+| `factorial` | `%factorial @n` | Factorial of n (0 <= n <= 18) |
 
 **Examples:**
 
@@ -195,6 +204,8 @@ total = %add @base @surcharges                       ; 500 + 75 → 575
 | `rate` | `%rate @periods @pmt @pv @fv` | Interest rate per period |
 | `nper` | `%nper @rate @pmt @pv @fv` | Number of periods |
 | `depreciation` | `%depreciation @cost @salvage @life` | Straight-line depreciation per period |
+| `xnpv` | `%xnpv @rate @amounts @dates` | Net present value of cash flows on specific dates (365-day basis) |
+| `xirr` | `%xirr @amounts @dates [guess]` | Internal rate of return for cash flows on specific dates |
 
 ### Statistics (Array-Based)
 
@@ -358,6 +369,9 @@ code = %lookupDefault "BODY_TYPES.code" @.bodyType "99"
 | `avg` | `%avg @array.field` | Average |
 | `first` | `%first @array` | First item |
 | `last` | `%last @array` | Last item |
+| `countIf` | `%countIf @array "field" "op" value` | Count items matching a condition |
+| `sumIf` | `%sumIf @array "field" "op" value ["sumField"]` | Sum a field over matching items |
+| `avgIf` | `%avgIf @array "field" "op" value ["avgField"]` | Average a field over matching items |
 
 **Examples:**
 
@@ -470,6 +484,13 @@ grade = %cond %gte @score ##90 "A" %gte @score ##80 "B" "F"
 | `has` | `%has @object "key"` | Boolean: object has key (dot paths supported) |
 | `get` | `%get @object "path" [default]` | Safe path access with optional default |
 | `merge` | `%merge @obj1 @obj2` | Shallow merge (obj2 overrides obj1) |
+| `pick` | `%pick @object "k1" "k2"` | Keep only the named keys |
+| `omit` | `%omit @object "k1" "k2"` | Drop the named keys |
+| `fromEntries` | `%fromEntries @pairs` | Build an object from `[key, value]` pairs |
+| `invert` | `%invert @object` | Swap keys and values |
+| `defaults` | `%defaults @object @fallback` | Fill keys the base object lacks |
+| `renameKeys` | `%renameKeys @object @mapping` | Rename keys via an old-to-new mapping |
+| `compactObject` | `%compactObject @object` | Drop null, empty-string, empty-array, empty-object values |
 
 ---
 
@@ -512,6 +533,17 @@ value = %tryCoerce @amount                           ; "42" → ##42, "3.14" →
 | `jsonDecode` | `%jsonDecode @path` | Parse JSON string |
 | `hexEncode` | `%hexEncode @path` | Encode to hexadecimal |
 | `hexDecode` | `%hexDecode @path` | Decode from hexadecimal |
+| `base64urlEncode` | `%base64urlEncode @path` | URL-safe Base64, no padding |
+| `base64urlDecode` | `%base64urlDecode @path` | Decode URL-safe Base64 |
+
+### URLs & Query Strings
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `parseUrl` | `%parseUrl @url` | Split a URL into `{scheme, host, port, path, query, fragment}` (query keys sorted) |
+| `buildUrl` | `%buildUrl @parts` | Inverse of `parseUrl` (query keys sorted) |
+| `parseQuery` | `%parseQuery @qs` | Parse a query string into an object (keys sorted) |
+| `buildQuery` | `%buildQuery @object` | Serialize an object to a query string (keys sorted) |
 
 ### Hashing & Checksums
 
@@ -522,6 +554,14 @@ value = %tryCoerce @amount                           ; "42" → ##42, "3.14" →
 | `sha512` | `%sha512 @path` | SHA-512 hash (lowercase hex) |
 | `md5` | `%md5 @path` | MD5 hash (lowercase hex; not for security) |
 | `crc32` | `%crc32 @path` | CRC-32 checksum (8-char hex) |
+| `hmac` | `%hmac @message "key" ["alg"]` | Keyed hash, hex output (default sha256) |
+
+### Canonical Form
+
+| Verb | Syntax | Description |
+|------|--------|-------------|
+| `stableStringify` | `%stableStringify @value` | Canonical JSON with object keys sorted recursively |
+| `canonicalHash` | `%canonicalHash @value` | SHA-256 of the canonical form (order-independent fingerprint) |
 
 ---
 
@@ -560,8 +600,16 @@ value = %tryCoerce @amount                           ; "42" → ##42, "3.14" →
 | `reduce` | `%reduce @array "verb" initialValue` | Fold array to single value using verb |
 | `pivot` | `%pivot @array "keyField" "valueField"` | Array of objects → object keyed by field |
 | `unpivot` | `%unpivot @object "keyName" "valueName"` | Object → array of {key, value} objects |
+| `intersection` | `%intersection @a @b` | Distinct elements in both arrays |
+| `union` | `%union @a @b` | Distinct elements from both arrays |
+| `difference` | `%difference @a @b` | Distinct elements of the first not in the second |
+| `symmetricDifference` | `%symmetricDifference @a @b` | Distinct elements in exactly one array |
+| `countBy` | `%countBy @array ["field"]` | Count items per field value (keys sorted) |
+| `keyBy` | `%keyBy @array "field"` | Index items by a field value (last wins) |
+| `explode` | `%explode @array "field"` | One row per element of an array-valued field |
+| `window` | `%window @array n` | Overlapping consecutive slices of length n |
 
-**Filter operators** (shared by `filter`, `every`, `some`, `find`, `findIndex`, `partition`): `=`, `!=`, `<`, `<=`, `>`, `>=`, `contains`, `startsWith`, `endsWith`.
+**Filter operators** (shared by `filter`, `every`, `some`, `find`, `findIndex`, `partition`, `countIf`, `sumIf`, `avgIf`): `=`, `!=`, `<`, `<=`, `>`, `>=`, `contains`, `startsWith`, `endsWith`.
 
 ### Time-Series Array Verbs
 
@@ -642,6 +690,61 @@ by_premium = %sortBy @coverages "premium"
 | `toArray` | `%toArray @value` | Wrap in array if not already |
 | `toObject` | `%toObject @pairs` | Convert pairs to object |
 | `jsonPath` | `%jsonPath @object "$.path"` | Query with JSONPath |
+
+---
+
+## Expression Macro (`%expr`)
+
+`%expr` evaluates an infix arithmetic formula. It is a **parse-time macro**, not a
+runtime evaluator: the formula string is compiled once into a tree of ordinary
+transform verbs (`%add`, `%multiply`, `%pow`, ...) when the transform is parsed.
+The arithmetic is therefore performed entirely by the existing deterministic verbs,
+so `%expr` introduces no new numeric behavior and is byte-identical across SDKs.
+
+```odin
+; literal formula (no variables, no bindings)
+answer = %expr "2^3^2"                       ; -> 512
+
+; variables resolve under an explicit bindings object
+{v}
+a = #2
+b = #3
+c = #4
+x = #5
+
+quadratic = %expr "a*x^2 + b*x + c" @.v      ; a -> @.v.a, x -> @.v.x ... -> 69
+```
+
+**Bindings are explicit.** A bare identifier in the formula reads the matching field
+of the bindings object passed as the second argument (`a` reads `@.v.a`). A formula
+that uses a variable without a bindings object is a compile error (`T015`). This keeps
+data dependencies visible rather than resolving names implicitly.
+
+**Operators** compile to verbs:
+
+| Operator | Verb | Notes |
+|----------|------|-------|
+| `+` `-` `*` `/` `%` | `add` `subtract` `multiply` `divide` `mod` | `/` by zero yields `~`, following `%divide` |
+| unary `-` `+` | `negate` / identity | |
+| `^` | `pow` | right-associative |
+
+**Precedence**, high to low:
+
+1. parentheses and function calls
+2. `^` power (right-associative): `2^3^2` = `2^(3^2)` = `512`
+3. unary `-` / `+` (binds looser than `^`): `-2^2` = `-(2^2)` = `-4`; use `(-2)^2` = `4`
+4. `*` `/` `%` (left-associative)
+5. `+` `-` (left-associative)
+
+**Functions** (whitelist of deterministic numeric verbs only):
+`abs` `floor` `ceil` `trunc` `round` `sqrt` `pow` `min` `max`. `round(x)` defaults to
+0 decimals; `min`/`max` take two or more arguments. Calling any other function (for
+example `sin`, `exp`, `ln`) is a compile error, because those are not byte-identical
+across language runtimes.
+
+**Errors** (all `T015`, raised at parse time): unknown function, wrong number of
+function arguments, malformed syntax (unexpected or missing token), unbalanced
+parentheses, and a variable used without a bindings object.
 
 ---
 

@@ -220,6 +220,11 @@ lookup_expr     = "%lookup" , whitespace , table_ref , { whitespace , match_valu
 table_ref       = identifier , "." , column_name ;
 match_value     = copy_expr | literal_expr ;
 
+(* Expression Macro - %expr is a parse-time macro: the formula string is        *)
+(* compiled into a transform_expr verb tree. The optional second argument is the *)
+(* bindings object under which the formula's variables resolve. See Verbs.md.    *)
+expr_macro      = "%expr" , whitespace , quoted_string , [ whitespace , copy_expr ] ;
+
 (* Literals *)
 literal_expr    = quoted_string | number_literal | boolean_literal | "~" ;
 number_literal  = "#$" , digits , "." , digit , digit    (* currency *)

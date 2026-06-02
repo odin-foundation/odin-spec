@@ -220,14 +220,19 @@ concat:-1 upper:1 lower:1 trim:1 trimLeft:1 trimRight:1 coalesce:-1 ifNull:2 ifE
 coerceString:1 coerceNumber:1 coerceInteger:1 coerceBoolean:1 coerceDate:1 coerceTimestamp:1 tryCoerce:1 toArray:1 toObject:1
 ```
 
-### STRING (38)
+### STRING (43)
 ```
-capitalize:1 titleCase:1 length:1 contains:2 startsWith:2 endsWith:2 substring:3 replace:3 replaceRegex:3 padLeft:3 padRight:3 pad:3 truncate:3 split:3 join:2 mask:2 reverseString:1 repeat:2 camelCase:1 snakeCase:1 kebabCase:1 pascalCase:1 slugify:1 match:2 extract:3 normalizeSpace:1 leftOf:2 rightOf:2 wrap:2 center:3 matches:2 stripAccents:1 clean:1 tokenize:2 wordCount:1 levenshtein:2 soundex:1 formatPhone:2
+capitalize:1 titleCase:1 length:1 contains:2 startsWith:2 endsWith:2 substring:3 replace:3 replaceRegex:3 padLeft:3 padRight:3 pad:3 truncate:3 split:3 join:2 mask:2 reverseString:1 repeat:2 camelCase:1 snakeCase:1 kebabCase:1 pascalCase:1 slugify:1 match:2 extract:3 normalizeSpace:1 leftOf:2 rightOf:2 wrap:2 center:3 matches:2 stripAccents:1 clean:1 tokenize:2 wordCount:1 levenshtein:2 soundex:1 formatPhone:2 escapeHtml:1 unescapeHtml:1 escapeXml:1 stripTags:1 template:2
 ```
 
-### NUMERIC (26)
+### NUMERIC (29)
 ```
-formatNumber:2 formatInteger:1 formatCurrency:1 abs:1 round:2 floor:1 ceil:1 add:2 subtract:2 multiply:2 divide:2 mod:2 negate:1 switch:-1 sign:1 trunc:1 random:3 minOf:-1 maxOf:-1 formatPercent:2 isFinite:1 isNaN:1 parseInt:2 formatLocaleNumber:2 safeDivide:3 convertUnit:3
+formatNumber:2 formatInteger:1 formatCurrency:1 abs:1 round:2 floor:1 ceil:1 add:2 subtract:2 multiply:2 divide:2 mod:2 negate:1 switch:-1 sign:1 trunc:1 random:3 minOf:-1 maxOf:-1 formatPercent:2 isFinite:1 isNaN:1 parseInt:2 formatLocaleNumber:2 safeDivide:3 convertUnit:3 gcd:2 lcm:2 factorial:1
+```
+
+### EXPR (1)
+```
+expr:2   ; %expr "formula" [@bindings] - infix arithmetic macro, compiled at parse time to a verb tree
 ```
 
 ### DATETIME (36)
@@ -235,9 +240,9 @@ formatNumber:2 formatInteger:1 formatCurrency:1 abs:1 round:2 floor:1 ceil:1 add
 formatDate:2 parseDate:2 today:0 now:0 formatTime:2 formatTimestamp:2 parseTimestamp:2 addDays:2 addMonths:2 addYears:2 addHours:2 addMinutes:2 addSeconds:2 dateDiff:3 startOfDay:1 endOfDay:1 startOfMonth:1 endOfMonth:1 startOfYear:1 endOfYear:1 dayOfWeek:1 weekOfYear:1 quarter:1 isLeapYear:1 isBefore:2 isAfter:2 isBetween:3 toUnix:1 fromUnix:1 formatLocaleDate:2 daysBetweenDates:2 ageFromDate:2 isValidDate:2 businessDays:2 nextBusinessDay:1 formatDuration:1
 ```
 
-### AGGREGATION (9)
+### AGGREGATION (12)
 ```
-accumulate:2 set:2 sum:1 count:1 min:1 max:1 avg:1 first:1 last:1
+accumulate:2 set:2 sum:1 count:1 min:1 max:1 avg:1 first:1 last:1 countIf:4 sumIf:5 avgIf:5
 ```
 
 ### GENERATION (4)
@@ -245,19 +250,19 @@ accumulate:2 set:2 sum:1 count:1 min:1 max:1 avg:1 first:1 last:1
 uuid:1 sequence:1 resetSequence:1 nanoid:2
 ```
 
-### ENCODING (14)
+### ENCODING (23)
 ```
-base64Encode:1 base64Decode:1 urlEncode:1 urlDecode:1 jsonEncode:1 jsonDecode:1 hexEncode:1 hexDecode:1 sha256:1 md5:1 sha1:1 sha512:1 crc32:1 jsonPath:2
-```
-
-### ARRAY (43)
-```
-filter:4 flatten:1 distinct:1 sort:1 sortDesc:1 sortBy:2 map:2 indexOf:2 at:2 slice:3 reverse:1 every:4 some:4 find:4 findIndex:4 includes:2 concatArrays:2 zip:2 groupBy:2 partition:4 take:2 drop:2 chunk:2 range:3 compact:1 pluck:2 unique:1 cumsum:1 cumprod:1 shift:3 diff:2 pctChange:2 dedupe:2 rowNumber:1 rank:3 lag:3 lead:3 sample:3 limit:2 fillMissing:3 reduce:3 pivot:3 unpivot:3
+base64Encode:1 base64Decode:1 urlEncode:1 urlDecode:1 jsonEncode:1 jsonDecode:1 hexEncode:1 hexDecode:1 sha256:1 md5:1 sha1:1 sha512:1 crc32:1 jsonPath:2 base64urlEncode:1 base64urlDecode:1 hmac:3 parseUrl:1 buildUrl:1 parseQuery:1 buildQuery:1 stableStringify:1 canonicalHash:1
 ```
 
-### FINANCIAL (31)
+### ARRAY (51)
 ```
-log:2 ln:1 log10:1 exp:1 pow:2 sqrt:1 compound:3 discount:3 pmt:3 fv:3 pv:3 npv:2 irr:2 rate:4 nper:4 depreciation:3 std:1 stdSample:1 variance:1 varianceSample:1 median:1 mode:1 percentile:2 quantile:2 covariance:2 correlation:2 clamp:3 interpolate:5 weightedAvg:2 zscore:2 movingAvg:2
+filter:4 flatten:1 distinct:1 sort:1 sortDesc:1 sortBy:2 map:2 indexOf:2 at:2 slice:3 reverse:1 every:4 some:4 find:4 findIndex:4 includes:2 concatArrays:2 zip:2 groupBy:2 partition:4 take:2 drop:2 chunk:2 range:3 compact:1 pluck:2 unique:1 cumsum:1 cumprod:1 shift:3 diff:2 pctChange:2 dedupe:2 rowNumber:1 rank:3 lag:3 lead:3 sample:3 limit:2 fillMissing:3 reduce:3 pivot:3 unpivot:3 intersection:2 union:2 difference:2 symmetricDifference:2 countBy:2 keyBy:2 explode:2 window:2
+```
+
+### FINANCIAL (33)
+```
+log:2 ln:1 log10:1 exp:1 pow:2 sqrt:1 compound:3 discount:3 pmt:3 fv:3 pv:3 npv:2 irr:2 rate:4 nper:4 depreciation:3 std:1 stdSample:1 variance:1 varianceSample:1 median:1 mode:1 percentile:2 quantile:2 covariance:2 correlation:2 clamp:3 interpolate:5 weightedAvg:2 zscore:2 movingAvg:2 xnpv:3 xirr:3
 ```
 
 ### LOGIC (21)
@@ -265,9 +270,9 @@ log:2 ln:1 log10:1 exp:1 pow:2 sqrt:1 compound:3 discount:3 pmt:3 fv:3 pv:3 npv:
 and:2 or:2 not:1 xor:2 eq:2 ne:2 lt:2 lte:2 gt:2 gte:2 between:3 isNull:1 isString:1 isNumber:1 isBoolean:1 isArray:1 isObject:1 isDate:1 typeOf:1 cond:-1 assert:2
 ```
 
-### OBJECT (6)
+### OBJECT (13)
 ```
-keys:1 values:1 entries:1 has:2 get:3 merge:2
+keys:1 values:1 entries:1 has:2 get:3 merge:2 pick:-1 omit:-1 fromEntries:1 invert:1 defaults:2 renameKeys:2 compactObject:1
 ```
 
 ### GEO (6)
@@ -733,6 +738,6 @@ Transform output uses typed wrappers:
 {"field": {"type": "boolean", "value": true}}
 ```
 
-## TOTAL VERBS: 255
+## TOTAL VERBS: 293
 
 By category: core(12) coercion(9) string(38) numeric(26) datetime(36) aggregation(9) generation(4) encoding(14) array(43) financial(31) logic(21) object(6) geo(6)
