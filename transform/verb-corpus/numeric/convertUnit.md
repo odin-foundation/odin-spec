@@ -27,7 +27,7 @@ t = #100
 
 ```odin
 {out}
-v = #220.462442
+v = #220.462262
 temp = ##212
 crossFamily = ~
 unknownUnit = ~

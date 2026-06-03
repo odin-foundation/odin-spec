@@ -46,3 +46,4 @@ single = ~
 
 - Divides the summed squared deviations by n-1 (Bessel's correction); it is the square of %stdSample.
 - A two-element array [10, 20] gives 50; a single-element array yields ~ (null).
+- Output is a TS shortest-round-trip float (last-digit f64 differs cross-language); verified in TS only.

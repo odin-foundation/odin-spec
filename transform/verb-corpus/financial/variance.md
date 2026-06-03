@@ -47,3 +47,4 @@ scalar = ~
 - Divides the summed squared deviations by n (population); it is the square of %std.
 - The full-precision float, including floating-point noise, is preserved in the output.
 - Identical values have zero spread, so the result is 0; a scalar argument yields ~ (null).
+- Output is a TS shortest-round-trip float (last-digit f64 differs cross-language); verified in TS only.
