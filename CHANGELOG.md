@@ -3,6 +3,35 @@
 Specification and SDK changes. The six SDKs share these semantics and are released
 together; see each spec's Version History for per-document detail.
 
+## 1.2.0 — 2026-06
+
+New transform verbs, the `%expr` formula macro, and three engine-behavior
+corrections, shipped across all six SDKs (TypeScript, Rust, .NET, Java, Python,
+Ruby) and pinned by the shared golden corpus.
+
+### Transform verbs
+- Object: `pick`, `omit`, `fromEntries`, `invert`, `defaults`, `renameKeys`, `compactObject`.
+- Array set operations and collection: `union`, `intersection`, `difference`, `symmetricDifference`, `keyBy`, `countBy`, `window`, `explode`.
+- Predicate aggregation: `countIf`, `sumIf`, `avgIf`.
+- Math: `gcd`, `lcm`, `factorial`.
+- Encoding / web: `buildUrl`, `parseUrl`, `buildQuery`, `parseQuery`, `hmac`.
+- Canonical: `canonicalHash`, `stableStringify`.
+- String / markup: `escapeHtml`, `unescapeHtml`, `escapeXml`, `stripTags`, `template`.
+- Dated cash flow: `xnpv`, `xirr`.
+
+### `%expr` formula macro
+- Parse-time macro compiling an infix arithmetic formula to a verb tree: `+ - * / %`, unary `-`, and `^` (right-associative); functions `abs`, `floor`, `ceil`, `trunc`, `round`, `sqrt`, `pow`, `min`, `max`.
+- Precedence: calls/parens > `^` > unary > `* / %` > `+ -`, so `-2^2` is `-4`.
+- Variables resolve under an explicit bindings reference (`%expr "a+b" @.vars`); a variable with no bindings is compile error `T015`.
+
+### Engine behavior
+- Multiple accumulators advance in a single loop pass; every `_`-prefixed target is a computation-only sink that runs but is not emitted.
+- Control-flow verbs (`ifElse`, `ifNull`, `ifEmpty`, `coalesce`, `and`, `or`, `cond`, `switch`) evaluate the condition and only the selected branch, so `and`/`or`/`coalesce` short-circuit and unselected branch side effects do not fire (strict mode still evaluates eagerly).
+- `addMonths` / `addYears` clamp to the last day of the target month.
+
+### Fixes
+- `convertUnit` pound mass constant corrected to `0.45359237` kg.
+
 ## 1.1.0 — 2026-05
 
 A conformance pass aligning all six SDKs (TypeScript, Rust, .NET, Java, Python, Ruby)
