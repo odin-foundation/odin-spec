@@ -32,6 +32,9 @@ Ruby) and pinned by the shared golden corpus.
 ### Fixes
 - `convertUnit` pound mass constant corrected to `0.45359237` kg.
 
+### Schema library
+- The canonical schema library (`@odin-foundation/schemas`) is now **permissive by default**: every `!` required marker was removed across all 302 schema files. Fields declare type and constraints but are left optional, because presence is a property of a consumer's context (jurisdiction, workflow state, filing), not of the data model. Consumers add requirements by importing a type and tightening it with `:override` (optional to required). No SDK or validator behavior changed. This is a schema-data and documentation change only.
+
 ## 1.1.0 — 2026-05
 
 A conformance pass aligning all six SDKs (TypeScript, Rust, .NET, Java, Python, Ruby)
