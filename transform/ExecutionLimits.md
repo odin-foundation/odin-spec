@@ -19,6 +19,11 @@ environment overrides, alongside the other engine limits.
 With `MAX_TRANSFORM_FUEL` and `TRANSFORM_TIMEOUT_MS` left at their `0` default, a
 transform runs to completion; these bounds take effect only once a limit is set.
 
+Each bound can also be set per call through the transform options, overriding the
+global value for that one execution: an option that is provided wins, and an
+option left unset falls back to the global limit. Because `0` means unbounded, a
+call may pass `0` to opt a single transform out of a global cap.
+
 Fuel measures evaluation work: roughly one unit for each expression evaluated,
 plus units proportional to the length of any array an array verb (sort, grouping,
 aggregation, set, and shape operations) processes. The exact unit counts are
